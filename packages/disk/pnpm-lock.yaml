@@ -1,0 +1,13 @@
+lockfileVersion: 5.4
+
+specifiers:
+  filer.js: ^0.4.5
+
+dependencies:
+  filer.js: 0.4.5
+
+packages:
+
+  /filer.js/0.4.5:
+    resolution: {integrity: sha512-WInHHzWapa63iak3V1jeP7YtSzrbO0UocjYLHHap6mSEc7iwp3h44hiw+65yYVIWVYTOhTN1HAaoKrbMim4XVQ==}
+    dev: false

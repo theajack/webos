@@ -1,0 +1,27 @@
+{
+    "name": "webos-disk",
+    "version": "0.0.1",
+    "description": "All-in-js Web UI Framework, No jsx/template/vdom/css/html",
+    "main": "src/index.ts",
+    "typings": "src/index.ts",
+    "repository": "git@github.com:theajack/webos.git",
+    "author": "tackchen <theajack@qq.com>",
+    "scripts": {
+        "build": "node ../../scripts/build/build.js disk"
+    },
+    "keywords": [
+        "webos-term",
+        "webos",
+        "webos-disk"
+    ],
+    "license": "MIT",
+    "type": "module",
+    "dependencies": {
+        "filer.js": "^0.4.5"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/"
+    },
+    "unpkg": "dist/webos-term.min.js",
+    "jsdelivr": "dist/webos-term.min.js"
+}

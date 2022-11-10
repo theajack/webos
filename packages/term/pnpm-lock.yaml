@@ -1,0 +1,35 @@
+lockfileVersion: 5.4
+
+specifiers:
+  alins: ^0.0.10
+  alins-style: ^0.0.10
+
+dependencies:
+  alins: 0.0.10
+  alins-style: 0.0.10
+
+packages:
+
+  /alins-reactive/0.0.10:
+    resolution: {integrity: sha512-mpeJcdRJPkPN/SJzw5g9pjCxHKedLkIzXpwSWbsZ2/hMK3hGlxvHLSliJQ7TwcAgb0T68UDUunTmSDIkh3Kwmw==}
+    dependencies:
+      alins-utils: 0.0.10
+    dev: false
+
+  /alins-style/0.0.10:
+    resolution: {integrity: sha512-k/qisOzytKDcygM2jrfdVbRXLyN6XwdAoH+WQIit7fCrVe+xfwQwvhNY9UiqjBfTx6gSA6lYBNC9UJxDm9+Okw==}
+    dependencies:
+      alins-reactive: 0.0.10
+      alins-utils: 0.0.10
+    dev: false
+
+  /alins-utils/0.0.10:
+    resolution: {integrity: sha512-no47LQV1JkZMXfnpUoCaHHYZ8IpbX7xMQunJJ9K3gofJcYHdrI6H6Hmr3BDHwzGn0j1A204p/VN7cVgPodlBcw==}
+    dev: false
+
+  /alins/0.0.10:
+    resolution: {integrity: sha512-qKDmX8OYPgJBMyKrKQzgTzHhkeOuuRKWkbFmxOF15gwc07aQJFPljShLfSIwTanJb4AsBbIV8lFU4GBeAtZiWA==}
+    dependencies:
+      alins-reactive: 0.0.10
+      alins-utils: 0.0.10
+    dev: false
