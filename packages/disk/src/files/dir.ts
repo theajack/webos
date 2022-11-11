@@ -116,7 +116,7 @@ export class Dir extends FileBase {
     }
 
     findFileByPath (path: string | string[]): FileBase | null {
-        const pathArray = typeof path === 'string' ? trimPath(path).split('/') : path;
+        const pathArray = (typeof path === 'string' ? trimPath(path).split('/') : path).filter(name => !!name);
         if (pathArray.length === 0) return this;
         const name = pathArray.shift();
         const file = this.children.find(file => file.name === name);

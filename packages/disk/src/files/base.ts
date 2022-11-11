@@ -14,6 +14,7 @@ export interface IFileBaseOption {
 }
 
 export abstract class FileBase {
+    isDisk = false;
     id: string;
     name: string;
     type: 'file' | 'dir' | 'disk';

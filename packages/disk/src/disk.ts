@@ -12,6 +12,7 @@ export interface IDiskOption {
 }
 export class Disk extends Dir {
 
+    isDisk = true;
     static instance: Disk;
     capacity: number;
 
