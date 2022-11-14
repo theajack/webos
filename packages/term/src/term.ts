@@ -3,7 +3,7 @@
  * @Date: 2022-11-09 22:56:02
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-10 19:54:06
+ * @LastEditTime: 2022-11-13 19:24:59
  */
 
 import { Disk } from 'webos-disk';
@@ -37,11 +37,19 @@ export class Term {
         await this.disk.initFileSystem();
         console.log(this.disk.deepLs());
     }
+
+    static get CurrentDir () {
+        return this.instance.currentDir;
+    }
+    static set CurrentDir (dir: Dir) {
+        this.instance.currentDir = dir;
+    }
+
+    static get CurrentPath () {
+        return this.CurrentDir.path.path;
+    }
 }
 
-export function getTermInstance () {
-    return Term.instance;
-}
 export async function createTerm (options?: ITermOptions) {
     if (Term.instance) return Term.instance;
     const os = new Term(options);

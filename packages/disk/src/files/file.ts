@@ -64,7 +64,7 @@ export class File extends FileBase {
         if (refresh) {
             // 同步fileSystem
             this.content = this.fileParser.parseRead(await fs().reader.read({
-                path: this.path,
+                path: this.path.path,
                 mimetype: this.mimetype,
             }));
         }
@@ -87,7 +87,7 @@ export class File extends FileBase {
         }
 
         await fs().reader.write({
-            path: this.path,
+            path: this.path.path,
             content: this.fileParser.parseWrite(),
             append: false, // ! 通过merge做过append了
         });

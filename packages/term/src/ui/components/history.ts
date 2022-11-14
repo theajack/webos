@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 16:23:31
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-10 20:55:34
+ * @LastEditTime: 2022-11-12 20:06:06
  */
 
 import { click, comp, div } from 'alins';
@@ -14,8 +14,8 @@ export const HistoryId = '#TermHistory';
 
 export function History () {
     return div(HistoryId,
-        click(() => {}, 'stop'),
-        style.color('#bbb').marginBottom(10).borderBottom('1px solid #333').lineHeight(20),
+        click.stop,
+        style.color('#bbb').lineHeight(20),
         comp(LastLogin)
     );
 }

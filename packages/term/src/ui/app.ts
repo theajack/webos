@@ -3,40 +3,41 @@
  * @Date: 2022-11-10 16:12:50
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-10 19:53:30
+ * @LastEditTime: 2022-11-12 19:59:33
  */
-import { comp, div, event, mounted } from 'alins';
+import { comp, div, event, mounted, text } from 'alins';
 import { style } from 'alins-style';
 import { handleCommand, initCommands } from 'src/command/command-handler';
+import { onTab } from 'src/command/tab';
 import { History } from './components/history';
 import { InputItem } from './components/input-item';
-import { pushResultItem } from './components/result-item';
+import { pushResultError, pushResultItem } from './components/result-item';
+import { CommonStyle } from './css/main-css';
 
 const AppId = '#TermApp';
 
 export function App () {
 
     const onrun = async (value: string) => {
-        const result = await handleCommand(value);
-        if (result.success) {
-            if (result.name === 'clear') return;
-            if (result.result) {
-                pushResultItem(value, result.result);
+        const { commandName, success, message, result } = await handleCommand(value);
+        if (success) {
+            if (commandName === 'clear') return;
+            if (result) {
+                pushResultItem(value, typeof result === 'string' ? text(result) : result);
             } else {
-                pushResultItem(value, div(`Result = value=${value}`));
+                pushResultItem(value, div(
+                    CommonStyle.SuccessColor,
+                    text(`Execute command Success: ${value}`)
+                ));
             }
         } else {
-            pushResultItem(value, comp(() => div(style.color('#f00'), result.message)));
+            pushResultError(value, message);
         }
     };
-    const ontab = (value: string) => {
-        console.warn('tab', value);
-    };
-
     return div(
         AppId,
         comp(History),
-        comp(InputItem, event({ onrun, ontab })),
+        InputItem(event({ onrun, ontab: onTab })),
         mounted(() => {
             initCommands();
         })

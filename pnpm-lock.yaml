@@ -13,6 +13,7 @@ specifiers:
   '@types/node': ^18.0.1
   '@typescript-eslint/eslint-plugin': ^5.29.0
   '@typescript-eslint/parser': ^5.29.0
+  easy-test-lib: ^1.0.2
   esbuild: ^0.14.47
   esbuild-plugin-d.ts: ^1.1.0
   esbuild-plugin-yaml: ^0.0.1
@@ -40,6 +41,7 @@ devDependencies:
   '@types/node': 18.0.3
   '@typescript-eslint/eslint-plugin': 5.30.5_6zdoc3rn4mpiddqwhppni2mnnm
   '@typescript-eslint/parser': 5.30.5_4x5o4skxv6sl53vpwefgt23khm
+  easy-test-lib: 1.0.2
   esbuild: 0.14.48
   esbuild-plugin-d.ts: 1.1.0_typescript@4.7.4
   esbuild-plugin-yaml: 0.0.1
@@ -3569,6 +3571,11 @@ packages:
 
   /duplexer/0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
+    dev: true
+
+  /easy-test-lib/1.0.2:
+    resolution: {integrity: sha512-QD6ADCJq3AvVq+6tNLvFNTAuTPW774hQAl7nCS6h2+VZMKI/5+LCyHGxAINVicYPayOshC3amY5CLcOZ6gH+Iw==}
+    hasBin: true
     dev: true
 
   /electron-to-chromium/1.4.185:

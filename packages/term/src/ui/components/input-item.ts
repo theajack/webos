@@ -3,11 +3,11 @@
  * @Date: 2022-11-10 16:17:58
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-10 20:57:50
+ * @LastEditTime: 2022-11-12 20:20:57
  */
-import { $, div, IComponentOptions, input, span, on, mounted, click } from 'alins';
+import { $, div, IComponentOptions, input, span, on, mounted, click, comp, text } from 'alins';
 import { style } from 'alins-style';
-import { currentDirName, userName } from 'src/state/global-info';
+import { currentDirName, inputContent, userName } from 'src/state/global-info';
 import { Storage } from 'src/utils/storage';
 import { CommonStyle } from '../css/main-css';
 import { CommonFont } from '../css/styles/atoms';
@@ -51,16 +51,15 @@ const ContentHistory = (() => {
     };
 })();
 
-export function InputItem ({ events }: IComponentOptions) {
+export const InputItem = comp(({ events }: IComponentOptions) => {
 
-    const content = $('');
 
     const inputStyle = style.flex(1)
         .outline('none')
         .backgroundColor('transparent')
         .color('#fff')
         .border('none')
-        .fontSize(CommonStyle.FontSize)
+        .join(CommonStyle.FontSize)
         .padding(0);
 
     const onkeyup = (e: KeyboardEvent, dom: HTMLInputElement) => {
@@ -72,12 +71,12 @@ export function InputItem ({ events }: IComponentOptions) {
             case 38:
             case 40:{
                 const value = ContentHistory[code === 38 ? 'prev' : 'next']();
-                if (value) content.value = value;
+                if (value) inputContent.value = value;
             };break;
             case 13: {
                 if (value) {
                     ContentHistory.push(value);
-                    content.value = '';
+                    inputContent.value = '';
                     events.onrun(value);
                 }
                 e.preventDefault();
@@ -93,11 +92,12 @@ export function InputItem ({ events }: IComponentOptions) {
     return div(
         style.display('flex'),
         span(
-            $`#InputTitle:webos:${currentDirName} ${userName}$`,
+            '#InputTitle',
+            text($`webos:${currentDirName} ${userName}$`),
             style.marginRight(10),
             click(() => {}, 'stop')
         ),
-        input.model(content)(
+        input.model(inputContent)(
             '#InputInput[spellcheck=false]',
             inputStyle, CommonFont,
             on('keyup')(onkeyup),
@@ -108,11 +108,12 @@ export function InputItem ({ events }: IComponentOptions) {
             })
         )
     );
-}
+});
 
-export function HistoryInputItem ({ props }: IComponentOptions) {
+export const HistoryInputItem = comp(({ props }) => {
     return div(
-        // todo 处理字符冲突问题
-        `#InputTitle:webos:${currentDirName.value.replace(/\//g, '|')} ${userName.value}$ ${props.inputValue.value}`,
+        '#InputTitle',
+        style.marginBottom(3),
+        text(`webos:${currentDirName.value} ${userName.value}$ ${props.inputValue.value}`),
     );
-}
+});

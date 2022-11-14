@@ -5,6 +5,7 @@
  */
 
 import { Dir } from './files/dir';
+import { Path } from './path';
 import { initFilerSaver } from './saver/saver';
 
 export interface IDiskOption {
@@ -25,9 +26,10 @@ export class Disk extends Dir {
         super({
             name: 'disk',
         });
+        this.type = 'disk';
         this.capacity = capacity;
         this.parent = null;
-        this.path = '';
+        this.path = new Path('/');
 
         Disk.instance = this;
     }

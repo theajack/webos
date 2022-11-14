@@ -17,8 +17,8 @@
     "license": "MIT",
     "type": "module",
     "dependencies": {
-        "alins": "^0.0.10",
-        "alins-style": "^0.0.10",
+        "alins": "0.0.12",
+        "alins-style": "0.0.12",
         "webos-disk": "^0.0.1"
     },
     "publishConfig": {

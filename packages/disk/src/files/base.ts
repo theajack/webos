@@ -4,6 +4,7 @@
  * @Description: Coding something
  */
 
+import { Path } from '../path';
 import { timeId } from '../lib/utils';
 import { fs } from '../saver/saver';
 import { Dir } from './dir';
@@ -13,13 +14,23 @@ export interface IFileBaseOption {
     entry?: any,
 }
 
-export abstract class FileBase {
+export interface IFileBaseInfo {
+    id: string;
+    name: string;
+    _size: number;
+    isDir: boolean;
+    path: Path;
+    fileType: '' | 'unknown' | string; // '' 表示文件夹
+}
+
+export abstract class FileBase implements IFileBaseInfo {
     isDisk = false;
     id: string;
     name: string;
     type: 'file' | 'dir' | 'disk';
     isDir = false;
-    path: string;
+    path: Path;
+    fileType: '' | 'unknown' | string;
 
     entry: any; // 第三方底层file对象，本项目中是filer中的entry
 
@@ -49,7 +60,8 @@ export abstract class FileBase {
     setParent (parent: Dir | null) {
         this.parent = parent;
         if (parent) {
-            this.path = parent.path + '/' + this.name;
+            this.path = parent.path.join(this.name);
+            console.warn(this.path.path);
         }
     }
 
@@ -68,8 +80,7 @@ export abstract class FileBase {
         list.splice(index, 1);
 
         this.markParentClearSize();
-
-        return fs().rm(this.path, this.isDir);
+        return fs().rm(this.path.path, this.isDir);
     }
 
     private markParentClearSize () {

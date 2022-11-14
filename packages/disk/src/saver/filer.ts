@@ -47,7 +47,7 @@ export class DiskFiler {
     async initFiles (parent: Dir) {
         return new Promise<FileBase[]>((resolve) => {
             this._traverseDir({
-                path: parent.path || '/',
+                path: parent.path.path || '/',
                 parent,
             }, (files) => {
                 resolve(files);

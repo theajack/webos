@@ -3,17 +3,17 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-10 20:43:36
+ * @LastEditTime: 2022-11-13 19:52:51
  */
 
-import { currentPath } from 'src/state/global-info';
+import { Term } from 'src/term';
 import { Command } from './command-base';
 
 export class PWDCommand extends Command {
-    name = 'pwd';
+    commandName = 'pwd';
 
     async run (args: string[]) {
-        this.args = args;
-        return this.success('|' + currentPath.value);
+        this.handleArgs(args);
+        return this.success(Term.CurrentPath);
     }
 }

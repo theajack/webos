@@ -3,11 +3,9 @@
  * @Date: 2022-09-21 15:05:05
  * @Description: Coding something
  */
-export function trimPath (path: string): string {
-    if (!path) return path;
-    if (path === '/') return '';
 
-    if (path[0] === '/') path = path.substr(1);
-    if (path[path.length - 1] === '/') path = path.substr(0, path.length - 1);
-    return path;
+export function split (str: string, s: string = '/'): [string, string] {
+    const index = str.indexOf(s);
+    if (index === -1 || !s) return [ str, '' ];
+    return [ str.substring(0, index), str.substring(index + 1) ];
 }

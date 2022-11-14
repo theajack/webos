@@ -1,35 +1,43 @@
 lockfileVersion: 5.4
 
 specifiers:
-  alins: ^0.0.10
-  alins-style: ^0.0.10
+  alins: 0.0.12
+  alins-style: 0.0.12
 
 dependencies:
-  alins: 0.0.10
-  alins-style: 0.0.10
+  alins: registry.npmmirror.com/alins/0.0.12
+  alins-style: registry.npmmirror.com/alins-style/0.0.12
 
 packages:
 
-  /alins-reactive/0.0.10:
-    resolution: {integrity: sha512-mpeJcdRJPkPN/SJzw5g9pjCxHKedLkIzXpwSWbsZ2/hMK3hGlxvHLSliJQ7TwcAgb0T68UDUunTmSDIkh3Kwmw==}
+  registry.npmmirror.com/alins-reactive/0.0.12:
+    resolution: {integrity: sha512-pcH70TsGKgWW076dykk+uAG1u4SBOKumz5LUi8UYaX7XbEfSb9aY7qMwofpInv9q4t08QdXVyyM08agc+YOLLQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/alins-reactive/-/alins-reactive-0.0.12.tgz}
+    name: alins-reactive
+    version: 0.0.12
     dependencies:
-      alins-utils: 0.0.10
+      alins-utils: registry.npmmirror.com/alins-utils/0.0.12
     dev: false
 
-  /alins-style/0.0.10:
-    resolution: {integrity: sha512-k/qisOzytKDcygM2jrfdVbRXLyN6XwdAoH+WQIit7fCrVe+xfwQwvhNY9UiqjBfTx6gSA6lYBNC9UJxDm9+Okw==}
+  registry.npmmirror.com/alins-style/0.0.12:
+    resolution: {integrity: sha512-Ab8DBQ1IT4oEwwKipFTKXuJrqkfJK/+YKPGseKRk7zRkV3VJvKX4Pf9iXup7ghTo4qiKqSUbshgwEj7DF4yp4w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/alins-style/-/alins-style-0.0.12.tgz}
+    name: alins-style
+    version: 0.0.12
     dependencies:
-      alins-reactive: 0.0.10
-      alins-utils: 0.0.10
+      alins-reactive: registry.npmmirror.com/alins-reactive/0.0.12
+      alins-utils: registry.npmmirror.com/alins-utils/0.0.12
     dev: false
 
-  /alins-utils/0.0.10:
-    resolution: {integrity: sha512-no47LQV1JkZMXfnpUoCaHHYZ8IpbX7xMQunJJ9K3gofJcYHdrI6H6Hmr3BDHwzGn0j1A204p/VN7cVgPodlBcw==}
+  registry.npmmirror.com/alins-utils/0.0.12:
+    resolution: {integrity: sha512-unC/B56cd27hmRdTfhwALqoWZD21nWmQ/skTEOjNuVDWj6uOER7nRBgKg7XpAw9/RyhFha7BoveFr2LrGNVdNA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/alins-utils/-/alins-utils-0.0.12.tgz}
+    name: alins-utils
+    version: 0.0.12
     dev: false
 
-  /alins/0.0.10:
-    resolution: {integrity: sha512-qKDmX8OYPgJBMyKrKQzgTzHhkeOuuRKWkbFmxOF15gwc07aQJFPljShLfSIwTanJb4AsBbIV8lFU4GBeAtZiWA==}
+  registry.npmmirror.com/alins/0.0.12:
+    resolution: {integrity: sha512-tYoqO9fO+sSzc56SncUl43oeFrXUmAiKY7qpfqIWc1BgemB/YAhGEK3F0wYZ5BaN8ngoFHe5Da8OF8SYIBKnDQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/alins/-/alins-0.0.12.tgz}
+    name: alins
+    version: 0.0.12
     dependencies:
-      alins-reactive: 0.0.10
-      alins-utils: 0.0.10
+      alins-reactive: registry.npmmirror.com/alins-reactive/0.0.12
+      alins-utils: registry.npmmirror.com/alins-utils/0.0.12
     dev: false
