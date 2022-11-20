@@ -2,8 +2,8 @@
     "name": "webos-disk",
     "version": "0.0.1",
     "description": "All-in-js Web UI Framework, No jsx/template/vdom/css/html",
-    "main": "src/index.ts",
-    "typings": "src/index.ts",
+    "main": "dist/webos-disk.esm.js",
+    "typings": "dist/webos-disk.d.ts",
     "repository": "git@github.com:theajack/webos.git",
     "author": "tackchen <theajack@qq.com>",
     "scripts": {
