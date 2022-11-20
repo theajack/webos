@@ -3,15 +3,13 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 13:16:25
+ * @LastEditTime: 2022-11-20 16:12:37
  */
 
 import { span, text } from 'alins';
 import { style } from 'alins-style';
 import { Term } from '../../term';
-import { IFileBaseInfo } from 'webos-disk/src/files/base';
-import { Dir } from 'webos-disk/src/files/dir';
-import { Path } from 'webos-disk/src/path';
+import { IFileBaseInfo, Dir, Path } from 'webos-disk';
 import { Command } from './command-base';
 
 export function lsItem (name: string) {

@@ -9,8 +9,7 @@
 // import { div } from 'alins';
 import { Edit } from '../../state/global-info';
 import { Term } from '../../term';
-import { File } from 'webos-disk';
-import { Path } from 'webos-disk/src/path';
+import { File, Path } from 'webos-disk';
 import { catFile } from './cat';
 import { Command } from './command-base';
 import { touchFile } from './touch';

@@ -3,13 +3,12 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 13:17:35
+ * @LastEditTime: 2022-11-20 16:12:23
  */
 
 import { currentDirName } from '../../state/global-info';
 import { Term } from '../../term';
-import { Dir } from 'webos-disk/src/files/dir';
-import { Path } from 'webos-disk/src/path';
+import { Dir, Path } from 'webos-disk';
 import { Command } from './command-base';
 
 export function cdPath (...args: string[]) {

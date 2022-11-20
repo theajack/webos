@@ -3,10 +3,10 @@
  * @Date: 2022-11-10 18:29:42
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 14:50:46
+ * @LastEditTime: 2022-11-20 16:11:11
  */
 import { splitTwoPart } from '../utils/utils';
-import { IJson } from 'webos-disk/src/type';
+import { IJson } from 'webos-disk';
 import { CDCommand } from './commands/cd';
 import { ClearCommand } from './commands/clear';
 import { Command, ICommandResult } from './commands/command-base';

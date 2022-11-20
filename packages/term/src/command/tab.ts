@@ -7,8 +7,7 @@
  */
 import { inputContent } from '../state/global-info';
 import { pushResultError, pushResultItem } from '../ui/components/result-item';
-import { IFileBaseInfo } from 'webos-disk/src/files/base';
-import { Path } from 'webos-disk/src/path';
+import { IFileBaseInfo, Path } from 'webos-disk';
 import { getCommand, getCommandNames } from './command-handler';
 import { lsPathDir, lsItem, lsFilesItem } from './commands/ls';
 

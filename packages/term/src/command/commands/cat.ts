@@ -3,14 +3,13 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 12:29:59
+ * @LastEditTime: 2022-11-20 16:12:14
  */
 
 // import { div } from 'alins';
 import { div } from 'alins';
 import { CommonStyle } from '../../ui/css/main-css';
-import { File } from 'webos-disk';
-import { Path } from 'webos-disk/src/path';
+import { File, Path } from 'webos-disk';
 import { Term } from '../../term';
 import { Command } from './command-base';
 

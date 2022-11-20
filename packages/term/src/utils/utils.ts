@@ -1,12 +1,12 @@
-import { IJson } from 'webos-disk/src/type';
-
 /*
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 16:06:19
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 13:54:10
+ * @LastEditTime: 2022-11-20 16:12:56
  */
+import { IJson } from 'webos-disk';
+
 export function formatDateTime (date = new Date()) {
     return `${date.getFullYear()}-${fixNum(date.getMonth())}-${fixNum(date.getDate())} ${fixNum(date.getHours())}:${fixNum(date.getMinutes())}:${fixNum(date.getSeconds())}`;
 }

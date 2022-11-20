@@ -3,11 +3,10 @@
  * @Date: 2022-11-09 22:56:02
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-13 19:24:59
+ * @LastEditTime: 2022-11-20 16:10:51
  */
 
-import { Disk } from 'webos-disk';
-import { Dir } from 'webos-disk/src/files/dir';
+import { Disk, Dir } from 'webos-disk';
 import { UI } from './ui';
 
 interface ITermOptions {
