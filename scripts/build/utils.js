@@ -17,7 +17,7 @@ function resolvePacakgePath (str) {
 }
 
 function extrackSinglePackageInfo (dir) {
-    const {name, version, dependencies} = require(resolvePacakgePath(`${dir}/package.json`));
+    const { name, version, dependencies } = require(resolvePacakgePath(`${dir}/package.json`));
     return {
         name,
         version,
@@ -37,7 +37,7 @@ function upcaseFirstLetter (str) {
 }
 
 function buildPackageName (dir) {
-    return `alins${dir === 'core' ? '' : `-${dir}`}`;
+    return `webos-${dir}`;
 }
 
 function traverseDir (path, callback) {
@@ -70,7 +70,7 @@ function initSinglePackageInfo (dir, isDev = false) {
         package.unpkg = `dist/${packageName}.min.js`;
         package.jsdelivr = `dist/${packageName}.min.js`;
     }
-    ['description', 'author', 'repository', 'license'].forEach(name => {
+    [ 'description', 'author', 'repository', 'license' ].forEach(name => {
         package[name] = rootPkg[name];
     });
     package.publishConfig = {
@@ -82,7 +82,7 @@ function initSinglePackageInfo (dir, isDev = false) {
     fs.copyFileSync(resolveRootPath('scripts/helper/.npmignore'), resolvePacakgePath(`${dir}/.npmignore`));
 
     const tsconfig = require(resolveRootPath('tsconfig.json'));
-    tsconfig.include = ['src/**/*'];
+    tsconfig.include = [ 'src/**/*' ];
     tsconfig.compilerOptions.rootDir = '../..';
     writeJsonIntoFile(tsconfig, resolvePacakgePath(`${dir}/tsconfig.json`));
 }
@@ -99,7 +99,7 @@ async function exec (cmd) {
     return new Promise(resolve => {
         childProcess.exec(cmd, function (error, stdout, stderr) {
             if (error) {
-                resolve({success: false, stdout, stderr});
+                resolve({ success: false, stdout, stderr });
             } else {
                 resolve({
                     success: true,

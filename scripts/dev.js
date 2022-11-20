@@ -23,7 +23,7 @@ build({
     bundle: true,
     sourcemap: true,
     format: 'cjs',
-    globalName: 'Alins',
+    globalName: 'Webos',
     platform: 'browser',
     // plugins:
     //   format === 'cjs' || pkg.buildOptions?.enableNonBrowserBranches

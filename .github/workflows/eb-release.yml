@@ -56,6 +56,7 @@ jobs:
             npx lerna bootstrap
             npx lerna version ${{ steps.version.outputs.version }} --no-git-tag-version --force-publish --yes
             npm run build
+            npm run build:docs
             git add .
             git commit -m "feat: Version ${{ steps.version.outputs.version }} Build"
             npx lerna publish from-package --yes
@@ -64,11 +65,11 @@ jobs:
             git commit -m "feat: Version ${{ steps.version.outputs.version }} Publish"
             git push origin master
 
-      # - name: Pages # github pages
-      #   uses: JamesIves/github-pages-deploy-action@v4.3.0
-      #   with:
-      #     branch: gh-pages
-      #     folder: docs
+      - name: Pages # github pages
+        uses: JamesIves/github-pages-deploy-action@v4.3.0
+        with:
+          branch: gh-pages
+          folder: docs
       
       - name: Release # release
         uses: release-drafter/release-drafter@v5

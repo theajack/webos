@@ -12,6 +12,7 @@
         "_serve": "serve scripts/dev",
         "dev": "npm run init:monorepo && run-p _dev _serve",
         "test": "run-p _test _serve",
+        "build:docs": "node scripts/docs/build-docs.js",
         "build": "npm run init:monorepo && lerna run build && node scripts/build/mod-package.js",
         "info": "node ./scripts/info.js",
         "init:package": "node ./scripts/init-packages-info.js",
@@ -48,6 +49,7 @@
         "rollup-plugin-typescript2": "^0.32.1",
         "rollup-plugin-uglify": "^6.0.4",
         "serve": "^13.0.2",
+        "tslib": "^2.4.1",
         "typescript": "^4.7.4"
     },
     "private": true

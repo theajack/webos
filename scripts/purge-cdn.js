@@ -4,7 +4,7 @@
  * @Description: Coding something
  */
 const https = require('https');
-const {resolveRootPath, traverseDir, buildPackageName} = require('./build/utils');
+const { resolveRootPath, traverseDir, buildPackageName } = require('./build/utils');
 
 
 function purge () {
@@ -12,10 +12,6 @@ function purge () {
         const name = buildPackageName(dir);
         https.get(`https://purge.jsdelivr.net/npm/${name}/${name}.min.js`, () => {
         });
-        if (dir === 'style') {
-            https.get(`https://purge.jsdelivr.net/npm/${name}/alins-style.standalone.min.js`, () => {
-            });
-        }
     });
 }
 

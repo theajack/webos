@@ -6,3 +6,4 @@ lerna-debug.log
 bundle.js
 bundle.js.map
 .DS_Store
+/docs
