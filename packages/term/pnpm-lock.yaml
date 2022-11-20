@@ -1,35 +1,35 @@
 lockfileVersion: 5.4
 
 specifiers:
-  alins: 0.0.13
-  alins-style: 0.0.13
+  alins: 0.0.14
+  alins-style: 0.0.14
 
 dependencies:
-  alins: 0.0.13
-  alins-style: 0.0.13
+  alins: 0.0.14
+  alins-style: 0.0.14
 
 packages:
 
-  /alins-reactive/0.0.13:
-    resolution: {integrity: sha512-c58KKs2BAyekjpCPH+ibHVI+SYA0LKIeDugZPmulh5/TTaqEf9v9cdUpVb/VCyLJKbe/rNAwbgizQJuu9fNc8g==}
+  /alins-reactive/0.0.14:
+    resolution: {integrity: sha512-Ck5B+EmGJe0QC84aptU49Cgf84wR/wVkKFFaP82FqP6Ve6flCiu5HOcMRTDX2qHRkmf9uEQnb2/g5fqz+BWcdw==}
     dependencies:
-      alins-utils: 0.0.13
+      alins-utils: 0.0.14
     dev: false
 
-  /alins-style/0.0.13:
-    resolution: {integrity: sha512-B6NaN9LwlIUmMjMJ7gIOSfEr3bV45Hv5BBMu4DmNlumQRGfQ43VmQorVEOwNT94kkH3DU51YoUf0ds72oRLnBA==}
+  /alins-style/0.0.14:
+    resolution: {integrity: sha512-d76bZ4OyGSosYjaidmRl+aLegzQ9mSX2MSn83yvgo9oouyeSeHHiVirjnThofrwFT2oUnEvN+lyfyQd7OTAmxQ==}
     dependencies:
-      alins-reactive: 0.0.13
-      alins-utils: 0.0.13
+      alins-reactive: 0.0.14
+      alins-utils: 0.0.14
     dev: false
 
-  /alins-utils/0.0.13:
-    resolution: {integrity: sha512-TE/C8h3CEAPEoAC16nJi/XAnPggKNmGAkGvWgvL9Fl6P/8wF3OLLAsh8kr5xsohO9bxshj3169XB1dVmOfnDWw==}
+  /alins-utils/0.0.14:
+    resolution: {integrity: sha512-UAkoKaHCLHSHK4RvmHKAmPtOGK8aWre2tDAyXZPSOYq+qV2Mo1DW/jtjMS3BsPoFKCJVG070JrMtBQKgZd/noA==}
     dev: false
 
-  /alins/0.0.13:
-    resolution: {integrity: sha512-g7RqO6i1T/DcV4YUjOQ5Q697NDtTHZJVxpXMMij9CjkTeTPGcliJEO7ooHdDI68HtT1BEWYl2CLwnKt9nSyCLw==}
+  /alins/0.0.14:
+    resolution: {integrity: sha512-zLj2RqZJlhqHbqRHeLcqJzIuzv1GAF88qU2aegpnkIYjHzHrUZ4nJ9z8JJsP//I5TCaNys/PWhs0UstHGVdwjA==}
     dependencies:
-      alins-reactive: 0.0.13
-      alins-utils: 0.0.13
+      alins-reactive: 0.0.14
+      alins-utils: 0.0.14
     dev: false
