@@ -5,7 +5,7 @@
 -->
 
 <p align="center">
-    <img src='https://alinsjs.github.io/docs.png' width='100px'/>
+    <img src='https://shiyix.cn/webos-icon.png' width='100px'/>
 </p> 
 
 <p align="center">
@@ -15,14 +15,14 @@
     <a href="https://www.github.com/theajack/webos/network/members" target="_black">
         <img src="https://img.shields.io/github/forks/theajack/webos?logo=github" alt="forks" />
     </a>
-    <a href="https://www.npmjs.com/package/alins" target="_black">
-        <img src="https://img.shields.io/npm/v/alins?logo=npm" alt="version" />
+    <a href="https://www.npmjs.com/package/webos-term" target="_black">
+        <img src="https://img.shields.io/npm/v/webos-term?logo=npm" alt="version" />
     </a>
-    <a href="https://www.npmjs.com/package/alins" target="_black">
-        <img src="https://img.shields.io/npm/dm/alins?color=%23ffca28&logo=npm" alt="downloads" />
+    <a href="https://www.npmjs.com/package/webos-term" target="_black">
+        <img src="https://img.shields.io/npm/dm/webos-term?color=%23ffca28&logo=npm" alt="downloads" />
     </a>
-    <a href="https://www.jsdelivr.com/package/npm/alins" target="_black">
-        <img src="https://data.jsdelivr.com/v1/package/npm/alins/badge" alt="jsdelivr" />
+    <a href="https://www.jsdelivr.com/package/npm/webos-term" target="_black">
+        <img src="https://data.jsdelivr.com/v1/package/npm/webos-term/badge" alt="jsdelivr" />
     </a>
 </p>
 
@@ -33,162 +33,55 @@
     <a href="https://www.github.com/theajack/webos/blob/master/LICENSE" target="_black">
         <img src="https://img.shields.io/github/license/theajack/webos?color=%232DCE89&logo=github" alt="license" />
     </a>
-    <a href="https://cdn.jsdelivr.net/npm/alins"><img src="https://img.shields.io/bundlephobia/minzip/alins.svg" alt="Size"></a>
+    <a href="https://cdn.jsdelivr.net/npm/webos-term"><img src="https://img.shields.io/bundlephobia/minzip/webos-term.svg" alt="Size"></a>
     <a href="https://github.com/theajack/webos/search?l=javascript"><img src="https://img.shields.io/github/languages/top/theajack/webos.svg" alt="TopLang"></a>
     <a href="https://github.com/theajack/webos/issues"><img src="https://img.shields.io/github/issues-closed/theajack/webos.svg" alt="issue"></a>
-    <a href="https://www.github.com/theajack/webos"><img src="https://img.shields.io/librariesio/dependent-repos/npm/alins.svg" alt="Dependent"></a>
+    <a href="https://www.github.com/theajack/webos"><img src="https://img.shields.io/librariesio/dependent-repos/npm/webos-term.svg" alt="Dependent"></a>
 </p>
 
-### 🚀 [Alins](https://github.com/theajack/webos): `Al`l-`in`-j`s` web ui框架，无 jsx/template/vdom/css/html
+### 🚀 [webos-term](https://github.com/theajack/webos): 基于 HTML5 FileSystem 的 Web 终端窗口
 
-**[English](https://github.com/theajack/webos/blob/master/README.md) | [文档](https://alinsjs.github.io/docs) | [在线使用](https://shiyix.cn/jsbox?github=alinsjs.docs.samples/todo-list.js) | [更新日志](https://github.com/theajack/webos/blob/master/helper/version.md) | [反馈错误/缺漏](https://github.com/theajack/webos/issues/new) | [Gitee](https://gitee.com/theajack/webos) | [留言板](https://theajack.github.io/message-board/?app=alins)**
+**[English](https://github.com/theajack/webos/blob/master/README.md) | [在线使用](https://theajack.github.io/webos) | [更新日志](https://github.com/theajack/webos/blob/master/scripts/version.md) | [反馈错误/缺漏](https://github.com/theajack/webos/issues/new) | [Gitee](https://gitee.com/theajack/webos) | [留言板](https://theajack.github.io/message-board/?app=webos)**
 
 ## 0 快速开始
 
+[在线地址](https://theajack.github.io/webos)
+
+![](https://shiyix.cn/webos.jpg)
+
 ### 0.1 npm
 
+使用 webos 构建你的终端窗口
+
 ```
-npm i alins
+npm i webos-term
 ```
 
 ```js
-import {div} from 'alins';
-div('Hello World!').mount();
+import { createTerm } from 'webos-term';
+
+createTerm({
+    container: 'body'
+});
 ```
+
+** webos-disk  文件系统操作js库 **
+
+```
+npm i webos-disk
+```
+
+具体使用请参考 [webos-disk.d.ts](https://cdn.jsdelivr.net/npm/webos-disk/dist/webos-disk.d.ts)
+
+
 
 ### 0.2 cdn
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/alins"></script>
+<script src="https://cdn.jsdelivr.net/npm/webos-term"></script>
 <script>
-  Alins.div('Hello World!').mount();
+    Webos.createTerm({
+        container: 'body'
+    });
 </script>
-```
-
-## 1. 特性
-
-1. 无vdom，监听数据精准修改到dom/textNode，dom节点复用
-2. alins-style css-in-js方案，原子属性/积木式组合/样式响应变更
-3. 良好的组件化支持
-4. 支持for,if,show,switch,model控制器
-5. 支持computed、watch
-6. 单向数据流 + 双向绑定
-7. 良好的ts支持
-
-更多详细功能请参考[在线文档](https://alinsjs.github.io/docs)
-
-## 2. 实例程序
-
-### 2.1. 计数器 [在线使用](https://shiyix.cn/jsbox?github=alinsjs.docs.samples/count.js)
-
-```js
-import { button, comp, click, $, mount } from 'alins';
-
-function Count () {
-    const count = $(0);
-    return button(
-        click(() => {count.value++;}),
-        $`Count is ${count}`
-    );
-}
-
-comp(Count).mount();
-```
-
-### 2.2. 父子组件传参+model指令 [在线使用](https://shiyix.cn/jsbox?github=alinsjs.docs.samples/model.js)
-
-```js
-import {
-    button, comp, prop, click, $, input, span,
-} from '../alins';
-
-export function Count () {
-    const count = $(0);
-    return [
-        span('输入count'),
-        input.model(count, 'number'),
-        comp(CountProps, prop({value: count})),
-        button('add', click(() => {count.value++;})),
-    ];
-};
-
-export function CountProps ({props}) {
-    return span($`Count is ${props.value}`);
-}
-
-comp(Count).mount();
-```
-
-## 3. todolist [在线使用](https://shiyix.cn/jsbox?github=alinsjs.docs.samples/todo-list.js)
-
-```js
-import {comp, button, div, input, click, $} from '../alins';
-import {style} from '../alins-style';
-
-
-export function todoList () {
-    const edit = $('');
-    const list = $([]);
-    const addItem = () => {
-        list.push({content: edit.value, done: false});
-        edit.value = '';
-    };
-    const removeItem = (index) => { list.splice(index.value, 1); };
-    const finishItem = (item) => { item.done = !item.done.value; };
-
-    const itemStyle = (item) => {
-        return style.textDecoration(() => item.done.value ? 'line-through' : 'none')
-            .color(() => item.done.value ? '#888' : '#222');
-    }
-
-    return [
-        input.model(edit),
-        button('提交', click(addItem)),
-        div('.todo-list',
-            div.for(list)((item, index) => [
-                itemStyle(item),
-                $`${() => index.value + 1}:${item.content}`,
-                button('删除', click(removeItem).args(index)),
-                button(
-                    $`${() => item.done.value ? '撤销' : '完成'}`,
-                    click(finishItem).args(item)
-                ),
-            ]),
-        ),
-    ];
-}
-comp(todoList).mount();
-```
-
-## 4. css in js [在线使用](https://shiyix.cn/jsbox?github=alinsjs.docs.samples/style.js)
-
-```js
-import {
-    div, $ , button, hover, click, input, cls
-} from 'alins';
-import {css, style} from '../alins-style';
-
-function Style () {
-    const num = $(30);
-    const active = $(false);
-
-    css('.main')(
-        style({
-            color: '#888',
-            marginLeft: $`${num}px`,
-        }),
-        ['&.active', style.fontSize(num)],
-        ['.child', style.marginTop(num)]
-    ).mount();
-
-    return div(`parent.main`,
-        cls({active}),
-        hover('color: #f44'),
-        input.model(num, 'number'),
-        button('toggle active', click(() => active.value = !active.value)),
-        div('child.child'),
-    );
-}
-
-comp(Style).mount();
 ```

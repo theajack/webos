@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 16:27:49
+ * @LastEditTime: 2022-11-20 16:36:03
  */
 
 import { IJson } from 'webos-disk';
@@ -41,7 +41,7 @@ export class OpenCommand extends Command {
 
         const name = args[0];
 
-        const handleUrl = v => v.indexOf('http') === 0 ? v : `https://${v}`;
+        const handleUrl = (v: string) => v.indexOf('http') === 0 ? v : `https://${v}`;
 
         if (WebsiteMap[name]) {
             window.open(handleUrl(WebsiteMap[name]));
