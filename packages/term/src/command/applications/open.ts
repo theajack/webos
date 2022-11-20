@@ -3,45 +3,52 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 16:12:08
+ * @LastEditTime: 2022-11-20 16:27:49
  */
 
-// import { div } from 'alins';
-import { div } from 'alins';
-import { CommonStyle } from '../../ui/css/main-css';
-import { File, Path } from 'webos-disk';
-import { Term } from '../../term';
+import { IJson } from 'webos-disk';
 import { Command } from '../commands/command-base';
 
-export function catFile (args: string|string[]) {
-    const path = typeof args === 'string' ? Path.join([ args ]) : Path.join(...args);
-    return Term.CurrentDir.findChildByPath(path);
-}
+const WebsiteMap: IJson<string> = {
+    github: 'github.com',
+    npm: 'www.npm.com',
+    baidu: 'www.baidu.com',
+    腾讯视频: 'https://v.qq.com',
+    网易云音乐: 'https://music.163.com/',
+    qq: 'www.qq.com',
+    w3school: 'www.w3school.com.cn',
+    runoob: 'www.runoob.com',
+    vue: 'https://vuejs.org/',
+    react: 'https://reactjs.org/',
+    angular: 'https://angular.io',
+    alins: 'https://alinsjs.github.io/docs/',
+    掘金: 'https://juejin.cn/',
+    csdn: 'https://www.csdn.net/',
+    gitee: 'www.gitee.com',
+};
 
-export class BaiduCommand extends Command {
-    commandName = 'baidu';
-    desc = 'Search with baidu';
+export class OpenCommand extends Command {
+    commandName = 'open';
+    desc = 'Open website';
+    hint: 'custom' = 'custom';
+    hintArray = Object.keys(WebsiteMap);
     get help (): string {
-        return this.commandName + ' <filename>';
+        return this.commandName + ' <content>';
     }
 
     async run (args: string[]) {
         this.handleArgs(args);
 
-        const target = catFile(args);
+        const name = args[0];
 
-        if (!target) return this.fail('Target is not exist');
-        if (target.isDir) return this.fail('Target is not a file');
+        const handleUrl = v => v.indexOf('http') === 0 ? v : `https://${v}`;
 
-        const file = target as File;
-
-        if (!file.content) {
-            return this.success(div(
-                CommonStyle.SuccessColor,
-                'File content is empty'
-            ));
+        if (WebsiteMap[name]) {
+            window.open(handleUrl(WebsiteMap[name]));
+        } else {
+            window.open(handleUrl(name));
         }
 
-        return this.success(file.content);
+        return this.success();
     }
 }

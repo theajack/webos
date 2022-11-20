@@ -3,7 +3,7 @@
  * @Date: 2022-11-20 12:16:30
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 15:53:04
+ * @LastEditTime: 2022-11-20 16:34:56
  */
 
 import { Hint } from '../state/global-info';
@@ -21,7 +21,7 @@ export function onHint (value: string) {
         const command = getCommand(name);
         const text = command ? command.help : '';
         Hint.setHint(text, list);
-    }, 800);
+    }, 500);
 
 }
 

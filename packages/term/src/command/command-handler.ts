@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:29:42
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 16:11:11
+ * @LastEditTime: 2022-11-20 16:28:44
  */
 import { splitTwoPart } from '../utils/utils';
 import { IJson } from 'webos-disk';
@@ -22,6 +22,8 @@ import { PingCommand } from './commands/ping';
 import { HelpCommand } from './commands/help';
 import { RunCommand } from './commands/run';
 import { FindCommand } from './commands/find';
+import { BaiduCommand } from './applications/baidu';
+import { OpenCommand } from './applications/open';
 
 const commands: IJson<Command> = {};
 
@@ -50,6 +52,8 @@ const CommandList = [
     HelpCommand,
     RunCommand,
     FindCommand,
+    BaiduCommand,
+    OpenCommand,
 ].map(c => {
     const command = new c();
     map[command.commandName] = command;

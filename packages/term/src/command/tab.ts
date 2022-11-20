@@ -3,7 +3,7 @@
  * @Date: 2022-11-11 14:37:24
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 15:43:15
+ * @LastEditTime: 2022-11-20 16:31:56
  */
 import { inputContent } from '../state/global-info';
 import { pushResultError, pushResultItem } from '../ui/components/result-item';
@@ -69,7 +69,6 @@ function handleResult (
     hint: boolean = false
 ) {
     const handleItem = type === 'file' ? (v: IFileBaseInfo) => v.name : (v:string) => v;
-    console.log('xxx', name);
     const result = list.filter(n => handleItem(n as any).indexOf(name) === 0);
     if (hint) return result.map(item => handleItem(item as any));
 

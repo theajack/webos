@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 16:17:58
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 15:48:30
+ * @LastEditTime: 2022-11-20 16:34:35
  */
 import { $, div, IComponentOptions, input, span, on, mounted, click, comp, text } from 'alins';
 import { style } from 'alins-style';
@@ -130,10 +130,12 @@ export const InputItem = comp(({ events }: IComponentOptions) => {
         div.show(Hint.enabled)(
             style.color('#777').marginTop(5),
             span.show(() => !!Hint.text.value)(text($`Hint: ${Hint.text}`)),
-            div(span.for(Hint.list)(item => [
-                style.marginRight(20),
-                text(item)
-            ]))
+            div(
+                span.for(Hint.list)(item => [
+                    style.marginRight(20),
+                    text(item)
+                ])
+            )
         ),
     );
 });
