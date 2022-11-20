@@ -3,12 +3,13 @@
  * @Date: 2022-11-10 16:17:58
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-12 20:20:57
+ * @LastEditTime: 2022-11-20 15:48:30
  */
 import { $, div, IComponentOptions, input, span, on, mounted, click, comp, text } from 'alins';
 import { style } from 'alins-style';
-import { currentDirName, inputContent, userName } from 'src/state/global-info';
-import { Storage } from 'src/utils/storage';
+import { onHint } from '../../command/hint';
+import { currentDirName, Hint, inputContent, userName } from '../../state/global-info';
+import { Storage } from '../../utils/storage';
 import { CommonStyle } from '../css/main-css';
 import { CommonFont } from '../css/styles/atoms';
 
@@ -22,10 +23,12 @@ const ContentHistory = (() => {
     let index = contentHistory.length;
 
     let editHistory: string[] = [];
+    editHistory[index] = '';
 
     return {
         get () {
-            return editHistory[index] || contentHistory[index];
+            const editValue = editHistory[index];
+            return typeof editValue == 'string' ? editValue : contentHistory[index];
         },
         prev () {
             if (index > 0) index --;
@@ -33,7 +36,9 @@ const ContentHistory = (() => {
         },
         next () {
             const nexti = index + 1;
-            if (nexti < contentHistory.length || nexti < editHistory.length) index ++;
+            if (nexti < contentHistory.length || nexti < editHistory.length) {
+                index ++;
+            }
             return this.get();
         },
         push (v: string) {
@@ -43,6 +48,7 @@ const ContentHistory = (() => {
             }
             index = contentHistory.length;
             editHistory = [];
+            editHistory[index] = '';
             Storage.write(key, contentHistory);
         },
         oninput (v: string) {
@@ -53,7 +59,6 @@ const ContentHistory = (() => {
 
 export const InputItem = comp(({ events }: IComponentOptions) => {
 
-
     const inputStyle = style.flex(1)
         .outline('none')
         .backgroundColor('transparent')
@@ -63,57 +68,84 @@ export const InputItem = comp(({ events }: IComponentOptions) => {
         .padding(0);
 
     const onkeyup = (e: KeyboardEvent, dom: HTMLInputElement) => {
-        console.log(e);
+        // console.log(e);
         const code = e.keyCode;
         const value = dom.value;
         switch (code) {
             case 9: events.ontab(value); break;
-            case 38:
-            case 40:{
-                const value = ContentHistory[code === 38 ? 'prev' : 'next']();
-                if (value) inputContent.value = value;
-            };break;
+            // case 38:
+            // case 40:{
+            //     const value = ContentHistory[code === 38 ? 'prev' : 'next']();
+            //     // console.log('value', value);
+            //     if (typeof value == 'string') inputContent.value = value;
+            // };break;
             case 13: {
                 if (value) {
                     ContentHistory.push(value);
                     inputContent.value = '';
                     events.onrun(value);
                 }
+                setTimeout(ensureInputIsVisible);
                 e.preventDefault();
+                Hint.hideHint();
             };break;
             default: ContentHistory.oninput(value); break;
         }
+        onHint(dom.value);
     };
 
     const onkeydown = (e: KeyboardEvent) => {
-        if ([ 9, 13, 38, 40 ].includes(e.keyCode)) e.preventDefault();
+        const code = e.keyCode;
+        if ([ 9, 13, 38, 40 ].includes(code)) {
+            if (code === 38 || code === 40) {
+                const name = code === 38 ? 'prev' : 'next';
+                const value = ContentHistory[name]();
+                if (typeof value == 'string') inputContent.value = value;
+            }
+            e.preventDefault();
+        }
     };
 
     return div(
-        style.display('flex'),
-        span(
-            '#InputTitle',
-            text($`webos:${currentDirName} ${userName}$`),
-            style.marginRight(10),
-            click(() => {}, 'stop')
+        div(
+            style.display('flex'),
+            span(
+                '#InputTitle',
+                text($`webos:${currentDirName} ${userName}$`),
+                style.marginRight(10),
+                click.stop
+            ),
+            input.model(inputContent)(
+                '#InputInput[spellcheck=false]',
+                inputStyle, CommonFont,
+                on('keyup')(onkeyup),
+                on('keydown')(onkeydown),
+                on('blur')(() => {Hint.hideHint();}),
+                on('focus')((e, dom) => {onHint(dom?.value);}),
+                mounted((dom) => {
+                    window.addEventListener('click', () => {dom.focus();});
+                })
+            ),
         ),
-        input.model(inputContent)(
-            '#InputInput[spellcheck=false]',
-            inputStyle, CommonFont,
-            on('keyup')(onkeyup),
-            // on('keypress')(onkeyup), // todo keypress 只有字符键触发，可以通过up down事件模拟 实现连续翻记录
-            on('keydown')(onkeydown),
-            mounted((dom) => {
-                window.addEventListener('click', () => {dom.focus();});
-            })
-        )
+        div.show(Hint.enabled)(
+            style.color('#777').marginTop(5),
+            span.show(() => !!Hint.text.value)(text($`Hint: ${Hint.text}`)),
+            div(span.for(Hint.list)(item => [
+                style.marginRight(20),
+                text(item)
+            ]))
+        ),
     );
 });
 
 export const HistoryInputItem = comp(({ props }) => {
     return div(
-        '#InputTitle',
+        '.InputTitle',
         style.marginBottom(3),
         text(`webos:${currentDirName.value} ${userName.value}$ ${props.inputValue.value}`),
     );
 });
+
+function ensureInputIsVisible () {
+    document.documentElement.scrollTop = document.documentElement.offsetHeight;
+}

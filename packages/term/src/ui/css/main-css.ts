@@ -3,14 +3,14 @@
  * @Date: 2022-11-10 10:44:34
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-12 20:07:27
+ * @LastEditTime: 2022-11-20 10:32:45
  */
 import { css, style } from 'alins-style';
-import { CommonFont } from './styles/atoms';
+import { Color, CommonFont } from './styles/atoms';
 
 export const CommonStyle = {
     FontSize: style.fontSize(16),
-    SuccessColor: style.color('#4d4'),
+    SuccessColor: Color.Success,
 };
 
 css()(
@@ -38,3 +38,18 @@ css('body')(
         .margin(0).padding(15),
     CommonFont,
 ).mount();
+
+export const EditorStyle = style.padding(10)
+    .outline('none')
+    .border('1px solid #444')
+    .margin('10px 0')
+
+    .join({
+        WebkitUserModify: 'read-write-plaintext-only',
+        minHeight: '100px'
+    });
+
+export const TextBtn = style.textDecoration('underline')
+    .color('#5f5fff')
+    .cursor('pointer')
+    .marginRight(10);

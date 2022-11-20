@@ -32,11 +32,11 @@ export class DiskFiler {
         this.reader = new FilerReader(this.filer);
         (window as any).filer = this.filer;
 
-        this.filer.init({ persistent, size }, function (fs: any) {
+        this.filer.init({ persistent, size }, function () { // fs: any
             // filer.size == Filer.DEFAULT_FS_SIZE
             // filer.isOpen == true
             // filer.fs == fs
-            console.log(fs);
+            // console.log(fs);
             if (onready) onready();
         }, (e: any) => {
             console.error(e);
@@ -81,8 +81,8 @@ export class DiskFiler {
         return promiseify(this.filer.cd)(path);
     }
 
-    rm (path: string, isDir: boolean) {
-        log('warn', 'rm ' + path, isDir);
+    rm (path: string) { // , isDir: boolean
+        // log('warn', 'rm ' + path, isDir);
         return promiseify(this.filer.rm.bind(this.filer))(path);
     }
 
@@ -108,7 +108,7 @@ export class DiskFiler {
         }
 
         files.forEach(async entry => {
-            console.warn('---', path, entry);
+            // console.warn('---', path, entry);
             const { isDirectory, name } = entry;
             if (isDirectory) {
                 const dir = await parent.createDir({ name, entry }, { fromInit: true });

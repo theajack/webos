@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:39:27
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-12 18:04:34
+ * @LastEditTime: 2022-11-20 14:56:11
  */
 export interface ICommandResult {
     success: boolean;
@@ -20,6 +20,13 @@ export abstract class Command {
     args: string[] = [];
     subCommands: string[] = [];
     subCommand = '';
+    desc = '';
+    hint: 'custom' | 'file' | 'command' | 'none' = 'file';
+    hintArray: string[] = [];
+
+    get help () {
+        return this.commandName + ' <filename|filepath>';
+    }
 
     handleArgs (args: string[]) {
         this.args = args;

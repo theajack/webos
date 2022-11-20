@@ -8,8 +8,10 @@
     "scripts": {
         "lint": "eslint packages --ext ts",
         "_dev": "node scripts/dev.js",
+        "_test": "node scripts/dev.js test",
         "_serve": "serve scripts/dev",
         "dev": "npm run init:monorepo && run-p _dev _serve",
+        "test": "run-p _test _serve",
         "build": "npm run init:monorepo && lerna run build && node scripts/build/mod-package.js",
         "info": "node ./scripts/info.js",
         "init:package": "node ./scripts/init-packages-info.js",

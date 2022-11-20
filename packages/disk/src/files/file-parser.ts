@@ -14,7 +14,7 @@ import { TextParser } from './parser/text-parser';
 const SuffixTypeMap = {
     'txt': 'text',
     'json': 'json',
-    // todo
+    'js': 'javascript',
 } as const;
 
 type TSuffixTypeMap = typeof SuffixTypeMap;
@@ -30,6 +30,7 @@ const ParserMap: {
 } = {
     'json': JsonParser,
     'text': TextParser,
+    'javascript': TextParser,
     'unknown': TextParser,
 };
 

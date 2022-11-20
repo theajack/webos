@@ -10,8 +10,8 @@ import { fs } from '../saver/saver';
 import { split } from '../utils';
 import { FileBase, IFileBaseInfo, IFileBaseOption } from './base';
 import { File, IFileOption } from './file';
-import { Disk } from 'src/disk';
-import { Path } from 'src/path';
+import { Disk } from '../disk';
+import { Path } from '../path';
 
 export interface IDirOption extends IFileBaseOption {
     children?: FileBase[];
@@ -49,7 +49,7 @@ export class Dir extends FileBase {
 
         if (!fromInit) { // 初始化的时候是从fs里面拿的 所以不需要重复创建
             const filePath = file.path.path;
-            console.log(filePath);
+            // console.log(filePath);
             const entry = await fs()[file.isDir ? 'mkdir' : 'createFile'](filePath);
             this.setEntry(entry);
             if (!file.isDir) {
@@ -135,7 +135,6 @@ export class Dir extends FileBase {
         pathValue: string | string[],
     ): Dir | File | null {
         const path = Path.from(pathValue);
-        debugger;
         if (path.isRoot) {
             return Disk.instance.findChildByPath(path.relative);
         }
@@ -148,6 +147,22 @@ export class Dir extends FileBase {
         if (!file) return null;
         if (file.isDir) return (file as Dir).findChildByPath(path.array);
         return file as File;
+    }
+
+    filerChild (query: string, deep = true) {
+        const result: FileBase[] = [];
+
+        const n = this.children.length;
+        for (let i = 0; i < n; i++) {
+            const child = this.children[i];
+            if (child.name.indexOf(query) !== -1) {
+                result.push(child);
+            }
+            if (deep && child.isDir) {
+                result.push(...(child as Dir).filerChild(query, deep));
+            }
+        }
+        return result;
     }
 
     findFileByPath (

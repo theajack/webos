@@ -51,7 +51,7 @@ export function log (...args: any[]) {
     if (typeof logType === 'string' && typeof (console as any)[logType] !== 'undefined') {
         fn = logType;
     }
-    (console as any)[fn]('[OS] ', ...args);
+    fn; // (console as any)[fn]('[OS] ', ...args);
 }
 
 export function basePromiseify<T = any> (

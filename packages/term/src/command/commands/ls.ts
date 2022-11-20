@@ -3,12 +3,12 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-13 23:24:50
+ * @LastEditTime: 2022-11-20 13:16:25
  */
 
 import { span, text } from 'alins';
 import { style } from 'alins-style';
-import { Term } from 'src/term';
+import { Term } from '../../term';
 import { IFileBaseInfo } from 'webos-disk/src/files/base';
 import { Dir } from 'webos-disk/src/files/dir';
 import { Path } from 'webos-disk/src/path';
@@ -31,12 +31,14 @@ export function lsFilesItem (info: IFileBaseInfo) {
 
 export class LSCommand extends Command {
     commandName = 'ls';
+    desc = 'Displays subfile information';
+    get help () {
+        return this.commandName + ' <dirname>';
+    }
 
     async run (args: string[]) {
         this.handleArgs(args);
-
         const dir = Term.CurrentDir.findDirByPath(Path.join(args[0]));
-
         if (dir) {
             if (dir.type === 'file') {
                 return this.fail('Target is not a directory: ' + dir.name);
@@ -50,7 +52,10 @@ export class LSCommand extends Command {
 
 // 打印目标目录的子文件 / 后面的会被忽略
 export function lsPathDir (value: string) {
-    const path = Term.CurrentDir.path.join(value).parentPath;
-    console.warn('parent=', Term.CurrentDir.path, value, path);
+    // '' 转成 './'
+    const path = Term.CurrentDir.path.join(value || './').parentPath;
+    // console.warn('parent=', Term.CurrentDir.path, value, path);
+    // const dir = Term.CurrentDir.findDirByPath(path);
+    // console.log('dir', dir?.path, dir?.lsDetail());
     return Term.CurrentDir.findDirByPath(path)?.lsDetail() || [];
 }

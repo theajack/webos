@@ -3,55 +3,96 @@
  * @Date: 2022-11-11 14:37:24
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-13 23:34:45
+ * @LastEditTime: 2022-11-20 15:43:15
  */
-import { inputContent } from 'src/state/global-info';
-import { pushResultError, pushResultItem } from 'src/ui/components/result-item';
-import { split } from 'webos-disk';
+import { inputContent } from '../state/global-info';
+import { pushResultError, pushResultItem } from '../ui/components/result-item';
 import { IFileBaseInfo } from 'webos-disk/src/files/base';
 import { Path } from 'webos-disk/src/path';
-import { getCommandNames } from './command-handler';
+import { getCommand, getCommandNames } from './command-handler';
 import { lsPathDir, lsItem, lsFilesItem } from './commands/ls';
 
-export function onTab (value: string) {
-    const name = value;
-    if (value.includes(' ')) {
-        const [ , arg ] = split(value, ' ');
-        debugger;
-        handleResult(
+export function onTab (value: string, hint = false) {
+
+    const arr = value.split(' ');
+
+    if (arr.length === 1) {
+        const tabValue = arr[0];
+        return handleResult(
             value,
-            Path.from(arg).last,
-            lsPathDir(arg),
-            'file'
+            tabValue,
+            getCommandNames(),
+            'command',
+            hint,
         );
     } else {
-        handleResult(
+        const commandName = arr[0];
+
+        const command = getCommand(commandName);
+
+        const type = command.hint;
+
+        if (type === 'none') {
+            return [];
+        }
+
+        const tabValue = arr[arr.length - 1];
+
+        let name = tabValue;
+        let list: (string|IFileBaseInfo)[] = [];
+
+        if (type === 'custom') {
+            list = command.hintArray;
+        } else if (type === 'command') {
+            list = getCommandNames();
+        } else if (type === 'file') {
+            name = Path.from(tabValue).last;
+            list = lsPathDir(tabValue);
+        }
+
+        return handleResult(
             value,
             name,
-            getCommandNames(),
+            list,
+            type,
+            hint,
         );
     }
 
 }
 
+
 function handleResult (
     value: string,
     name: string,
     list: (string|IFileBaseInfo)[],
-    type: 'file' | 'command' = 'command',
+    type: 'custom' | 'file' | 'command' = 'custom',
+    hint: boolean = false
 ) {
     const handleItem = type === 'file' ? (v: IFileBaseInfo) => v.name : (v:string) => v;
+    console.log('xxx', name);
     const result = list.filter(n => handleItem(n as any).indexOf(name) === 0);
+    if (hint) return result.map(item => handleItem(item as any));
+
     if (result.length === 0) {
-        pushResultError(value, `No ${type} find`);
+        pushResultError(value, `No ${type} found`);
     } else if (result.length === 1) {
-        let content = value.substring(0, value.lastIndexOf(name)) + handleItem(result[0] as any);
+
+        // 处理 cd .. 只有一个目录的情况 补全最后一个 /
+        const index = value.lastIndexOf(Path.Back);
+        const split = index !== -1 && index === value.length - Path.Back.length ? Path.Split : '';
+
+        let content = value.substring(0, value.lastIndexOf(name)) + split + handleItem(result[0] as any);
         if (type === 'file' && (result[0] as IFileBaseInfo).isDir) {
             content += '/';
+        }
+        if (type === 'command') {
+            content += ' ';// 命令后面补一个空格
         }
         inputContent.value = content;
     } else {
         const comp = type === 'file' ? lsFilesItem : lsItem;
         pushResultItem(value, result.map(i => comp(i as any)));
     }
+    return [];
 }

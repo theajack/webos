@@ -61,7 +61,7 @@ export abstract class FileBase implements IFileBaseInfo {
         this.parent = parent;
         if (parent) {
             this.path = parent.path.join(this.name);
-            console.warn(this.path.path);
+            // console.warn(this.path.path);
         }
     }
 
@@ -80,7 +80,7 @@ export abstract class FileBase implements IFileBaseInfo {
         list.splice(index, 1);
 
         this.markParentClearSize();
-        return fs().rm(this.path.path, this.isDir);
+        return fs().rm(this.path.path); // , this.isDir
     }
 
     private markParentClearSize () {

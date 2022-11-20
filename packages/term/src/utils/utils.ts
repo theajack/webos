@@ -5,7 +5,7 @@ import { IJson } from 'webos-disk/src/type';
  * @Date: 2022-11-10 16:06:19
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-11 14:30:15
+ * @LastEditTime: 2022-11-20 13:54:10
  */
 export function formatDateTime (date = new Date()) {
     return `${date.getFullYear()}-${fixNum(date.getMonth())}-${fixNum(date.getDate())} ${fixNum(date.getHours())}:${fixNum(date.getMinutes())}:${fixNum(date.getSeconds())}`;
@@ -62,5 +62,25 @@ export function parseJSON (data: any): IJson | null {
         return JSON.parse(data);
     } catch (e) {
         return null;
+    }
+}
+
+export function isMac () {
+    return navigator.userAgent.indexOf('Macintosh') !== -1;
+}
+
+export function focusToEnd (obj: any) {
+    if (window.getSelection) {// ie11 10 9 ff safari
+        obj.focus(); // 解决ff不获取焦点无法定位问题
+        const range = window.getSelection();// 创建range
+        range?.selectAllChildren(obj);// range 选择obj下所有子内容
+        range?.collapseToEnd();// 光标移至最后
+    }
+    else if ((document as any).selection) {// ie10 9 8 7 6 5
+        const range = (document as any).selection.createRange();// 创建选择对象
+        // var range = document.body.createTextRange();
+        range.moveToElementText(obj);// range定位到obj
+        range.collapse(false);// 光标移至最后
+        range.select();
     }
 }

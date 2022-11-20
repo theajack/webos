@@ -35,7 +35,7 @@ export class Term {
 
     async init () {
         await this.disk.initFileSystem();
-        console.log(this.disk.deepLs());
+        // console.log(this.disk.deepLs());
     }
 
     static get CurrentDir () {

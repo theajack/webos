@@ -3,7 +3,7 @@
  * @Date: 2022-11-13 00:05:14
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-13 23:48:10
+ * @LastEditTime: 2022-11-19 09:44:47
  */
 
 const GetterDecorator: MethodDecorator = (
@@ -34,7 +34,6 @@ export class Path {
     static Split = '/';
     static Back = '..';
 
-
     path: string;
 
     constructor (path: string|string[]) {
@@ -59,7 +58,9 @@ export class Path {
         return this.path ? Path.handleArray(this.path.split(Path.Split)) : [];
     }
     @GetterDecorator get last () {
-        return this.array[this.array.length - 1] || '';
+        const last = this.array[this.array.length - 1];
+        if (last === Path.Back) return '';
+        return last || '';
     }
 
     // 最后一层是否是返回上一级
@@ -70,14 +71,13 @@ export class Path {
     }
 
     @GetterDecorator get parentPath () { // 返回上一级目录
-        debugger;
         if (this.array.length === 0) { // len = 0 表示是空字符串
-            return ''; // 表示当前目录
+            return Path.Back; // 表示当前目录
         }
 
         if (this.array.length === 1) { // len = 1 表示 path 中没有 /
             const v = this.array[0];
-            return v === Path.Back ? `${v}${Path.Split}${Path.Back}` : '';
+            return v === Path.Back ? `${v}${Path.Split}${Path.Back}` : Path.Back;
         }
         const value = (this.isLastReverse ?
             [ ...this.array, Path.Back ] :
@@ -102,50 +102,101 @@ export class Path {
             p.trim();
         return (v.substring(v.length - 3) === Path.Back + Path.Split) ? v.substring(0, v.length - 1) : v;
     }
+
     static join (...paths: (string|string[])[]) {
-        console.warn('【join start】', paths);
         let queue: string[] = [];
-        const reverse: string[] = [];
         let isRoot = false;
         for (let i = 0; i < paths.length; i++) {
             const path = Path.handle(paths[i]);
-
-            for (let j = 0; j < path.length; j++) {
-                const s = path[j];
-                if (s === Path.Split) {
-                    if (j === 0) {
-                        isRoot = true;
-                        queue = path.split(Path.Split);
-                        break;
-                    }
-                } else if (s === '.') {
-                    if (path[j + 1] === Path.Split) {
-                        j ++;
-                    } else if (path[j + 1] === '.' && (path[j + 2] === Path.Split || j + 2 === path.length)) {
-                        j += 2;
-                        debugger;
-                        if (queue.length === 0) {
-                            reverse.push(Path.Back + Path.Split);
-                        } else {
-                            queue.pop();
-                        }
-                    }
-                } else {
-                    queue.push(...path.substring(j).split(Path.Split));
-                    break;
-                }
+            if (!path) continue;
+            const array = path.split(Path.Split);
+            if (array[0] === '') {
+                queue = array;
+                if (!isRoot)isRoot = true;
+            } else {
+                queue.push(...array);
             }
         }
-        console.log(isRoot, reverse, queue);
-        const value = (isRoot ? '' : reverse.join(Path.Split)) + Path.handleArray(queue).join(Path.Split);
 
-        console.warn('【join end】value =', value);
-        console.warn('【join end】isRoot =', isRoot);
-        console.warn('【join end】reverse =', reverse);
-        console.warn('【join end】queue =', queue);
-        console.warn('【join end】parentPath =', Path.from(value), Path.from(value).parentPath);
+        const resultQueue: string[] = [];
+        const reverseQueue: string[] = [];
+
+        for (let i = 0; i < queue.length; i++) {
+            const value = queue[i];
+            if (value === '.') {
+                // ignore
+                continue;
+            } else if (!value) {
+                if (i === 0 || i === queue.length - 1) {
+                    resultQueue.push(value);
+                }
+            } else if (value === Path.Back) {
+                if (resultQueue.length === 0) {
+                    if (!isRoot) reverseQueue.push(value);
+                } else {
+                    resultQueue.pop();
+                }
+                if (i === queue.length - 1) {
+                    // 最后一个返回上一级需要加一个 '/'
+                    resultQueue.push('');
+                }
+            } else {
+                resultQueue.push(value);
+            }
+        }
+        let value = reverseQueue.concat(resultQueue).join(Path.Split);
+        if (isRoot && value[0] !== Path.Split) {
+            value = Path.Split + value;
+        }
         return value;
     }
+    // static join (...paths: (string|string[])[]) {
+    //     console.warn('【join start】', paths);
+    //     let queue: string[] = [];
+    //     const reverse: string[] = [];
+    //     let isRoot = false;
+    //     const isLastReverse = !!/(((.*?)\/)|(^))\.\.\/?$/.test(Path.handle(paths[paths.length - 1]));
+    //     for (let i = 0; i < paths.length; i++) {
+    //         const path = Path.handle(paths[i]);
+
+    //         for (let j = 0; j < path.length; j++) {
+    //             const s = path[j];
+    //             if (s === Path.Split) {
+    //                 if (j === 0) {
+    //                     isRoot = true;
+    //                     queue = path.split(Path.Split);
+    //                     break;
+    //                 }
+    //             } else if (s === '.') {
+    //                 if (path[j + 1] === Path.Split) {
+    //                     j ++;
+    //                 } else if (path[j + 1] === '.' && (path[j + 2] === Path.Split || j + 2 === path.length)) {
+    //                     j += 2;
+    //                     if (queue.length === 0) {
+    //                         reverse.push(Path.Back);
+    //                     } else {
+    //                         queue.pop();
+    //                     }
+    //                 }
+    //             } else {
+    //                 queue.push(...path.substring(j).split(Path.Split));
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     console.log(isRoot, reverse, queue);
+
+    //     const reverseStr = reverse.length === 0 ? '' : `${reverse.join(Path.Split)}${Path.Split}`;
+
+    //     let value = (isRoot ? '' : reverseStr) + Path.handleArray(queue).join(Path.Split);
+
+    //     if (!value && isRoot) value = Path.Split;
+    //     if (isLastReverse && queue.length > 0 && value[value.length - 1] !== Path.Split) {
+    //         // 最后一个是返回上一级且有目录 则要加一个 /
+    //         value += Path.Split;
+    //     }
+    //     return value;
+    // }
 
     static from (path: string|string[]) {
         return new Path(path);

@@ -3,26 +3,18 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-13 23:39:28
+ * @LastEditTime: 2022-11-20 13:17:35
  */
 
-import { currentDirName } from 'src/state/global-info';
-import { Term } from 'src/term';
+import { currentDirName } from '../../state/global-info';
+import { Term } from '../../term';
 import { Dir } from 'webos-disk/src/files/dir';
 import { Path } from 'webos-disk/src/path';
 import { Command } from './command-base';
 
-// todo fix cd tab
-// cd .. tab
-// cd aa cd / tab
-// 上下翻页翻到最新的没有空的
-// 单元测试
-
 export function cdPath (...args: string[]) {
-    debugger;
     const path = Path.join(...args);
     const dir = Term.CurrentDir.findChildByPath(path);
-    debugger;
 
     if (dir) {
         if (dir.type === 'file') {
@@ -39,6 +31,10 @@ export function cdPath (...args: string[]) {
 
 export class CDCommand extends Command {
     commandName = 'cd';
+    desc = 'Go to the directory';
+    get help (): string {
+        return this.commandName + ' <dirname>';
+    }
 
     async run (args: string[]) {
         this.handleArgs(args);

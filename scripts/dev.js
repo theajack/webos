@@ -10,8 +10,14 @@ const { dtsPlugin } = require('esbuild-plugin-d.ts');
 
 const outfile = resolve(__dirname, './dev/bundle.js');
 
+let entry = resolve(__dirname, './dev/index.ts');
+
+if (process.argv[2] === 'test') {
+    entry = resolve(__dirname, './unit-test/index.ts');
+}
+
 build({
-    entryPoints: [ resolve(__dirname, './dev/index.ts') ],
+    entryPoints: [ entry ],
     // entryPoints: [resolve(__dirname, './dev/samples/alins/src/Main.js')],
     outfile,
     bundle: true,

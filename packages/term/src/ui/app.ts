@@ -3,21 +3,21 @@
  * @Date: 2022-11-10 16:12:50
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-12 19:59:33
+ * @LastEditTime: 2022-11-20 10:46:16
  */
 import { comp, div, event, mounted, text } from 'alins';
-import { style } from 'alins-style';
-import { handleCommand, initCommands } from 'src/command/command-handler';
-import { onTab } from 'src/command/tab';
+import { handleCommand, initCommands } from '../command/command-handler';
+import { onTab } from '../command/tab';
 import { History } from './components/history';
 import { InputItem } from './components/input-item';
 import { pushResultError, pushResultItem } from './components/result-item';
 import { CommonStyle } from './css/main-css';
+import { Editor } from './components/editor';
+import { Edit } from '../state/global-info';
 
 const AppId = '#TermApp';
 
-export function App () {
-
+const Main = comp(() => {
     const onrun = async (value: string) => {
         const { commandName, success, message, result } = await handleCommand(value);
         if (success) {
@@ -34,12 +34,23 @@ export function App () {
             pushResultError(value, message);
         }
     };
-    return div(
-        AppId,
+    return [
         comp(History),
         InputItem(event({ onrun, ontab: onTab })),
-        mounted(() => {
-            initCommands();
-        })
+    ];
+});
+
+export function App () {
+
+    return div(
+        AppId,
+        div.if(Edit.enabled)(
+            Editor
+        ).else(
+            Main,
+            mounted(() => {
+                initCommands();
+            })
+        )
     );
 }
