@@ -72,7 +72,6 @@ const createBaseConfig = ({
     };
 };
 
-console.log('------------', packageInfo.dependencies);
 const config = [
     { // esm
         ...createBaseConfig({ format: 'esm' }),
