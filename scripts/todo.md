@@ -3,7 +3,7 @@
  * @Date: 2022-11-05 12:19:34
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 15:49:07
+ * @LastEditTime: 2022-11-20 19:35:07
 -->
 
 todo
@@ -27,3 +27,5 @@ feat: hint 提示 [done]
 feat: 第三方命令加载 url-module-loader
 feat: command ln
 feat: command install 自定义命令
+fix: json 类型文件的 vim
+feat: __application 目录优化
