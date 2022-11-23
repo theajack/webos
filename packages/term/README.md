@@ -24,6 +24,7 @@
     <a href="https://www.jsdelivr.com/package/npm/webos-term" target="_black">
         <img src="https://data.jsdelivr.com/v1/package/npm/webos-term/badge" alt="jsdelivr" />
     </a>
+    <img src="https://visitor-badge.glitch.me/badge?page_id=theajack_webos" alt="vistor" />
 </p>
 
 <p align="center">

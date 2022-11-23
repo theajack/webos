@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:29:42
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 16:28:44
+ * @LastEditTime: 2022-11-23 09:05:50
  */
 import { splitTwoPart } from '../utils/utils';
 import { IJson } from 'webos-disk';
@@ -20,10 +20,12 @@ import { RmCommand } from './commands/rm';
 import { CpCommand } from './commands/cp';
 import { PingCommand } from './commands/ping';
 import { HelpCommand } from './commands/help';
-import { RunCommand } from './commands/run';
 import { FindCommand } from './commands/find';
+import { RunCommand } from './applications/run';
 import { BaiduCommand } from './applications/baidu';
 import { OpenCommand } from './applications/open';
+import { InstallCommand } from './applications/install';
+import './export';
 
 const commands: IJson<Command> = {};
 
@@ -31,34 +33,34 @@ export function registCommand (command: Command) {
     commands[command.commandName] = command;
 }
 
-const map: IJson<Command> = {};
 
 export function getCommand (name: string) {
-    return map[name];
+    return commands[name];
 }
 
-const CommandList = [
-    ClearCommand,
-    LSCommand,
-    CDCommand,
-    PWDCommand,
-    MkdirCommand,
-    TouchCommand,
-    VimCommand,
-    CatCommand,
-    RmCommand,
-    CpCommand,
-    PingCommand,
-    HelpCommand,
-    RunCommand,
-    FindCommand,
-    BaiduCommand,
-    OpenCommand,
-].map(c => {
-    const command = new c();
-    map[command.commandName] = command;
-    return command;
-});
+let CommandList: Command[] = [];
+
+export function initNativeCommandList () {
+    CommandList = [
+        ClearCommand,
+        LSCommand,
+        CDCommand,
+        PWDCommand,
+        MkdirCommand,
+        TouchCommand,
+        VimCommand,
+        CatCommand,
+        RmCommand,
+        CpCommand,
+        PingCommand,
+        HelpCommand,
+        FindCommand,
+        RunCommand,
+        BaiduCommand,
+        OpenCommand,
+        InstallCommand,
+    ].map(c => addNewCommand(c));
+}
 
 export function getCommandInfos () {
     return CommandList.map(command => {
@@ -74,10 +76,6 @@ export function getCommandNames () {
     return CommandList.map(command => (command.commandName));
 }
 
-export function initCommands () {
-    CommandList.forEach(command => {registCommand(command);});
-}
-
 export async function handleCommand (value: string): Promise<ICommandResult> {
     const [ name, args ] = splitTwoPart(value.trim(), ' ');
     // console.log('Command: ' + name, args);
@@ -90,6 +88,17 @@ export async function handleCommand (value: string): Promise<ICommandResult> {
             result: null,
         };
     }
-
     return commands[name].run(args.split(' '));
+}
+
+export function addNewCommand (command: any, install = false) {
+    const item = new command() as Command;
+    registCommand(item);
+    if (install) CommandList.push(item);
+    return item;
+}
+
+export async function executeCommand (command: string) {
+    const result = await handleCommand(command);
+    return result;
 }

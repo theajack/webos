@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 13:28:22
+ * @LastEditTime: 2022-11-22 23:55:06
  */
 
 // import { div } from 'alins';
@@ -11,8 +11,8 @@ import { div, mounted, text } from 'alins';
 import { EditorStyle } from '../../ui/css/main-css';
 import { Color } from '../../ui/css/styles/atoms';
 import { File } from 'webos-disk';
-import { catFile } from './cat';
-import { Command } from './command-base';
+import { catFile } from '../commands/cat';
+import { Command } from '../commands/command-base';
 
 function createConsole (container: HTMLElement) {
     const common = (color: any) => {

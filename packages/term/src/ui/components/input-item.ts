@@ -3,11 +3,11 @@
  * @Date: 2022-11-10 16:17:58
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 16:34:35
+ * @LastEditTime: 2022-11-21 21:46:31
  */
 import { $, div, IComponentOptions, input, span, on, mounted, click, comp, text } from 'alins';
 import { style } from 'alins-style';
-import { onHint } from '../../command/hint';
+import { clearHitTimer, onHint } from '../../command/hint';
 import { currentDirName, Hint, inputContent, userName } from '../../state/global-info';
 import { Storage } from '../../utils/storage';
 import { CommonStyle } from '../css/main-css';
@@ -120,7 +120,10 @@ export const InputItem = comp(({ events }: IComponentOptions) => {
                 inputStyle, CommonFont,
                 on('keyup')(onkeyup),
                 on('keydown')(onkeydown),
-                on('blur')(() => {Hint.hideHint();}),
+                on('blur')(() => {
+                    clearHitTimer();
+                    Hint.hideHint();
+                }),
                 on('focus')((e, dom) => {onHint(dom?.value);}),
                 mounted((dom) => {
                     window.addEventListener('click', () => {dom.focus();});
@@ -148,6 +151,6 @@ export const HistoryInputItem = comp(({ props }) => {
     );
 });
 
-function ensureInputIsVisible () {
+export function ensureInputIsVisible () {
     document.documentElement.scrollTop = document.documentElement.offsetHeight;
 }

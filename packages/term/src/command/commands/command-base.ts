@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:39:27
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 14:56:11
+ * @LastEditTime: 2022-11-23 09:04:43
  */
 export interface ICommandResult {
     success: boolean;

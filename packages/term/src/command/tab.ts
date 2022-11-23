@@ -3,7 +3,7 @@
  * @Date: 2022-11-11 14:37:24
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 16:31:56
+ * @LastEditTime: 2022-11-22 23:17:44
  */
 import { inputContent } from '../state/global-info';
 import { pushResultError, pushResultItem } from '../ui/components/result-item';
@@ -28,6 +28,10 @@ export function onTab (value: string, hint = false) {
         const commandName = arr[0];
 
         const command = getCommand(commandName);
+        if (!command) {
+            debugger;
+            return [];
+        }
 
         const type = command.hint;
 

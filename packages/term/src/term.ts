@@ -3,10 +3,12 @@
  * @Date: 2022-11-09 22:56:02
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 16:10:51
+ * @LastEditTime: 2022-11-23 09:02:29
  */
 
 import { Disk, Dir } from 'webos-disk';
+import { installFromLocal } from './command/applications/install';
+import { initNativeCommandList } from './command/command-handler';
 import { UI } from './ui';
 
 interface ITermOptions {
@@ -35,6 +37,8 @@ export class Term {
     async init () {
         await this.disk.initFileSystem();
         // console.log(this.disk.deepLs());
+        initNativeCommandList();
+        installFromLocal();
     }
 
     static get CurrentDir () {
