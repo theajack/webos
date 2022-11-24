@@ -44,6 +44,21 @@ export abstract class FileBase implements IFileBaseInfo {
 
     parent: Dir | null;
 
+    loadedCallback: Function[] = [];
+
+    triggerLoaded () {
+        this.loadedCallback.forEach(fn => {fn();});
+        this.loadedCallback = [];
+    }
+
+    onloaded () {
+        return new Promise(resolve => {
+            this.loadedCallback.push(() => {
+                resolve(true);
+            });
+        });
+    }
+
     constructor ({
         name = '',
         entry = null,
@@ -53,8 +68,10 @@ export abstract class FileBase implements IFileBaseInfo {
         this.name = name;
     }
 
+
     setEntry (entry: any) {
         this.entry = entry;
+        this.triggerLoaded();
     }
 
     setParent (parent: Dir | null) {

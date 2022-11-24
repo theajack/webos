@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:29:42
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 09:05:50
+ * @LastEditTime: 2022-11-23 21:43:36
  */
 import { splitTwoPart } from '../utils/utils';
 import { IJson } from 'webos-disk';
@@ -93,6 +93,7 @@ export async function handleCommand (value: string): Promise<ICommandResult> {
 
 export function addNewCommand (command: any, install = false) {
     const item = new command() as Command;
+    item.init();
     registCommand(item);
     if (install) CommandList.push(item);
     return item;

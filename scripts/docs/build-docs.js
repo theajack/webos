@@ -3,10 +3,10 @@
  * @Date: 2022-11-20 18:49:51
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 19:05:26
+ * @LastEditTime: 2022-11-23 21:32:55
  */
 const fs = require('fs');
-const {resolveRootPath} = require('../build/utils');
+const {resolveRootPath, traverseDir} = require('../build/utils');
 
 if(!fs.existsSync(resolveRootPath('docs')))
   fs.mkdirSync(resolveRootPath('docs'))
@@ -23,3 +23,16 @@ fs.copyFileSync(
   resolveRootPath('.gitignore'), 
   resolveRootPath('docs/.gitignore')
 );
+
+
+if(!fs.existsSync(resolveRootPath('commands')))
+  fs.mkdirSync(resolveRootPath('commands'))
+
+
+traverseDir(resolveRootPath('scripts/dev/commands'), (name)=>{
+  if(name.indexOf('.js') === -1) return;
+  fs.copyFileSync(
+    resolveRootPath(`scripts/dev/commands/${name}`), 
+    resolveRootPath(`commands/${name}`)
+  );
+})

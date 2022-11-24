@@ -3,7 +3,7 @@
  * @Date: 2022-11-20 12:16:30
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 09:22:10
+ * @LastEditTime: 2022-11-24 08:38:39
  */
 
 import { ensureInputIsVisible } from 'src/ui/components/input-item';
@@ -20,8 +20,8 @@ export function clearHitTimer () {
 
 export function onHint (value: string) {
     clearHitTimer();
-    hintTimer = setTimeout(() => {
-        const list = getHintList(value);
+    hintTimer = setTimeout(async () => {
+        const list = await getHintList(value);
         const [ name ] = splitTwoPart(value, ' ');
         const command = getCommand(name);
         const text = command ? command.help : '';
@@ -32,6 +32,6 @@ export function onHint (value: string) {
 
 }
 
-export function getHintList (value: string): string[] {
-    return onTab(value, true);
+export async function getHintList (value: string): Promise<string[]> {
+    return await onTab(value, true);
 }

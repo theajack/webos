@@ -3,7 +3,7 @@
  * @Date: 2022-11-09 22:56:02
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 09:02:29
+ * @LastEditTime: 2022-11-23 21:38:52
  */
 
 import { Disk, Dir } from 'webos-disk';
@@ -50,6 +50,10 @@ export class Term {
 
     static get CurrentPath () {
         return this.CurrentDir.path.path;
+    }
+
+    static get Disk () {
+        return this.instance.disk;
     }
 }
 

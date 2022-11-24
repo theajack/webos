@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 13:35:11
+ * @LastEditTime: 2022-11-23 22:04:42
  */
 
 import { div, text } from 'alins';
@@ -28,9 +28,7 @@ export class TouchCommand extends Command {
     get help () {
         return this.commandName + ' <filename>';
     }
-    async run (args: string[]) {
-        this.handleArgs(args);
-
+    async main (args: string[]) {
         const name = args[0];
 
         if (!name) {

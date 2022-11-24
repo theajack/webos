@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 16:36:03
+ * @LastEditTime: 2022-11-23 22:02:43
  */
 
 import { IJson } from 'webos-disk';
@@ -36,8 +36,7 @@ export class OpenCommand extends Command {
         return this.commandName + ' <content>';
     }
 
-    async run (args: string[]) {
-        this.handleArgs(args);
+    async main (args: string[]) {
 
         const name = args[0];
 

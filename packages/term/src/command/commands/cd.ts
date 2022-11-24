@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 16:12:23
+ * @LastEditTime: 2022-11-24 08:45:46
  */
 
 import { currentDirName } from '../../state/global-info';
@@ -11,9 +11,9 @@ import { Term } from '../../term';
 import { Dir, Path } from 'webos-disk';
 import { Command } from './command-base';
 
-export function cdPath (...args: string[]) {
+export async function cdPath (...args: string[]) {
     const path = Path.join(...args);
-    const dir = Term.CurrentDir.findChildByPath(path);
+    const dir = await Term.CurrentDir.findChildByPath(path);
 
     if (dir) {
         if (dir.type === 'file') {
@@ -25,7 +25,6 @@ export function cdPath (...args: string[]) {
     } else {
         return { success: false, message: 'Target not found' };
     }
-
 }
 
 export class CDCommand extends Command {
@@ -35,10 +34,8 @@ export class CDCommand extends Command {
         return this.commandName + ' <dirname>';
     }
 
-    async run (args: string[]) {
-        this.handleArgs(args);
-
-        const result = cdPath(...args);
+    async main (args: string[]) {
+        const result = await cdPath(...args);
 
         if (result.success) {
             return this.success();

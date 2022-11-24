@@ -23,9 +23,7 @@ export class HelpCommand extends Command {
         return this.commandName + ' <command name>';
     }
 
-    async run (args: string[]) {
-        this.handleArgs(args);
-
+    async main (args: string[]) {
         const info = getCommandInfos();
 
         const name = args[0];

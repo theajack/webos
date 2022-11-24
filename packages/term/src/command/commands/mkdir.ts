@@ -17,9 +17,7 @@ export class MkdirCommand extends Command {
         return this.commandName + ' <dirname>';
     }
 
-    async run (args: string[]) {
-        this.handleArgs(args);
-
+    async main (args: string[]) {
         const name = args[0];
 
         if (!name) {

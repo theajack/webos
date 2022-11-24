@@ -26,6 +26,7 @@ export class Disk extends Dir {
         super({
             name: 'disk',
         });
+        this.entry = 'DISK';
         this.type = 'disk';
         this.capacity = capacity;
         this.parent = null;

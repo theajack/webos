@@ -34,9 +34,8 @@ export class LSCommand extends Command {
         return this.commandName + ' <dirname>';
     }
 
-    async run (args: string[]) {
-        this.handleArgs(args);
-        const dir = Term.CurrentDir.findDirByPath(Path.join(args[0]));
+    async main (args: string[]) {
+        const dir = await Term.CurrentDir.findDirByPath(Path.join(args[0]));
         if (dir) {
             if (dir.type === 'file') {
                 return this.fail('Target is not a directory: ' + dir.name);
@@ -49,11 +48,11 @@ export class LSCommand extends Command {
 }
 
 // 打印目标目录的子文件 / 后面的会被忽略
-export function lsPathDir (value: string) {
+export async function lsPathDir (value: string) {
     // '' 转成 './'
     const path = Term.CurrentDir.path.join(value || './').parentPath;
     // console.warn('parent=', Term.CurrentDir.path, value, path);
     // const dir = Term.CurrentDir.findDirByPath(path);
     // console.log('dir', dir?.path, dir?.lsDetail());
-    return Term.CurrentDir.findDirByPath(path)?.lsDetail() || [];
+    return (await Term.CurrentDir.findDirByPath(path))?.lsDetail() || [];
 }

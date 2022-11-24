@@ -3,17 +3,24 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 09:09:29
+ * @LastEditTime: 2022-11-24 09:26:08
  */
 
 import { saveFileContent } from 'src/ui/components/editor';
 import { addNewCommand, executeCommand } from '../command-handler';
 import { Command } from '../commands/command-base';
 
+export const InnerThirdCommand = [
+    'custom', 'custom2', 'bookmark'
+];
+
 export const LocalCommandPath = '/System/Commands';
 
 function libNameToUrl (name: string) {
-    return `http://localhost:53177/${name}.js`;
+    const url = location.host.indexOf('localhost') === 0 ?
+        `http://${location.host}/commands` :
+        'https://cdn.jsdelivr.net/gh/theajack/webos/commands';
+    return  `${url}/${name}.js`;
 }
 
 function installScript (url: string): Promise<{
@@ -79,18 +86,21 @@ export class InstallCommand extends Command {
     commandName = 'install';
     desc = 'Install inner libs or from url';
     hint: 'custom' = 'custom';
-    hintArray = [ 'custom', 'custom2' ];
+    hintArray = InnerThirdCommand;
     get help (): string {
         return this.commandName + ' <name|url>';
     }
 
-    async run (args: string[]) {
-        this.handleArgs(args);
+    async main (args: string[]) {
 
         let value = args[0];
 
         if (value.indexOf('http') !== 0) {
             value = libNameToUrl(value);
+        }
+
+        if (!!document.querySelector(`[src="${value}"]`)) {
+            return this.success(`Command ${args[0]} already installed`);
         }
 
         const { result, error } = await installScript(value);

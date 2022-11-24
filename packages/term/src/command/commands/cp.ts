@@ -18,18 +18,16 @@ export class CpCommand extends Command {
         return this.commandName + ' <source> <target>';
     }
 
-    async run (args: string[]) {
-        this.handleArgs(args);
-
+    async main (args: string[]) {
         const [ sourcePath, targetPath ] = args;
 
         if (!sourcePath) return this.fail('Source path is empty!');
         if (!targetPath) return this.fail('Target path is empty!');
 
-        const source = catFile(sourcePath);
+        const source = await catFile(sourcePath);
 
         if (!source) return this.fail('Source is not exist');
-        const target = catFile(targetPath);
+        const target = await catFile(targetPath);
 
         if (!target) return this.fail('Target is not exist');
         if (!target.isDir) return this.fail('Target is not a directory');

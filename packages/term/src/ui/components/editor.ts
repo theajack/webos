@@ -3,7 +3,7 @@
  * @Date: 2022-11-19 21:56:41
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 09:10:44
+ * @LastEditTime: 2022-11-24 08:47:35
  */
 import { comp, div, $, span, click, text, on } from 'alins';
 import { style } from 'alins-style';
@@ -13,8 +13,8 @@ import { isMac } from '../../utils/utils';
 import { EditorStyle, TextBtn } from '../css/main-css';
 import { Color } from '../css/styles/atoms';
 
-export function saveFileContent (path: string, content: string) {
-    return Term.instance.disk.findFileByPath(path)
+export async function saveFileContent (path: string, content: string) {
+    return (await Term.Disk.findFileByPath(path))
         ?.write({
             content
         });

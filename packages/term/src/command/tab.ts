@@ -11,7 +11,7 @@ import { IFileBaseInfo, Path } from 'webos-disk';
 import { getCommand, getCommandNames } from './command-handler';
 import { lsPathDir, lsItem, lsFilesItem } from './commands/ls';
 
-export function onTab (value: string, hint = false) {
+export async function onTab (value: string, hint = false) {
 
     const arr = value.split(' ');
 
@@ -29,7 +29,6 @@ export function onTab (value: string, hint = false) {
 
         const command = getCommand(commandName);
         if (!command) {
-            debugger;
             return [];
         }
 
@@ -50,7 +49,7 @@ export function onTab (value: string, hint = false) {
             list = getCommandNames();
         } else if (type === 'file') {
             name = Path.from(tabValue).last;
-            list = lsPathDir(tabValue);
+            list = await lsPathDir(tabValue);
         }
 
         return handleResult(

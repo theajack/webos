@@ -22,6 +22,7 @@ export interface ICreateConfig {
     fromInit?: boolean;
 }
 
+
 export class Dir extends FileBase {
     children: FileBase[] = [];
     constructor ({
@@ -51,7 +52,7 @@ export class Dir extends FileBase {
             const filePath = file.path.path;
             // console.log(filePath);
             const entry = await fs()[file.isDir ? 'mkdir' : 'createFile'](filePath);
-            this.setEntry(entry);
+            file.setEntry(entry);
             if (!file.isDir) {
                 await (file as any as File).write();
             }
@@ -67,14 +68,17 @@ export class Dir extends FileBase {
         returnIfExists: false,
         fromInit: false,
     }): Promise<File | null> {
+        // console.log('createFile', options, this, this.entry);
         log('create file', options.name);
         if (this.exists(options.name)) {
             if (returnIfExists) {
-                return this.findFileByPath(options.name) as File;
+                return await this.findFileByPath(options.name) as File;
             }
             log('warn', '文件已存在');
             return null;
         }
+        // if(options.name === '')
+
         const file = await this.addChild(new File(options), fromInit);
 
         if (fromInit) {
@@ -104,10 +108,11 @@ export class Dir extends FileBase {
         returnIfExists: false,
         fromInit: false,
     }): Promise<null | Dir> {
+        // console.log('createDir', options, this, this.entry);
         log('create dir', options.name);
         if (this.exists(options.name)) {
             if (config.returnIfExists) {
-                return this.findDirByPath(options.name);
+                return await this.findDirByPath(options.name);
             }
             log('warn', '目录已经存在', `${this.path.path}/${options.name}`);
             return null;
@@ -131,13 +136,15 @@ export class Dir extends FileBase {
         this.children.push(file);
     }
 
-    findChildByPath (
+    async findChildByPath (
         pathValue: string | string[],
-    ): Dir | File | null {
+    ): Promise<Dir | File | null> {
         const path = Path.from(pathValue);
         if (path.isRoot) {
             return Disk.instance.findChildByPath(path.relative);
         }
+        // ! 当文件没有实际创建好时 等待初始化完成再返回
+        if (!this.entry) await this.onloaded();
         if (path.array.length === 0) return this;
         const name = path.array.shift();
         if (name === Path.Back) {
@@ -165,10 +172,10 @@ export class Dir extends FileBase {
         return result;
     }
 
-    findFileByPath (
+    async findFileByPath (
         path: string | string[],
-    ): File | null {
-        const child = this.findChildByPath(path);
+    ): Promise<File | null> {
+        const child = await this.findChildByPath(path);
         if (!child || child.isDir) {
             console.warn('目标不存在 或是一个文件夹而不是文件');
             return null;
@@ -176,10 +183,10 @@ export class Dir extends FileBase {
         return child as File;
     }
 
-    findDirByPath (
+    async findDirByPath (
         path: string | string[],
-    ): Dir | null {
-        const child = this.findChildByPath(path);
+    ): Promise<Dir | null> {
+        const child = await this.findChildByPath(path);
         if (!child?.isDir) {
             console.warn('目标不存在 或是一个文件而不是文件夹');
             return null;

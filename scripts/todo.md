@@ -3,7 +3,7 @@
  * @Date: 2022-11-05 12:19:34
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 09:22:56
+ * @LastEditTime: 2022-11-24 09:28:05
 -->
 
 todo
@@ -25,5 +25,11 @@ feat: command run 自定义命令 运行js文件 [done]
 feat: 输入到底之后 每次输出完成之后自动划到最底部 保证输入框露出 [done]
 feat: hint 提示 [done]
 feat: command install 自定义命令 [done]
+feat: command uninstall
+feat: 新增 子命令 [done]
+feat: 子命令支持hint
+feat: 子命令 hint
 feat: command ln
+feat: hint 换行
 fix: json 类型文件的 vim
+feat: chrome 插件化 接入插件提供的扩展能力

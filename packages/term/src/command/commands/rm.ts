@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 11:18:35
+ * @LastEditTime: 2022-11-23 22:04:38
  */
 
 // import { div } from 'alins';
@@ -14,10 +14,8 @@ export class RmCommand extends Command {
     commandName = 'rm';
     desc = 'Remove file or directory';
 
-    async run (args: string[]) {
-        this.handleArgs(args);
-
-        const target = catFile(args);
+    async main (args: string[]) {
+        const target = await catFile(args);
 
         if (!target) return this.fail('Target is not exist');
 

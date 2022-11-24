@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 13:44:30
+ * @LastEditTime: 2022-11-24 08:44:13
  */
 
 // import { div } from 'alins';
@@ -20,10 +20,8 @@ export class VimCommand extends Command {
     get help () {
         return this.commandName + ' <filename>';
     }
-    async run (args: string[]) {
-        this.handleArgs(args);
-
-        const target = catFile(args);
+    async main (args: string[]) {
+        const target = await catFile(args);
 
         let content = '';
         let fromTouch = false;

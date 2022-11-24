@@ -61,9 +61,7 @@ export class PingCommand extends Command {
         return this.commandName + ' <url address>';
     }
 
-    async run (args: string[]) {
-        this.handleArgs(args);
-
+    async main (args: string[]) {
         const value = args[0];
 
         if (!value) return this.fail('Ping targer is Empty!');

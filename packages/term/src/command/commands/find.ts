@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 15:04:28
+ * @LastEditTime: 2022-11-23 22:21:35
  */
 
 // import { div } from 'alins';
@@ -19,13 +19,8 @@ export class FindCommand extends Command {
         return this.commandName + ' <querystring>';
     }
 
-    async run (args: string[]) {
-        this.handleArgs(args);
-
+    async main (args: string[]) {
         const result = Term.CurrentDir.filerChild(args[0]);
-
-        debugger;
-
         if (result.length === 0) return this.fail('No file or directory found');
 
         return this.success(

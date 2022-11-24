@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 16:12:14
+ * @LastEditTime: 2022-11-23 22:03:03
  */
 
 // import { div } from 'alins';
@@ -25,10 +25,8 @@ export class CatCommand extends Command {
         return this.commandName + ' <filename>';
     }
 
-    async run (args: string[]) {
-        this.handleArgs(args);
-
-        const target = catFile(args);
+    async main (args: string[]) {
+        const target = await catFile(args);
 
         if (!target) return this.fail('Target is not exist');
         if (target.isDir) return this.fail('Target is not a file');

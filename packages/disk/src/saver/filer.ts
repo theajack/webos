@@ -66,8 +66,8 @@ export class DiskFiler {
             const name = path.substring(index + 1);
             // ! 先进入父目录再mkdir，直接根据绝对路径mkdir无法拿到success回调
             this.cd(dir).then(() => {
-                this.filer.mkdir((name), true, () => {
-                    resolve(true);
+                this.filer.mkdir((name), true, (entry: any) => {
+                    resolve(entry);
                 }, () => {
                     reject();
                 });

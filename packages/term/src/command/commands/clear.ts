@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 15:04:37
+ * @LastEditTime: 2022-11-23 22:03:47
  */
 
 import { HistoryId } from '../../ui/components/history';
@@ -17,7 +17,7 @@ export class ClearCommand extends Command {
         return this.commandName;
     }
 
-    async run () {
+    async main () {
         const history = document.querySelector(HistoryId);
         if (history) {
             history.innerHTML = '';
