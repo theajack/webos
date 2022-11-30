@@ -3,15 +3,15 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-30 22:18:55
+ * @LastEditTime: 2022-11-30 22:20:30
  */
 
 import { CommonSearchCommand } from './common-search-command';
-export class BaiduCommand extends CommonSearchCommand {
+export class MusicCommand extends CommonSearchCommand {
     constructor ( ) {
         super(
-            'baidu',
-            (query: string) => `https://www.baidu.com/s?wd=${query}`
+            'music',
+            (query: string) => `https://music.163.com/#/search/m/?s=${query}`
         );
     }
 }

@@ -3,12 +3,12 @@
  * @Date: 2022-11-09 22:56:02
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 21:38:52
+ * @LastEditTime: 2022-11-29 00:20:13
  */
 
 import { Disk, Dir } from 'webos-disk';
 import { installFromLocal } from './command/applications/install';
-import { initNativeCommandList } from './command/command-handler';
+import { executeCommand, initNativeCommandList } from './command/command-handler';
 import { UI } from './ui';
 
 interface ITermOptions {
@@ -55,6 +55,8 @@ export class Term {
     static get Disk () {
         return this.instance.disk;
     }
+
+    static execute = executeCommand;
 }
 
 export async function createTerm (options?: ITermOptions) {

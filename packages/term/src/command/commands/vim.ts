@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-24 08:44:13
+ * @LastEditTime: 2022-11-30 22:06:54
  */
 
 // import { div } from 'alins';
@@ -32,7 +32,7 @@ export class VimCommand extends Command {
         } else {
             if (target.isDir) return this.fail('Target is not a file');
             const file = target as File;
-            content = (file.content) as string;
+            content = file.contentString;
         }
 
         setTimeout(() => {

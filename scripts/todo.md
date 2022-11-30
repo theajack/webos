@@ -3,7 +3,7 @@
  * @Date: 2022-11-05 12:19:34
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-24 09:28:05
+ * @LastEditTime: 2022-11-29 01:11:50
 -->
 
 todo
@@ -27,9 +27,17 @@ feat: hint 提示 [done]
 feat: command install 自定义命令 [done]
 feat: command uninstall
 feat: 新增 子命令 [done]
+bookmark add open list remove [done]
 feat: 子命令支持hint
 feat: 子命令 hint
 feat: command ln
 feat: hint 换行
 fix: json 类型文件的 vim
 feat: chrome 插件化 接入插件提供的扩展能力
+
+
+command 增加 readme
+
+alins todo 
+
+word-break: break-word;

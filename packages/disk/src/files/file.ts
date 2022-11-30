@@ -22,6 +22,12 @@ export class File extends FileBase {
     mimetype: string;
     fileParser: FileParser;
 
+    get contentString () {
+        return typeof this.content === 'string' ?
+            this.content :
+            JSON.stringify(this.content, null, 4);
+    }
+
     constructor ({
         name,
         content = '',

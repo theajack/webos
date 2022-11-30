@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 16:17:58
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-21 21:46:31
+ * @LastEditTime: 2022-11-28 20:58:01
  */
 import { $, div, IComponentOptions, input, span, on, mounted, click, comp, text } from 'alins';
 import { style } from 'alins-style';
@@ -134,6 +134,7 @@ export const InputItem = comp(({ events }: IComponentOptions) => {
             style.color('#777').marginTop(5),
             span.show(() => !!Hint.text.value)(text($`Hint: ${Hint.text}`)),
             div(
+                style.wordBreak('break-word'),
                 span.for(Hint.list)(item => [
                     style.marginRight(20),
                     text(item)

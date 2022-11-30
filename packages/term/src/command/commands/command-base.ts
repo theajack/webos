@@ -1,11 +1,11 @@
 import { Term } from 'src/term';
-import { Dir, IJson } from 'webos-disk';
+import { Dir, File, IJson } from 'webos-disk';
 /*
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:39:27
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 22:09:13
+ * @LastEditTime: 2022-11-29 01:09:02
  */
 export interface ICommandResult {
     success: boolean;
@@ -16,17 +16,34 @@ export interface ICommandResult {
     result: any;
 }
 
-type ISubCommandFunc = (args: string[]) => ICommandResult;
+type ISubCommandFunc = (this: Command, args: string[]) => Promise<ICommandResult>;
+
+interface ISubCommandObject {
+    hint?: 'custom' | 'file' | 'command' | 'none';
+    hintArray?: string[];
+    help?: string;
+    main(this: Command, args: string[], sub: ISubCommandObject): Promise<ICommandResult>;
+    init?(this: Command, sub: ISubCommandObject): Promise<void>;
+}
+
+export type ISubCommands = IJson<ISubCommandFunc | ISubCommandObject>;
 
 export abstract class Command {
     commandName: string = '';
     args: string[] = [];
-    subCommands: IJson<ISubCommandFunc> = {};
+    subCommands: ISubCommands = {};
+
+    get subNames () {
+        return Object.keys(this.subCommands);
+    }
+
     desc = '';
     hint: 'custom' | 'file' | 'command' | 'none' = 'file';
     hintArray: string[] = [];
 
     softwareDir: Dir;
+
+    files: IJson<File> = {};
 
     get help () {
         return this.commandName + ' <filename|filepath>';
@@ -39,7 +56,11 @@ export abstract class Command {
         const subCommands = Object.keys(this.subCommands);
         if (args.length > 0 && subCommands.includes(this.args[0])) {
             const subCommand = this.args.shift() as string;
-            return this.subCommands[subCommand].call(this, this.args);
+            const sub = this.subCommands[subCommand];
+            if (typeof sub === 'function') {
+                return await sub.call(this, this.args);
+            }
+            return await sub.main.call(this, this.args, sub);
         } else {
             return this.main(args);
         }
@@ -67,8 +88,48 @@ export abstract class Command {
         };
     }
 
+    noMainCommand () {
+        return this.fail('Please use sub command: ' + this.help);
+    }
+
 
     async createSoftwareDir (name = this.commandName) {
-        this.softwareDir = await Term.Disk.createChildByPath(`/System/Software/${name}`, true) as Dir;
+        this.softwareDir = await Term.Disk.createChildByPath(`/System/Software/${name}`, true, true) as Dir;
+    }
+    async createSoftwareFile (name: string) {
+        if (!name) throw new Error('File name is Empty: ' + name);
+        if (name in this.files) throw new Error('File is already exists: ' + name);
+        this.files[name] = await Term.Disk.createChildByPath(`/System/Software/${this.commandName}/${name}`, false, true) as File;
+        return this.files[name];
+    }
+
+    initSubCommands () {
+        if (Object.keys(this.subCommands).length > 0) {
+            for (const k in this.subCommands) {
+                const sub = this.subCommands[k];
+                if (typeof sub === 'object' && typeof sub.init === 'function') {
+                    sub.init.call(this, sub);
+                }
+            }
+        }
+    }
+
+    readSubJson (name: string) {
+        const file = this.files[name];
+        if (!file) return null;
+        return typeof file.content === 'string' ? JSON.parse(file.content) : null;
+    }
+
+    async appendSubJson (name: string, key: string, value: any) {
+        const json = this.readSubJson(name) || {};
+        json[key] = value;
+        await this.writeSubJson(name, json);
+    }
+    async writeSubJson (name: string, json: object) {
+        await this.files[name]?.write({ content: JSON.stringify(json) });
+    }
+
+    getSub (name: string) {
+        return (this.subCommands[name] as ISubCommandObject);
     }
 }

@@ -87,21 +87,21 @@ export class Dir extends FileBase {
         return file;
     }
 
-    async createChildByPath<T extends Dir|File = Dir> (path: string, isDir: boolean): Promise<T|null> {
+    async createChildByPath<T extends Dir|File = Dir> (path: string, isDir: boolean, returnIfExists = false): Promise<T|null> {
         const [ dirName, subName ] = split(path);
         if (subName) {
             if (!dirName) { // 根目录
-                return Disk.instance.createChildByPath(subName, isDir);
+                return Disk.instance.createChildByPath(subName, isDir, returnIfExists);
             } else {
                 const dir = await this.createDir({ name: dirName }, { returnIfExists: true });
-                return dir?.createChildByPath(subName, isDir) || null;
+                return dir?.createChildByPath(subName, isDir, returnIfExists) || null;
             }
         }
 
         if (isDir) {
-            return this.createDir({ name: dirName }, { returnIfExists: false }) as Promise<T|null>;
+            return this.createDir({ name: dirName }, { returnIfExists }) as Promise<T|null>;
         }
-        return this.createFile({ name: dirName }) as Promise<T|null>;
+        return this.createFile({ name: dirName }, { returnIfExists }) as Promise<T|null>;
     }
 
     async createDir (options: IDirOption, config: ICreateConfig = {

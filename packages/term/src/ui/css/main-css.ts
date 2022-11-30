@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 10:44:34
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 10:32:45
+ * @LastEditTime: 2022-11-29 00:16:23
  */
 import { css, style } from 'alins-style';
 import { Color, CommonFont } from './styles/atoms';
@@ -37,7 +37,17 @@ css('body')(
         .join(CommonStyle.FontSize)
         .margin(0).padding(15),
     CommonFont,
+    ...HelpCss()
 ).mount();
+
+function HelpCss () {
+    const common = (w: number) => style.display('inline-block').width(w);
+    return [
+        [ '.help-item', style.display('flex').alignItems('center') ],
+        [ '.help-name', common(90) ],
+        [ '.help-text', common(320) ]
+    ];
+}
 
 export const EditorStyle = style.padding(10)
     .outline('none')

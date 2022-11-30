@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:29:42
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 21:43:36
+ * @LastEditTime: 2022-11-30 22:22:31
  */
 import { splitTwoPart } from '../utils/utils';
 import { IJson } from 'webos-disk';
@@ -21,11 +21,7 @@ import { CpCommand } from './commands/cp';
 import { PingCommand } from './commands/ping';
 import { HelpCommand } from './commands/help';
 import { FindCommand } from './commands/find';
-import { RunCommand } from './applications/run';
-import { BaiduCommand } from './applications/baidu';
-import { OpenCommand } from './applications/open';
-import { InstallCommand } from './applications/install';
-import './export';
+import { getApplications } from './applications/applications';
 
 const commands: IJson<Command> = {};
 
@@ -55,10 +51,7 @@ export function initNativeCommandList () {
         PingCommand,
         HelpCommand,
         FindCommand,
-        RunCommand,
-        BaiduCommand,
-        OpenCommand,
-        InstallCommand,
+        ...getApplications()
     ].map(c => addNewCommand(c));
 }
 
@@ -93,7 +86,10 @@ export async function handleCommand (value: string): Promise<ICommandResult> {
 
 export function addNewCommand (command: any, install = false) {
     const item = new command() as Command;
-    item.init();
+    // ? 可能这里异步会有问题
+    item.init().then(() => {
+        item.initSubCommands();
+    });
     registCommand(item);
     if (install) CommandList.push(item);
     return item;

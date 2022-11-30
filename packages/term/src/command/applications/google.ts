@@ -7,11 +7,11 @@
  */
 
 import { CommonSearchCommand } from './common-search-command';
-export class BaiduCommand extends CommonSearchCommand {
+export class GoogleCommand extends CommonSearchCommand {
     constructor ( ) {
         super(
-            'baidu',
-            (query: string) => `https://www.baidu.com/s?wd=${query}`
+            'google',
+            (query: string) => `https://www.google.com/search?q=${query}`
         );
     }
 }
