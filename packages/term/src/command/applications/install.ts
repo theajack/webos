@@ -3,10 +3,11 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-24 09:26:08
+ * @LastEditTime: 2022-12-01 10:15:28
  */
 
 import { saveFileContent } from 'src/ui/components/editor';
+import { parseJSON } from 'src/utils/utils';
 import { addNewCommand, executeCommand } from '../command-handler';
 import { Command } from '../commands/command-base';
 
@@ -47,11 +48,7 @@ function installScript (url: string): Promise<{
 async function getInstalledList (): Promise<string[] | null> {
     const result = await executeCommand('cat ' + LocalCommandPath);
     if (result.success) {
-        try {
-            return JSON.parse(result.result);
-        } catch (error) {
-
-        }
+        return parseJSON(result.result) as string[];
     }
     return null;
 }

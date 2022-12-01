@@ -28,7 +28,7 @@ console.log(packageInfo.dependencies);
 
 const extensions = [ '.ts', '.d.ts', '.js' ];
 
-const isMainPackage = dirName === 'core';
+const isMainPackage = dirName === 'term';
 
 const inputFile = resolvePacakgePath(`${dirName}/src/index.ts`);
 console.log(inputFile);

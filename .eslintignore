@@ -5,3 +5,5 @@ scripts/dev/*.js
 dist
 cdn
 docs
+
+**/*.min.js

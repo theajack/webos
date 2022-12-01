@@ -1,11 +1,12 @@
 import { Term } from 'src/term';
+import { parseJSON } from 'src/utils/utils';
 import { Dir, File, IJson } from 'webos-disk';
 /*
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:39:27
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-29 01:09:02
+ * @LastEditTime: 2022-12-01 10:13:35
  */
 export interface ICommandResult {
     success: boolean;
@@ -117,7 +118,7 @@ export abstract class Command {
     readSubJson (name: string) {
         const file = this.files[name];
         if (!file) return null;
-        return typeof file.content === 'string' ? JSON.parse(file.content) : null;
+        return typeof file.content === 'string' ? parseJSON(file.content) : null;
     }
 
     async appendSubJson (name: string, key: string, value: any) {

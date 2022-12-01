@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-30 22:02:09
+ * @LastEditTime: 2022-12-01 10:22:54
  */
 
 import { div, text } from 'alins';
@@ -32,7 +32,7 @@ export class BookmarkCommand extends Command {
                 // console.log('open init', sub.hintArray);
             },
             async main () {
-                const json = this.readSubJson(BookList);
+                const json = this.readSubJson(BookList) || {};
                 return this.success(Object.keys(json).map(key => {
                     return div(text(`${key}: ${json[key]}`));
                 }));

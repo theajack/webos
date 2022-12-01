@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Weather",
-  "description": "a currently clone",
+  "name": "Webos",
+  "description": "Webos Terminal",
   "version": "0.1",
   "permissions": [],
   "background": {
