@@ -48,6 +48,8 @@
 
 [Online Address](https://theajack.github.io/webos)
 
+[Chrome Extension](https://theajack.github.io/webos/extension.crx)
+
 ![](https://shiyix.cn/webos.jpg)
 
 ### 0.1 npm

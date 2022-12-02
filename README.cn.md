@@ -48,9 +48,7 @@
 
 [在线地址](https://theajack.github.io/webos)
 
-[chrome插件下载](https://theajack.github.io/webos)
-
-chrome 插件
+[chrome插件下载](https://theajack.github.io/webos/extension.crx)
 
 ![](https://shiyix.cn/webos.jpg)
 
