@@ -48,6 +48,10 @@
 
 [在线地址](https://theajack.github.io/webos)
 
+[chrome插件下载](https://theajack.github.io/webos)
+
+chrome 插件
+
 ![](https://shiyix.cn/webos.jpg)
 
 ### 0.1 npm

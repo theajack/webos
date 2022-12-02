@@ -3,7 +3,7 @@
  * @Date: 2022-11-20 18:49:51
  * @Description: Coding something
  * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 21:32:55
+ * @LastEditTime: 2022-12-02 21:01:56
  */
 const fs = require('fs');
 const {resolveRootPath, traverseDir} = require('../build/utils');
@@ -22,6 +22,10 @@ fs.copyFileSync(
 fs.copyFileSync(
   resolveRootPath('.gitignore'), 
   resolveRootPath('docs/.gitignore')
+);
+fs.copyFileSync(
+  resolveRootPath('extension/extension.crx'), 
+  resolveRootPath('docs/extension.crx')
 );
 
 
