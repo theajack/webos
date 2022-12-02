@@ -8,3 +8,4 @@ bundle.js.map
 .DS_Store
 /docs
 **/extension.pem
+extension.pem
