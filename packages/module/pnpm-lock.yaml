@@ -1,0 +1,19 @@
+lockfileVersion: 5.4
+
+specifiers:
+  babel-standalone: ^6.26.0
+  whatwg-fetch: ^3.6.2
+
+dependencies:
+  babel-standalone: 6.26.0
+  whatwg-fetch: 3.6.2
+
+packages:
+
+  /babel-standalone/6.26.0:
+    resolution: {integrity: sha512-zT4CJM9TK6uEaPf7+nKVO/yPYNlk5G9Aa4+iYwmn7J4D9eezb62eQ3bSUybK/AcPHU2VkfFuIDKbvwQOOj+Zyw==}
+    dev: false
+
+  /whatwg-fetch/3.6.2:
+    resolution: {integrity: sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==}
+    dev: false

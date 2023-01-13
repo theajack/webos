@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-01-13 07:42:24
+ * @LastEditTime: 2023-01-13 08:44:53
  */
 
 // import { div } from 'alins';
@@ -13,6 +13,9 @@ import { Color } from '../../ui/css/styles/atoms';
 import { File } from 'webos-disk';
 import { catFile } from '../commands/cat';
 import { Command } from '../commands/command-base';
+import { babel } from 'webos-module';
+
+console.log(babel);
 
 function createConsole (container: HTMLElement) {
     const common = (color: any) => {
