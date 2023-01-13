@@ -2,8 +2,8 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 22:02:54
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-13 07:42:24
  */
 
 // import { div } from 'alins';
@@ -16,8 +16,11 @@ import { Command } from '../commands/command-base';
 
 function createConsole (container: HTMLElement) {
     const common = (color: any) => {
-        return (content: string) => {
-            div(text(content), color).mount(container);
+        return (...args: any[]) => {
+            const str = args.map(item => {
+                return typeof item === 'string' ? item : JSON.stringify(item);
+            }).join('\n');
+            div(text(str), color).mount(container);
         };
     };
     return {
@@ -26,7 +29,9 @@ function createConsole (container: HTMLElement) {
         warn: common(Color.Warn),
         info: common(Color.Blue),
         table: common(Color.Gray),
-        clear: () => {},
+        clear: () => {
+            container.innerHTML = '';
+        },
     };
 }
 
@@ -53,9 +58,10 @@ export class RunCommand extends Command {
         const container = div(
             div(Color.Success, text(`Running: ${file.path.path}`)),
             div(EditorStyle.join({ minHeight: 'auto' }), text(file.content + '')),
-            mounted(dom => {
-                new Function('console', '' + file.content)(createConsole(dom));
-            })
+            div(mounted(dom => {
+                const process = { env: 'WEBOS', argv: [ 'run', ...args ] };
+                new Function('console', 'process', '' + file.content)(createConsole(dom), process);
+            }))
         );
         return this.success(container);
     }

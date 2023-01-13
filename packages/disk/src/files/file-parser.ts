@@ -15,6 +15,8 @@ const SuffixTypeMap = {
     'txt': 'text',
     'json': 'json',
     'js': 'javascript',
+    'html': 'html',
+    'java': 'java',
 } as const;
 
 type TSuffixTypeMap = typeof SuffixTypeMap;
@@ -24,13 +26,11 @@ export type TSuffixType = keyof TSuffixTypeMap;
 export type TFileType = TSuffixTypeMap[TSuffixType];
 
 const ParserMap: {
-    [prop in TFileType]: typeof BaseParser;
+    [prop in TFileType]?: typeof BaseParser;
 } & {
     'unknown': typeof TextParser;
 } = {
     'json': JsonParser,
-    'text': TextParser,
-    'javascript': TextParser,
     'unknown': TextParser,
 };
 
@@ -45,7 +45,8 @@ export class FileParser {
     constructor (file: File) {
         this.file = file;
         this.geneSuffix();
-        this.parser = new ParserMap[this.fileType]();
+        const Parser = ParserMap[this.fileType] || TextParser;
+        this.parser = new Parser();
     }
 
     parseRead (content: TWriteType) {
@@ -65,7 +66,7 @@ export class FileParser {
         const index = name.lastIndexOf('.');
         if (index !== -1) {
             this.suffix = name.substring(index + 1);
-            this.fileType = SuffixTypeMap[this.suffix as TSuffixType] || '';
+            this.fileType = SuffixTypeMap[this.suffix as TSuffixType] || 'unknown';
         } else {
             if (mimetype === 'text/plain') {
                 this.fileType = 'text';

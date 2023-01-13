@@ -2,13 +2,13 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 16:06:19
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-12-01 10:13:06
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-12 23:15:53
  */
 import { IJson } from 'webos-disk';
 
 export function formatDateTime (date = new Date()) {
-    return `${date.getFullYear()}-${fixNum(date.getMonth())}-${fixNum(date.getDate())} ${fixNum(date.getHours())}:${fixNum(date.getMinutes())}:${fixNum(date.getSeconds())}`;
+    return `${date.getFullYear()}-${fixNum(date.getMonth() + 1)}-${fixNum(date.getDate())} ${fixNum(date.getHours())}:${fixNum(date.getMinutes())}:${fixNum(date.getSeconds())}`;
 }
 
 function fixNum (num: number) {

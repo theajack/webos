@@ -17,8 +17,10 @@
     "license": "MIT",
     "type": "module",
     "dependencies": {
+        "@types/lz-string": "^1.3.34",
         "alins": "0.0.15",
         "alins-style": "0.0.15",
+        "lz-string": "^1.4.4",
         "webos-disk": "^0.0.1"
     },
     "publishConfig": {

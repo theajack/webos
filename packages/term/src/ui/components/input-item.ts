@@ -2,8 +2,8 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 16:17:58
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-28 20:58:01
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-13 08:08:58
  */
 import { $, div, IComponentOptions, input, span, on, mounted, click, comp, text } from 'alins';
 import { style } from 'alins-style';
@@ -67,6 +67,9 @@ export const InputItem = comp(({ events }: IComponentOptions) => {
         .join(CommonStyle.FontSize)
         .padding(0);
 
+    let isInComposition = false;
+    let ignoreNextEnter = false;
+
     const onkeyup = (e: KeyboardEvent, dom: HTMLInputElement) => {
         // console.log(e);
         const code = e.keyCode;
@@ -80,6 +83,10 @@ export const InputItem = comp(({ events }: IComponentOptions) => {
             //     if (typeof value == 'string') inputContent.value = value;
             // };break;
             case 13: {
+                if (ignoreNextEnter) {
+                    ignoreNextEnter = false;
+                    break;
+                }
                 if (value) {
                     ContentHistory.push(value);
                     inputContent.value = '';
@@ -96,6 +103,12 @@ export const InputItem = comp(({ events }: IComponentOptions) => {
 
     const onkeydown = (e: KeyboardEvent) => {
         const code = e.keyCode;
+
+        if (code === 229) { // ! 输入法keydowncode
+            if (isInComposition) {
+                ignoreNextEnter = true;
+            };
+        }
         if ([ 9, 13, 38, 40 ].includes(code)) {
             if (code === 38 || code === 40) {
                 const name = code === 38 ? 'prev' : 'next';
@@ -124,6 +137,8 @@ export const InputItem = comp(({ events }: IComponentOptions) => {
                     clearHitTimer();
                     Hint.hideHint();
                 }),
+                on('compositionstart')(() => {isInComposition = true;}),
+                on('compositionend')(() => {isInComposition = false;}),
                 on('focus')((e, dom) => {onHint(dom?.value);}),
                 mounted((dom) => {
                     window.addEventListener('click', () => {dom.focus();});

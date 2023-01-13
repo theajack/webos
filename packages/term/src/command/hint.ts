@@ -2,8 +2,8 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-20 12:16:30
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-29 01:19:53
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-13 07:45:41
  */
 
 import { ensureInputIsVisible } from 'src/ui/components/input-item';
@@ -22,7 +22,7 @@ export function onHint (value: string) {
     hintTimer = setTimeout(async () => {
         const [ name, subName ] = value.split(' ');
         const command = getCommand(name);
-        const item = subName ? command.subCommands[subName] : null;
+        const item = (subName && command) ? command.subCommands[subName] : null;
         if (item && typeof item  === 'object' && value.split(' ').length === 3) {
             const list = item.hintArray || await getHintList(value);
             const text = item.help || (command ? command.help : '');
