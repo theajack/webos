@@ -8,6 +8,7 @@ import Babel from 'babel-standalone';
 
 console.log(Babel);
 
+
 export const babel = Babel;
 
 // node-polyfill-webpack-plugin
@@ -17,7 +18,10 @@ const opt = { presets: [ 'es2015' ] };
 //     // if (/<script(.|\r\n)*? react(>|([ \r\n=]+.*?>))/.test(item)) {
 //     opt.presets.push('react');
 // }
-const _js = Babel.transform(
+
+(window.babel = babel);
+
+const result = Babel.transform(
 /* javascript*/`
 import {aa} from 'AA';
 import bb from 'bb';
@@ -26,9 +30,13 @@ const a=1;
 class A{
 
 }
-export const b = ()=>{};
+export const b = ()=>{return aa+bb};
 export default a;
-`, opt).code;
+`, opt);
+
+console.log(result);
+
+const _js = result.code;
 
 
 // ! =>
@@ -40,7 +48,6 @@ const exports = {};
 const require = (name)=>{
 
 }
-
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66,7 +73,9 @@ var A = function A() {
   _classCallCheck(this, A);
 };
 
-var b = exports.b = function b() {};
+var b = exports.b = function b() {
+  return _AA.aa + _bb2.default;
+};
 exports.default = a;
 `;
 

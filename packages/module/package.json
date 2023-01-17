@@ -18,6 +18,7 @@
     "license": "MIT",
     "type": "module",
     "dependencies": {
+        "@types/whatwg-fetch": "^0.0.33",
         "babel-standalone": "^6.26.0",
         "whatwg-fetch": "^3.6.2"
     },
