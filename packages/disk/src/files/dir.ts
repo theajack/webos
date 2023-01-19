@@ -11,7 +11,7 @@ import { split } from '../utils';
 import { FileBase, IFileBaseInfo, IFileBaseOption } from './base';
 import { File, IFileOption } from './file';
 import { Disk } from '../disk';
-import { Path } from '../path';
+import { Path } from 'webos-path';
 
 export interface IDirOption extends IFileBaseOption {
     children?: FileBase[];

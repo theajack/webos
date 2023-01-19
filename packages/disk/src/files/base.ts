@@ -4,7 +4,7 @@
  * @Description: Coding something
  */
 
-import { Path } from '../path';
+import { Path } from 'webos-path';
 import { timeId } from '../lib/utils';
 import { fs } from '../saver/saver';
 import { Dir } from './dir';

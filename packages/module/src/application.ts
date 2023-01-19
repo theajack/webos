@@ -4,18 +4,30 @@
  * @Description: Coding something
  */
 
-import { Module } from './module';
-
+import { Module, TModuleLoaded } from './module';
 
 export class Application {
 
     entry: Module;
 
-    constructor (entry: string) {
-        this.entry = new Module(entry, 'code');
+    constructor ({
+        code,
+        onloaded,
+        umdNameMap = {},
+    }: {
+        code: string,
+        onloaded: TModuleLoaded,
+        umdNameMap?: Record<string, string>
+    }) {
+        Module.UMDNameMap = umdNameMap;
+        this.entry = new Module({
+            name: code,
+            type: 'code',
+            onloaded: (module) => {
+                module.run();
+                onloaded(module);
+            },
+        });
     }
 
-    run () {
-
-    }
 }

@@ -2,11 +2,11 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-14 09:14:23
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-19 09:41:59
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-19 07:49:39
  */
 
-import { Path } from 'packages/disk/src/path';
+import { Path } from 'packages/path/src/index';
 window.Path = Path;
 
 

@@ -5,7 +5,7 @@
  */
 
 import { Dir } from './files/dir';
-import { Path } from './path';
+import { Path } from 'webos-path';
 import { initFilerSaver } from './saver/saver';
 
 export interface IDiskOption {

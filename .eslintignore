@@ -7,3 +7,4 @@ cdn
 docs
 
 **/*.min.js
+loadsh.js

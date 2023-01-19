@@ -5,6 +5,7 @@
  */
 
 import Babel from 'babel-standalone';
+import { transformCode } from './require';
 
 console.log(Babel);
 
@@ -21,18 +22,20 @@ const opt = { presets: [ 'es2015' ] };
 
 (window.babel = babel);
 
-const result = Babel.transform(
+const code =
 /* javascript*/`
 import {aa} from 'AA';
-import bb from 'bb';
+import bb from "bbB";
 import {aaa} from './AA';
 const a=1;
 class A{
 
 }
-export const b = ()=>{return aa+bb};
+export const b = ()=>{return require("xx")};
 export default a;
-`, opt);
+`;
+
+const result = Babel.transform(code, opt);
 
 console.log(result);
 
@@ -42,7 +45,11 @@ const _js = result.code;
 // ! =>
 
 
+console.log(transformCode(code));
+
 /* javascript*/`
+
+
 
 const exports = {};
 const require = (name)=>{

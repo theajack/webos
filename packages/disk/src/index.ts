@@ -13,4 +13,4 @@ export * from './files/dir';
 export * from './files/file';
 export * from './files/base';
 export * from './type.d';
-export * from './path';
+export * from 'webos-path';
