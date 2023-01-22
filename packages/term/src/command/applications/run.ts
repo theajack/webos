@@ -3,19 +3,42 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-01-13 08:44:53
+ * @LastEditTime: 2023-01-22 23:13:34
  */
 
 // import { div } from 'alins';
-import { div, mounted, text } from 'alins';
+import { $, div, mounted, text } from 'alins';
 import { EditorStyle } from '../../ui/css/main-css';
 import { Color } from '../../ui/css/styles/atoms';
 import { File } from 'webos-disk';
 import { catFile } from '../commands/cat';
 import { Command } from '../commands/command-base';
-import { babel } from 'webos-module';
+import { Application } from 'webos-module';
 
-console.log(babel);
+// console.log(Application);
+
+// (window as any).app = new Application({
+//     code: `
+// import * as Loadsh from 'loadsh';
+// console.log(Loadsh);
+// const arr = [1,2,3]
+// console.log(Loadsh.fill(arr, 1))
+//     `,
+//     onLoaded: (entry) => {
+//         // console.log(entry);
+//         // (window as any).entry = entry;
+//     },
+//     umdNameMap: {
+//         'alins': 'Alins',
+//         'vue': 'Vue',
+//     },
+//     onDependenciesParsed (graph) {
+//         // console.log('【graph】：', graph);
+//     },
+//     onProgress (progress) {
+//         // console.log('【onProgress】：', progress);
+//     }
+// });
 
 function createConsole (container: HTMLElement) {
     const common = (color: any) => {
@@ -58,12 +81,37 @@ export class RunCommand extends Command {
         if (!file.content) {
             return this.success('File content is Empty!');
         }
+
+        const runningTitle = $('Process: ');
+        const runningInfo = $('Initializing...');
+
+        const dot = $('');
+        const interval = setInterval(() => {
+            dot.value = dot.value.length === 3 ? '' : dot.value + '.';
+        }, 500);
+
         const container = div(
             div(Color.Success, text(`Running: ${file.path.path}`)),
+            div(Color.Blue, text($`${runningTitle} ${runningInfo}${dot}`)),
             div(EditorStyle.join({ minHeight: 'auto' }), text(file.content + '')),
             div(mounted(dom => {
                 const process = { env: 'WEBOS', argv: [ 'run', ...args ] };
-                new Function('console', 'process', '' + file.content)(createConsole(dom), process);
+                new Application({
+                    code: `${file.content}`,
+                    env: { console: createConsole(dom), process },
+                    onProgress: ({ current, url, status, fromCache }) => {
+                        if (status === 'start' && !fromCache) {
+                            runningInfo.value = `Loading [${current}](${url})`;
+                        }
+                    },
+                    onLoaded: () => {
+                        runningTitle.value = 'Done!';
+                        runningInfo.value = '';
+                        dot.value = '';
+                        clearInterval(interval);
+                    }
+                });
+                // new Function('console', 'process', '' + file.content)(createConsole(dom), process);
             }))
         );
         return this.success(container);

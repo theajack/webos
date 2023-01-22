@@ -2,9 +2,10 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-13 00:05:14
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-19 09:44:47
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-21 01:02:28
  */
+const Reg = /^(http|ws)s?:\/\//;
 
 const GetterDecorator: MethodDecorator = (
     target: any, propertyKey: string, descriptor: PropertyDescriptor
@@ -107,9 +108,17 @@ export class Path {
         let queue: string[] = [];
         let isRoot = false;
         for (let i = 0; i < paths.length; i++) {
-            const path = Path.handle(paths[i]);
+            let path = Path.handle(paths[i]);
             if (!path) continue;
+
+            const match = path.match(Reg);
+
+            if (match) path = path.replace(match[0], '');
+
             const array = path.split(Path.Split);
+
+            if (match) array.unshift(match[0].replace('://', ':/'));
+
             if (array[0] === '') {
                 queue = array;
                 if (!isRoot)isRoot = true;

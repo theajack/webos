@@ -5,7 +5,6 @@
  */
 
 import Babel from 'babel-standalone';
-import { Module } from './module';
 
 
 export function transformCode (code: string, needTransform: boolean = true): {
@@ -27,9 +26,8 @@ export function transformCode (code: string, needTransform: boolean = true): {
     //     code: Babel.transformFromAst(ast, '', { presets: [ 'es2015' ] }).code,
     //     imports,
     // };
+
     // ! 使用正则匹配妥协
-    // todo 优化一下 使用按需 transform 大部分npm包不需要 transform
-    console.log(needTransform);
     const result: string = needTransform ?
         Babel.transform(code, { presets: [ 'es2015' ] }).code :
         code;
@@ -44,17 +42,3 @@ export function transformCode (code: string, needTransform: boolean = true): {
         imports,
     };
 }
-
-
-export function requireModule (name: string, parent: Module) {
-    const module = parent.dependencies[name];
-    if (!module) throw new Error(`Module ${name} not found`);
-    return module.run();
-}
-
-export function execSingleModule () {
-
-}
-
-// 抽象语法树 找到所有依赖 Promise.all 加载好
-// Babel 转换

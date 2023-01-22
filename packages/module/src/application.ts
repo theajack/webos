@@ -4,30 +4,62 @@
  * @Description: Coding something
  */
 
-import { Module, TModuleLoaded } from './module';
+import { Module, TModuleLoaded, TModuleProgress } from './module';
+
+export interface IApplicationOptions {
+    code: string,
+    onLoaded?: TModuleLoaded,
+    umdNameMap?: Record<string, string>;
+    onDependenciesParsed?(graph: Record<string, object>): void;
+    onProgress?: TModuleProgress;
+    env?: Record<string, any>;
+    autoStart?: boolean;
+}
 
 export class Application {
-
     entry: Module;
-
+    code: string;
+    // 缓存 url - module 执行的结果
+    ModuleExportsMap: Record<string, any> = {};
+    onLoaded?: TModuleLoaded;
+    onDependenciesParsed?(graph: Record<string, object>): void;
     constructor ({
         code,
-        onloaded,
+        onLoaded,
         umdNameMap = {},
-    }: {
-        code: string,
-        onloaded: TModuleLoaded,
-        umdNameMap?: Record<string, string>
-    }) {
+        onDependenciesParsed,
+        onProgress,
+        env,
+        autoStart = true,
+    }: IApplicationOptions) {
         Module.UMDNameMap = umdNameMap;
-        this.entry = new Module({
-            name: code,
-            type: 'code',
-            onloaded: (module) => {
-                module.run();
-                onloaded(module);
-            },
-        });
+        Module.onProgress = onProgress;
+        this.code = code;
+        this.onLoaded = onLoaded;
+        this.onDependenciesParsed = onDependenciesParsed;
+
+        if (env) Module.Env = env;
+
+        if (autoStart) {
+            this.start();
+        }
     }
 
+    async start () {
+        return new Promise((resolve) => {
+            this.entry = new Module({
+                name: this.code,
+                type: 'code',
+                onLoaded: (module) => {
+                    this.onDependenciesParsed?.(
+                        module.buildDependenciesGraph()
+                    );
+                    module.run(this.ModuleExportsMap);
+                    this.onLoaded?.(module);
+                    resolve(module);
+                },
+            });
+        });
+    }
 }
+

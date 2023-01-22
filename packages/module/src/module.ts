@@ -4,23 +4,46 @@
  * @Date: 2023-01-17 08:16:47
  * @Description: Coding something
  */
-import { Path } from 'webos-path';
-import { requireModule, transformCode } from './require';
-import { fetchCode } from './utils';
+import hex_md5 from './md5';
+import { NPMLoader } from './npm-loader';
+import { transformCode } from './babel';
 
 // 缓存 url - Module
 const ModuleMap: Record<string, Module> = {};
 
-// 缓存 url - module 执行的结果
-const ModuleRunMap: Record<string, any> = {};
+export function getModuleMap () {
+    return ModuleMap;
+}
 
 type TModuleType = 'name' | 'code' | 'url';
 
 export type TModuleLoaded = (module: Module) => void;
 
+export interface IModuleProgressPart {
+    status: 'start' | 'fail' | 'done';
+    fromCache?: boolean;
+
+}
+export interface IModuleProgressOptions extends IModuleProgressPart{
+    parent: string;
+    current: string;
+    url: string;
+}
+
+export type TModuleProgress = (options:  IModuleProgressOptions) => void;
+
+export interface IMoudleOptions {
+    name: string,
+    onLoaded: TModuleLoaded,
+    parent?: Module | null,
+    type?: TModuleType,
+}
+
 export class Module {
 
     static UMDNameMap: Record<string, any> = {};
+    static onProgress?: TModuleProgress;
+    static Env: Record<string, any> | null = null;
 
     name: string = '';
     type: TModuleType;
@@ -33,87 +56,110 @@ export class Module {
     dependencies: Record<string, Module> = {};
 
     exports: any = null;
-    fromNpm: boolean = false;
+    npmLoader: NPMLoader;
 
     constructor ({
         name,
         parent = null,
-        onloaded,
+        onLoaded,
         type = 'name'
-    }: {
-        name: string,
-        parent?: Module | null,
-        onloaded: TModuleLoaded,
-        type?: TModuleType,
-    }) {
+    }: IMoudleOptions) {
         this.type = type;
-        this.onloaded = onloaded;
+        this.onloaded = onLoaded;
         this.parent = parent;
 
         if (parent === null || type === 'code') {
             this.name = 'CODE';
-            this.onCode(name);
+            this.url = `CODE:md5=${hex_md5(name)}`;
+            this.code = name;
         } else {
             this.name = name;
             if (type === 'name') {
-                if (name.startsWith('./') || name.startsWith('../')) {
-                    if (name.endsWith('/')) debugger;
-                    if (!name.endsWith('.js')) name = `${name}.js`;
-                    this.url = Path.join(parent.url, name);
-                } else {
-                    if (name.includes('/') && !name.endsWith('.js')) name = `${name}.js`;
-                    this.url = `https://cdn.jsdelivr.net/npm/${name}`;
-                }
-                this.fromNpm = this.url.startsWith('https://cdn.jsdelivr.net/npm/');
-                if (this.url.includes('for-each')) debugger;
+                this.npmLoader = new NPMLoader(parent.url, name);
+                this.url = this.npmLoader.url;
             } else {
                 this.url = name;
             }
-            if (ModuleMap[this.url]) return ModuleMap[this.url];
-            this.loadCode();
-            ModuleMap[this.url] = this;
         }
 
+        const module = ModuleMap[this.url];
+        if (module) {
+            this.onProgress({ status: 'start', fromCache: true });
+            // console.warn(`【module loaded from cache ${this.url}】name=${this.name}`);
+            // this.onloaded(module);
+            this.onCode(module.code, true);
+            this.onModuleLoaded();
+            this.onProgress({ status: 'done', fromCache: true });
+            return module;
+        }
+
+        this.loadCode();
+        ModuleMap[this.url] = this;
+    }
+
+    onProgress ({
+        status, fromCache = false,
+    }: IModuleProgressPart): void {
+        Module.onProgress?.({
+            parent: this.parent?.name || 'ROOT',
+            current: this.name,
+            url: this.url,
+            status,
+            fromCache,
+        });
     }
 
     async loadCode () {
-        try {
-            const code = await fetchCode(this.url);
-            this.onCode(code);
-        } catch (e) {
-            throw new Error(`模块加载失败：${this.name}`);
+        this.onProgress({ status: 'start' });
+        if (this.name === 'CODE') {
+            this.onCode(this.code);
+            this.onProgress({ status: 'done' });
+            return;
         }
+        const code = await this.npmLoader.fetch();
+        this.onCode(code);
+        this.onProgress({ status: !!code ? 'done' : 'fail' });
+    }
+    get fromNpm () {
+        if (!this.npmLoader) return false;
+        return this.npmLoader.fromNpm();
     }
 
-    onCode (originCode: string) {
+    onCode (originCode: string, fromCache = false) {
         const { code, imports } = transformCode(originCode, !this.fromNpm);
 
+        // console.warn(`【module loaded start ${imports.length}】name=${this.name}`);
         // if (imports.length > 0) debugger;
-
-        if (imports.includes('call-bind')) debugger;
 
         this.code = code;
         this.imports = imports;
+        const length = imports.length;
 
-        if (imports.length === 0) {
-            this.onloaded(this);
+        if (length === 0) {
+            !fromCache && this.onModuleLoaded();
             return;
         }
 
         let loadedNum = 0;
         const onloaded = (name: string, module: Module) => {
             loadedNum ++;
+            // console.warn(`【loaded single】${name}: url=${this.url}; ${loadedNum}/${this.imports.length}`);
+            // console.warn(this.imports.toString());
             this.dependencies[name] = module;
-            if (loadedNum >= imports.length) {
-                this.onloaded(this);
+            if (loadedNum >= length && !fromCache) {
+                this.onModuleLoaded();
             }
         };
 
-        for (const name of imports) {
+        // for (const name of imports) {
+        for (let i = 0; i < length; i++) {
+            const name = imports[i];
+            // console.warn('xxmodule load', i, name);
             this.dependencies[name] = new Module({
                 name,
                 parent: this,
-                onloaded: (module) => {
+                onLoaded: (module) => {
+                    // console.warn('xxmodule loaded', i, name);
                     onloaded(name, module);
                 },
                 type: this.checkType(name)
@@ -121,28 +167,58 @@ export class Module {
         }
     }
 
+    onModuleLoaded () {
+        // console.warn(`【module loaded ${this.imports.length}】name=${this.name}`);
+        this.onloaded(this);
+    }
+
     checkType (name: string) {
         if (name.startsWith('https://') || name.startsWith('http://')) return 'url';
         return 'name';
     }
 
-    run () {
-        if (!ModuleRunMap[this.url]) {
+    run (map: Record<string, any>) {
+        if (!map[this.url]) {
             const exports = {};
             const module = { exports };
             const require = (name: string) => {
-                return requireModule(name, this);
+                const module = this.dependencies[name];
+                if (!module) throw new Error(`Module ${name} not found`);
+                return module.run(map);
             };
-            let returnCode = 'return exports;';
+            let returnCode = 'return module.exports;';
             const umd = Module.UMDNameMap[this.name];
-            if (umd) returnCode = ` window.${umd}=${umd}; return ${umd};`;
+            if (umd) {
+                // ! 增加 default 属性
+                returnCode = `window.${umd}=${umd}; if(${umd}.__esModule && !${umd}.default){${umd}.default=${umd};} return ${umd};`;
+            }
 
-            ModuleRunMap[this.url] = new Function(
-                'require', 'exports', 'module',
-                `return (function(require, exports, module){${this.code}; ${returnCode}})(require, exports, module);`
-            )(require, exports, module);
+            try {
+                let names: string[] = [];
+                let values: any[] = [];
+                if (Module.Env) {
+                    names = Object.keys(Module.Env);
+                    values = Object.values(Module.Env);
+                }
+                map[this.url] = new Function(
+                    'require', 'exports', 'module', ...names,
+                    `return (function(require, exports, module){${this.code};\n ${returnCode}})(require, exports, module);`
+                )(require, exports, module, ...values);
+            } catch (e) {
+                console.warn(e, this.code);
+                map[this.url] = null;
+            }
         }
-        this.exports = ModuleRunMap[this.url];
+        this.exports = map[this.url];
         return this.exports;
+    }
+
+    buildDependenciesGraph (): Record<string, object> {
+        const graph: Record<string, object> = {};
+        const ds = this.dependencies;
+        for (const k in ds) {
+            graph[k] = ds[k].buildDependenciesGraph();
+        }
+        return graph;
     }
 }
