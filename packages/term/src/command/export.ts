@@ -5,8 +5,8 @@
  * @LastEditors: chenzhongsheng
  * @LastEditTime: 2022-11-23 09:13:05
  */
-import { Term } from 'src/term';
-import { saveFileContent } from 'src/ui/components/editor';
+import { Term } from '../term';
+import { saveFileContent } from '../ui/components/editor';
 import { Path } from 'webos-disk';
 import { executeCommand } from './command-handler';
 import { Command } from './commands/command-base';

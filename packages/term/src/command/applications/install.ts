@@ -6,8 +6,8 @@
  * @LastEditTime: 2022-12-01 10:15:28
  */
 
-import { saveFileContent } from 'src/ui/components/editor';
-import { parseJSON } from 'src/utils/utils';
+import { saveFileContent } from '../../ui/components/editor';
+import { parseJSON } from '../../utils/utils';
 import { addNewCommand, executeCommand } from '../command-handler';
 import { Command } from '../commands/command-base';
 

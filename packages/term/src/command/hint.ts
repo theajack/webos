@@ -6,7 +6,7 @@
  * @LastEditTime: 2023-01-13 07:45:41
  */
 
-import { ensureInputIsVisible } from 'src/ui/components/input-item';
+import { ensureInputIsVisible } from '../ui/components/input-item';
 import { Hint } from '../state/global-info';
 import { getCommand } from './command-handler';
 import { onTab } from './tab';

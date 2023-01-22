@@ -1,5 +1,5 @@
-import { Term } from 'src/term';
-import { parseJSON } from 'src/utils/utils';
+import { Term } from '../../term';
+import { parseJSON } from '../../utils/utils';
 import { Dir, File, IJson } from 'webos-disk';
 /*
  * @Author: chenzhongsheng
