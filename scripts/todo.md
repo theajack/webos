@@ -2,8 +2,8 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-05 12:19:34
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-29 01:11:50
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-22 23:15:45
 -->
 
 todo
@@ -34,6 +34,7 @@ feat: command ln
 feat: hint 换行
 fix: json 类型文件的 vim
 feat: chrome 插件化 接入插件提供的扩展能力
+feat: run 命令支持 引入外部模块 webos-module
 
 
 command 增加 readme
