@@ -99,7 +99,10 @@ npm i webos-module
 import { Application } from 'webos-module';
 
 new Application({
-    code: `import loadsh from 'loadsh'; console.log(loadsh.VERSION);`
+    code: `
+        import loadsh from 'loadsh'; 
+        console.log(loadsh.VERSION);
+    `
 });
 ```
 
@@ -109,6 +112,12 @@ umd config
 import { Application } from 'webos-module';
 
 new Application({
-    code: `import loadsh from 'loadsh'; console.log(loadsh.VERSION);`
+    code: `
+        import vue from 'Vue'; 
+        console.log(vue);
+    `,
+    umdNameMap: {vue: 'Vue'}
 });
 ```
+
+[other useage](https://cdn.jsdelivr.net/npm/webos-module/dist/webos-module.d.ts)
