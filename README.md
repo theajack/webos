@@ -86,3 +86,29 @@ For details, please refer to [webos-disk.d.ts](https://cdn.jsdelivr.net/npm/webo
     });
 </script>
 ```
+
+## 1. webos-module
+
+Run es6 in Broswer, support use npm packages
+
+```
+npm i webos-module
+```
+
+```js
+import { Application } from 'webos-module';
+
+new Application({
+    code: `import loadsh from 'loadsh'; console.log(loadsh.VERSION);`
+});
+```
+
+umd config
+
+```js
+import { Application } from 'webos-module';
+
+new Application({
+    code: `import loadsh from 'loadsh'; console.log(loadsh.VERSION);`
+});
+```

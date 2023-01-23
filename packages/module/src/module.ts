@@ -42,6 +42,7 @@ export interface IMoudleOptions {
 export class Module {
 
     static UMDNameMap: Record<string, any> = {};
+    static MainMap: Record<string, any> = {};
     static onProgress?: TModuleProgress;
     static Env: Record<string, any> | null = null;
 
@@ -75,7 +76,7 @@ export class Module {
         } else {
             this.name = name;
             if (type === 'name') {
-                this.npmLoader = new NPMLoader(parent.url, name);
+                this.npmLoader = new NPMLoader(parent.url, name, Module.MainMap);
                 this.url = this.npmLoader.url;
             } else {
                 this.url = name;

@@ -11,26 +11,31 @@ export class NPMLoader {
     name: string = '';
     url: string = '';
 
-    constructor (parentUrl: string, name: string) {
+    constructor (parentUrl: string, name: string, map: any) {
         this.parentUrl = parentUrl;
         this.name = name;
 
         let url = '';
 
-        if (name.startsWith('./') || name.startsWith('../')) {
-            // xxx/xx.js ./
-            if (parentUrl.endsWith('.js') && name.startsWith('./')) {
-                name = name.replace('./', '../');
-            }
-            url = Path.join(parentUrl, name);
-            if (!this.isNpmRoot(url)) {
-                if (!url.endsWith('.js')) url = `${url}.js`;
-            }
+        if (name in map) {
+            url = `https://cdn.jsdelivr.net/npm/${name}${map[name]}`;
         } else {
-            // 针对直接 'aa/bb' 的情况
-            if (name.includes('/') && !name.endsWith('.js')) name = `${name}.js`;
-            url = `https://cdn.jsdelivr.net/npm/${name}`;
+            if (name.startsWith('./') || name.startsWith('../')) {
+                // xxx/xx.js ./
+                if (parentUrl.endsWith('.js') && name.startsWith('./')) {
+                    name = name.replace('./', '../');
+                }
+                url = Path.join(parentUrl, name);
+                if (!this.isNpmRoot(url)) {
+                    if (!url.endsWith('.js')) url = `${url}.js`;
+                }
+            } else {
+                // 针对直接 'aa/bb' 的情况
+                if (name.includes('/') && !name.endsWith('.js')) name = `${name}.js`;
+                url = `https://cdn.jsdelivr.net/npm/${name}`;
+            }
         }
+
         if (url[url.length - 1] === '/')
             url = url.substring(0, url.length - 1);
         this.url = url;

@@ -10,6 +10,7 @@ export interface IApplicationOptions {
     code: string,
     onLoaded?: TModuleLoaded,
     umdNameMap?: Record<string, string>;
+    mainMap?: Record<string, string>;
     onDependenciesParsed?(graph: Record<string, object>): void;
     onProgress?: TModuleProgress;
     env?: Record<string, any>;
@@ -27,12 +28,14 @@ export class Application {
         code,
         onLoaded,
         umdNameMap = {},
+        mainMap = {},
         onDependenciesParsed,
         onProgress,
         env,
         autoStart = true,
     }: IApplicationOptions) {
         Module.UMDNameMap = umdNameMap;
+        Module.MainMap = mainMap;
         Module.onProgress = onProgress;
         this.code = code;
         this.onLoaded = onLoaded;
