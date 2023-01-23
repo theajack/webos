@@ -7,7 +7,7 @@
     "repository": "git@github.com:theajack/webos.git",
     "author": "tackchen <theajack@qq.com>",
     "scripts": {
-        "build": "node ../../scripts/build/build.js term"
+        "build": "node ../../scripts/build/build.js module"
     },
     "keywords": [
         "webos-term",

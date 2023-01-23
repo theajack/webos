@@ -3,7 +3,7 @@
  * @Date: 2023-01-13 08:41:54
  * @Description: Coding something
  */
-
+import './shim.d';
 import hex_md5 from './md5';
 export * from './application';
 export { getModuleMap } from './module';

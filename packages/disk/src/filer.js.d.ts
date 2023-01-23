@@ -2,11 +2,11 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-20 18:32:39
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 18:32:46
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-24 00:16:44
  */
 
 declare module 'filer.js' {
-  class Filer {}
-  export default Filer;
+  // class Filer {}
+  // export default Filer;
 }

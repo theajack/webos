@@ -4,6 +4,7 @@
  * @Description: Coding something
  */
 declare module 'babel-standalone' {
-  const Babel: any;
-  export default Babel;
+  // const Babel: any;
+  // export default Babel;
 }
+

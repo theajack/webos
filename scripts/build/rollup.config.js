@@ -64,7 +64,7 @@ const createBaseConfig = ({
                 extensions,
             }),
             babel({
-                exclude: 'node_modules/**',
+                exclude: [ 'node_modules/**' ],
                 extensions,
                 configFile: path.join(__dirname, './babel.config.js'),
             }),

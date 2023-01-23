@@ -28,7 +28,7 @@ export class DiskFiler {
         onready?: ()=>void
     } = {}) {
         if (DiskFiler.instance) return DiskFiler.instance;
-        this.filer = new Filer();
+        this.filer = new (Filer as any)();
         this.reader = new FilerReader(this.filer);
         (window as any).filer = this.filer;
 

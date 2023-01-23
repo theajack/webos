@@ -6,7 +6,7 @@
   "permissions": [],
   "background": {
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-inline'; object-src 'self'",
   "chrome_url_overrides": {
     "newtab": "terminal.html"
   }
