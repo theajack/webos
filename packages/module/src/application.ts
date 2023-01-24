@@ -6,8 +6,7 @@
 
 import { Module, TModuleLoaded, TModuleProgress } from './module';
 
-export interface IApplicationOptions {
-    code: string,
+export interface IApplicationOptionsBase {
     onLoaded?: TModuleLoaded,
     umdNameMap?: Record<string, string>;
     mainMap?: Record<string, string>;
@@ -15,6 +14,10 @@ export interface IApplicationOptions {
     onProgress?: TModuleProgress;
     env?: Record<string, any>;
     autoStart?: boolean;
+}
+
+export interface IApplicationOptions extends IApplicationOptionsBase {
+    code: string,
 }
 
 export class Application {

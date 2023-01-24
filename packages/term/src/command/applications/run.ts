@@ -2,8 +2,6 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-01-22 23:13:34
  */
 
 // import { div } from 'alins';
@@ -84,8 +82,8 @@ export class RunCommand extends Command {
 
         const runningTitle = $('Process: ');
         const runningInfo = $('Initializing...');
-
         const dot = $('');
+
         const interval = setInterval(() => {
             dot.value = dot.value.length === 3 ? '' : dot.value + '.';
         }, 500);
@@ -93,9 +91,15 @@ export class RunCommand extends Command {
         const container = div(
             div(Color.Success, text(`Running: ${file.path.path}`)),
             div(Color.Blue, text($`${runningTitle} ${runningInfo}${dot}`)),
-            div(EditorStyle.join({ minHeight: 'auto' }), text(file.content + '')),
+            div(
+                EditorStyle.join({ minHeight: 'auto' }),
+                text(file.content + '')
+            ),
             div(mounted(dom => {
-                const process = { env: 'WEBOS', argv: [ 'run', ...args ] };
+                const process = {
+                    env: { NODE_ENV: 'production', NAME: 'webos' },
+                    argv: [ 'run', ...args ]
+                };
                 new Application({
                     code: `${file.content}`,
                     env: { console: createConsole(dom), process },

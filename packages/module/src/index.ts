@@ -10,6 +10,10 @@ export { getModuleMap } from './module';
 
 export const md5 = hex_md5;
 
+export { babel } from './babel';
+
+export { execModule } from './exec';
+
 // /*
 //  * @Author: chenzhongsheng
 //  * @Date: 2023-01-13 08:41:54

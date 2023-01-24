@@ -44,3 +44,20 @@ export function transformCode (code: string, needTransform: boolean = true): {
         imports,
     };
 }
+
+type TAnyFunc = (...args: any[]) => any;
+
+export const babel = (Babel as {
+    availablePlugins: any;
+    availablePresets: any;
+    buildExternalHelpers: TAnyFunc;
+    disableScriptTags: TAnyFunc;
+    registerPlugin: TAnyFunc;
+    registerPlugins: TAnyFunc;
+    registerPreset: TAnyFunc;
+    registerPresets: TAnyFunc;
+    transform: TAnyFunc;
+    transformFromAst: TAnyFunc;
+    transformScriptTags: TAnyFunc;
+    version: string;
+});
