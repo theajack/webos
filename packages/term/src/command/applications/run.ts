@@ -97,7 +97,7 @@ export class RunCommand extends Command {
             ),
             div(mounted(dom => {
                 const process = {
-                    env: { NODE_ENV: 'production', NAME: 'webos' },
+                    env: { NODE_ENV: 'production', OS: 'webos' },
                     argv: [ 'run', ...args ]
                 };
                 new Application({
