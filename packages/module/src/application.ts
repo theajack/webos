@@ -8,7 +8,7 @@ import { Module, TModuleLoaded, TModuleProgress } from './module';
 
 export interface IApplicationOptionsBase {
     onLoaded?: TModuleLoaded,
-    umdNameMap?: Record<string, string>;
+    iifeNameMap?: Record<string, string>;
     mainMap?: Record<string, string>;
     onDependenciesParsed?(graph: Record<string, object>): void;
     onProgress?: TModuleProgress;
@@ -30,14 +30,14 @@ export class Application {
     constructor ({
         code,
         onLoaded,
-        umdNameMap = {},
+        iifeNameMap = {},
         mainMap = {},
         onDependenciesParsed,
         onProgress,
         env,
         autoStart = true,
     }: IApplicationOptions) {
-        Module.UMDNameMap = umdNameMap;
+        Module.IIFENameMap = iifeNameMap;
         Module.MainMap = mainMap;
         Module.onProgress = onProgress;
         this.code = code;

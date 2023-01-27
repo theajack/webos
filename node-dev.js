@@ -6,3 +6,16 @@
 const path = require('path');
 
 console.log(path.join('c://a/b', './'));
+
+console.log(
+    path.join(
+        '/cdn.jsdelivr.net/npm/es-abstract/2020/RequireObjectCoercible.js',
+        '../5/CheckObjectCoercible'
+    ),
+);
+console.log(
+    path.join(
+        '/cdn.jsdelivr.net/npm/es-abstract/2020/',
+        '../5/CheckObjectCoercible'
+    ),
+);

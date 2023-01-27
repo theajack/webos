@@ -75,7 +75,7 @@ export { execModule } from './exec';
 //         console.log(entry);
 //         (window as any).entry = entry;
 //     },
-//     umdNameMap: {
+//     iifeNameMap: {
 //         'alins': 'Alins',
 //         'vue': 'Vue',
 //     },

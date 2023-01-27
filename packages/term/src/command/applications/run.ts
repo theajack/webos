@@ -26,7 +26,7 @@ import { Application } from 'webos-module';
 //         // console.log(entry);
 //         // (window as any).entry = entry;
 //     },
-//     umdNameMap: {
+//     iifeNameMap: {
 //         'alins': 'Alins',
 //         'vue': 'Vue',
 //     },
@@ -88,6 +88,9 @@ export class RunCommand extends Command {
             dot.value = dot.value.length === 3 ? '' : dot.value + '.';
         }, 500);
 
+        let index = 0;
+        const timeStart = Date.now();
+
         const container = div(
             div(Color.Success, text(`Running: ${file.path.path}`)),
             div(Color.Blue, text($`${runningTitle} ${runningInfo}${dot}`)),
@@ -105,11 +108,12 @@ export class RunCommand extends Command {
                     env: { console: createConsole(dom), process },
                     onProgress: ({ current, url, status, fromCache }) => {
                         if (status === 'start' && !fromCache) {
-                            runningInfo.value = `Loading [${current}](${url})`;
+                            runningInfo.value = `Loading [${++index}][${current}](${url})`;
                         }
                     },
+                    // iifeNameMap: { vue: 'Vue' },
                     onLoaded: () => {
-                        runningTitle.value = 'Done!';
+                        runningTitle.value = `Done![Installed ${index} new packages in ${Date.now() - timeStart}ms]`;
                         runningInfo.value = '';
                         dot.value = '';
                         clearInterval(interval);

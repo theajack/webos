@@ -6,7 +6,7 @@
  */
 import hex_md5 from './md5';
 import { NPMLoader } from './npm-loader';
-import { transformCode } from './babel';
+import { pureTransformCode, transformCode } from './babel';
 
 // 缓存 url - Module
 const ModuleMap: Record<string, Module> = {};
@@ -41,7 +41,7 @@ export interface IMoudleOptions {
 
 export class Module {
 
-    static UMDNameMap: Record<string, any> = {};
+    static IIFENameMap: Record<string, any> = {};
     static MainMap: Record<string, any> = {};
     static onProgress?: TModuleProgress;
     static Env: Record<string, any> | null = null;
@@ -50,7 +50,7 @@ export class Module {
     type: TModuleType;
     parent: Module | null;
     onloaded: TModuleLoaded;
-    url = '';
+    // url = '';
 
     code: string = '';
     imports: string[] = [];
@@ -58,6 +58,12 @@ export class Module {
 
     exports: any = null;
     npmLoader: NPMLoader;
+
+    _url: string = '';
+
+    get url () {
+        return this._url || this.npmLoader.url;
+    }
 
     constructor ({
         name,
@@ -71,31 +77,31 @@ export class Module {
 
         if (parent === null || type === 'code') {
             this.name = 'CODE';
-            this.url = `CODE:md5=${hex_md5(name)}`;
+            this._url = `CODE:md5=${hex_md5(name)}`;
             this.code = name;
         } else {
             this.name = name;
             if (type === 'name') {
                 this.npmLoader = new NPMLoader(parent.url, name, Module.MainMap);
-                this.url = this.npmLoader.url;
             } else {
-                this.url = name;
+                this._url = name;
+                if (name.includes('estree-walker')) debugger;
             }
         }
 
         const module = ModuleMap[this.url];
+
         if (module) {
             this.onProgress({ status: 'start', fromCache: true });
             // console.warn(`【module loaded from cache ${this.url}】name=${this.name}`);
-            // this.onloaded(module);
-            this.onCode(module.code, true);
-            this.onModuleLoaded();
+            this.onloaded(module);
             this.onProgress({ status: 'done', fromCache: true });
             return module;
         }
 
-        this.loadCode();
         ModuleMap[this.url] = this;
+
+        this.loadCode();
     }
 
     onProgress ({
@@ -156,6 +162,7 @@ export class Module {
         for (let i = 0; i < length; i++) {
             const name = imports[i];
             // console.warn('xxmodule load', i, name);
+            // ! 22
             this.dependencies[name] = new Module({
                 name,
                 parent: this,
@@ -183,12 +190,18 @@ export class Module {
             const exports = {};
             const module = { exports };
             const require = (name: string) => {
+                if (name === 'vue') debugger;
                 const module = this.dependencies[name];
                 if (!module) throw new Error(`Module ${name} not found`);
                 return module.run(map);
             };
             let returnCode = 'return module.exports;';
-            const umd = Module.UMDNameMap[this.name];
+
+            // if (this.url === 'https://cdn.jsdelivr.net/npm/vue/index.js') {
+            //     returnCode = 'debugger;' + returnCode;
+            //     debugger;
+            // }
+            const umd = Module.IIFENameMap[this.name];
             if (umd) {
                 // ! 增加 default 属性
                 returnCode = `window.${umd}=${umd}; if(${umd}.__esModule && !${umd}.default){${umd}.default=${umd};} return ${umd};`;
@@ -201,10 +214,20 @@ export class Module {
                     names = Object.keys(Module.Env);
                     values = Object.values(Module.Env);
                 }
-                map[this.url] = new Function(
+                const moduleExports = new Function(
                     'require', 'exports', 'module', ...names,
                     `return (function(require, exports, module){${this.code};\n ${returnCode}})(require, exports, module);`
                 )(require, exports, module, ...values);
+
+                // ! 补齐default
+                if (moduleExports.__esModule && !moduleExports.default) {
+                    moduleExports.default = moduleExports;
+                }
+                map[this.url] = moduleExports;
+
+                // if (this.url === 'https://cdn.jsdelivr.net/npm/vue/index.js') {
+                //     debugger;
+                // }
             } catch (e) {
                 console.warn(e, this.code);
                 map[this.url] = null;

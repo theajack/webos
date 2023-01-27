@@ -3,7 +3,7 @@
  * @Date: 2022-11-05 12:19:34
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-01-24 00:55:09
+ * @LastEditTime: 2023-01-28 01:12:11
 -->
 
 todo
@@ -45,3 +45,7 @@ word-break: break-word;
 
 
 module 增加 mainMap 配置 [done]
+默认以cjs方式引入，兼容 esmodule方式 [done]
+umdNameMap作为 cdn 引入方式的标志 [done]
+大量针对 引入方式的fix和优化 [done]
+run命令显示安装包的数量和耗时 [done]

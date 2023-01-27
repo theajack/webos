@@ -30,11 +30,11 @@ export function transformCode (code: string, needTransform: boolean = true): {
 
     // ! 使用正则匹配妥协
     const result: string = needTransform ?
-        (Babel as any).transform(code, { presets: [ 'es2015' ] }).code :
+        pureTransformCode(code) :
         // (window as any).Babel.transform(code, { presets: [ 'es2015' ] }).code :
         code;
     // 此处还是可能会漏掉 require 加载变量作为module的情况 如 var a = 'xxx';require(a);
-    const match = result.matchAll(/(?<![0-9a-zA-Z_$])require\(['"](.*?)['"]\)/g);
+    const match = result.matchAll(/(?<![0-9a-zA-Z_$])require\(['"]([0-9a-zA-Z_\-\$\@\.\/]*?)['"]\)/g);
     const imports = [];
     for (const item of match) {
         imports.push(item[1]);
@@ -43,6 +43,10 @@ export function transformCode (code: string, needTransform: boolean = true): {
         code: result,
         imports,
     };
+}
+
+export function pureTransformCode (code: string): string {
+    return (Babel as any).transform(code, { presets: [ 'es2015' ] }).code;
 }
 
 type TAnyFunc = (...args: any[]) => any;

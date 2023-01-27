@@ -118,7 +118,7 @@ new Application({
         import vue from 'Vue'; 
         console.log(vue);
     `,
-    umdNameMap: {vue: 'Vue'}
+    iifeNameMap: {vue: 'Vue'}
 });
 ```
 

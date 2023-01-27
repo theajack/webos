@@ -3,24 +3,7 @@
  * @Date: 2023-01-17 08:19:08
  * @Description: Coding something
  */
-import { Path } from 'webos-path';
 import 'whatwg-fetch';
-
-export async function fetchCode (url: string) {
-    let text = await fetchText(url);
-    if (!text) {
-        let entry = 'index.js';
-        if (isNpmRoot(url)) {
-            const result = await fetchJson(`${url}/package.json`);
-            if (result.main) entry = result.main;
-            if (!entry.endsWith('.js')) entry += '/index.js';
-        }
-        text = await fetchText(Path.join(url, entry));
-        // https://cdn.jsdelivr.net/npm/has/src
-        // https://cdn.jsdelivr.net/npm/for-each/index
-    }
-    return text;
-}
 
 export async function fetchText (url: string) {
     const data = await fetch(url);
@@ -32,6 +15,26 @@ export async function fetchJson (url: string) {
 }
 
 export function isNpmRoot (url: string) {
-    return /^https:\/\/cdn\.jsdelivr\.net\/npm\/[a-z\-]+\/?$/.test(url);
+    // if (url.includes('@vue')) debugger;
+    return /^https:\/\/cdn\.jsdelivr\.net\/npm\/[a-z\-]+\/?$/.test(url)
+        || /^https:\/\/cdn\.jsdelivr\.net\/npm\/\@[a-z\-]+\/[a-z\-]+\/?$/.test(url);
 }
 
+export function isSubNpmModuleName (url: string) {
+    return /^\@[a-z\-]+\/[a-z\-]+\/?$/.test(url);
+}
+
+export function pickNpmRootUrl (url: string) {
+    return pickNpmFromUrl(url, 1);
+}
+
+export function pickNpmPackageName (url: string) {
+    return pickNpmFromUrl(url, 2);
+}
+
+function pickNpmFromUrl (url: string, index: number) {
+    const result = url.match(/^(https:\/\/cdn\.jsdelivr\.net\/npm\/(([a-z\-]+)|(@[a-z\-]+\/[a-z\-]+)))((\/.*?)|$)/);
+    if (!result) return '';
+
+    return result[index];
+}
