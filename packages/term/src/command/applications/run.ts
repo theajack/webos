@@ -106,8 +106,8 @@ export class RunCommand extends Command {
                 new Application({
                     code: `${file.content}`,
                     env: { console: createConsole(dom), process },
-                    onProgress: ({ current, url, status, fromCache }) => {
-                        if (status === 'start' && !fromCache) {
+                    onProgress: ({ current, url, status, fromCache, parent }) => {
+                        if (parent !== 'ROOT' && status === 'start' && !fromCache) {
                             runningInfo.value = `Loading [${++index}][${current}](${url})`;
                         }
                     },

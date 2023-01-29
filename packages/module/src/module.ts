@@ -6,7 +6,7 @@
  */
 import hex_md5 from './md5';
 import { NPMLoader } from './npm-loader';
-import { pureTransformCode, transformCode } from './babel';
+import { transformCode } from './babel';
 
 // 缓存 url - Module
 const ModuleMap: Record<string, Module> = {};
@@ -85,7 +85,6 @@ export class Module {
                 this.npmLoader = new NPMLoader(parent.url, name, Module.MainMap);
             } else {
                 this._url = name;
-                if (name.includes('estree-walker')) debugger;
             }
         }
 
@@ -190,7 +189,6 @@ export class Module {
             const exports = {};
             const module = { exports };
             const require = (name: string) => {
-                if (name === 'vue') debugger;
                 const module = this.dependencies[name];
                 if (!module) throw new Error(`Module ${name} not found`);
                 return module.run(map);

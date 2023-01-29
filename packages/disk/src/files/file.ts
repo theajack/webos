@@ -25,7 +25,7 @@ export class File extends FileBase {
     get contentString () {
         return typeof this.content === 'string' ?
             this.content :
-            JSON.stringify(this.content, null, 4);
+            (this.content === null ? '' : JSON.stringify(this.content, null, 4));
     }
 
     constructor ({
