@@ -5,8 +5,8 @@ import { Dir, File, IJson } from 'webos-disk';
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:39:27
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-12-01 10:13:35
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-02 09:09:52
  */
 export interface ICommandResult {
     success: boolean;
@@ -30,12 +30,27 @@ interface ISubCommandObject {
 export type ISubCommands = IJson<ISubCommandFunc | ISubCommandObject>;
 
 export abstract class Command {
+
+    term: Term;
+
     commandName: string = '';
     args: string[] = [];
     subCommands: ISubCommands = {};
 
     get subNames () {
         return Object.keys(this.subCommands);
+    }
+
+    get curDir () {
+        return this.term.currentDir;
+    }
+
+    get curPath () {
+        return this.term.currentPath;
+    }
+
+    get container () {
+        return this.term.ui.container;
     }
 
     desc = '';
@@ -45,6 +60,10 @@ export abstract class Command {
     softwareDir: Dir;
 
     files: IJson<File> = {};
+
+    constructor (term: Term) {
+        this.term = term;
+    }
 
     get help () {
         return this.commandName + ' <filename|filepath>';
@@ -95,12 +114,12 @@ export abstract class Command {
 
 
     async createSoftwareDir (name = this.commandName) {
-        this.softwareDir = await Term.Disk.createChildByPath(`/System/Software/${name}`, true, true) as Dir;
+        this.softwareDir = await this.term.disk.createChildByPath(`/System/Software/${name}`, true, true) as Dir;
     }
     async createSoftwareFile (name: string) {
         if (!name) throw new Error('File name is Empty: ' + name);
         if (name in this.files) throw new Error('File is already exists: ' + name);
-        this.files[name] = await Term.Disk.createChildByPath(`/System/Software/${this.commandName}/${name}`, false, true) as File;
+        this.files[name] = await this.term.disk.createChildByPath(`/System/Software/${this.commandName}/${name}`, false, true) as File;
         return this.files[name];
     }
 

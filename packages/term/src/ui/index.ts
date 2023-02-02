@@ -6,17 +6,18 @@
  * @LastEditTime: 2023-02-01 22:45:27
  */
 import { comp } from 'alins';
+import { Term } from '../term';
 import { App } from './app';
 import { initContainerStyle } from './css/main-css';
 
 export class UI {
     container: HTMLElement;
-    constructor (container: string|HTMLElement) {
+    constructor (container: string|HTMLElement, term: Term) {
         const el = typeof container === 'string' ? document.querySelector(container) : container;
         if (!el) throw new Error('Invalid container');
 
         initContainerStyle(container);
         this.container = el as HTMLElement;
-        comp(App).mount(this.container);
+        comp(App(term)).mount(this.container);
     }
 }

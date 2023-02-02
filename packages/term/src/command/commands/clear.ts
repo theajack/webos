@@ -18,7 +18,7 @@ export class ClearCommand extends Command {
     }
 
     async main () {
-        const history = document.querySelector(HistoryClass);
+        const history = this.container.querySelector(HistoryClass);
         if (history) {
             history.innerHTML = '';
             return this.success();

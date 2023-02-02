@@ -2,13 +2,13 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-12-01 10:15:28
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-02 09:27:30
  */
 
+import { Term } from '../../../../term';
 import { saveFileContent } from '../../ui/components/editor';
 import { parseJSON } from '../../utils/utils';
-import { addNewCommand, executeCommand } from '../command-handler';
 import { Command } from '../commands/command-base';
 
 export const InnerThirdCommand = [
@@ -68,13 +68,13 @@ async function saveToLocal (url: string) {
     await saveFileContent(LocalCommandPath, JSON.stringify(list));
 }
 
-export async function installFromLocal () {
+export async function installFromLocal (term: Term) {
     const urls = await getInstalledList();
     if (!urls) return;
     const result = await Promise.all(urls.map(url => installScript(url)));
     result.forEach(item => {
         if (item.result) {
-            addNewCommand(item.result, true);
+            term.commands.addNewCommand(item.result);
         }
     });
 }

@@ -2,13 +2,13 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-09 22:56:02
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-29 00:20:13
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-02 09:22:59
  */
 
 import { Disk, Dir } from 'webos-disk';
 import { installFromLocal } from './command/applications/install';
-import { executeCommand, initNativeCommandList } from './command/command-handler';
+import { CommandManager } from './command/command-handler';
 import { UI } from './ui';
 
 interface ITermOptions {
@@ -16,7 +16,8 @@ interface ITermOptions {
 }
 
 export class Term {
-    static instance: Term;
+
+    static List: Term[] = [];
 
     disk: Disk;
 
@@ -24,43 +25,40 @@ export class Term {
 
     ui: UI;
 
+    commands: CommandManager;
+
     constructor ({
         container = 'body'
     }: ITermOptions = {}) {
-        if (Term.instance) return Term.instance;
         this.disk = new Disk();
         this.currentDir = this.disk;
-        this.ui = new UI(container);
-        Term.instance = this;
+        this.ui = new UI(container, this);
+
+        Term.List.push(this);
+    }
+
+    destory () {
+        this.commands.destory();
+        Term.List.splice(Term.List.indexOf(this), 1);
+    }
+
+    execute (command: string) {
+        return this.commands.executeCommand(command);
     }
 
     async init () {
         await this.disk.initFileSystem();
         // console.log(this.disk.deepLs());
-        initNativeCommandList();
-        installFromLocal();
+        this.commands = new CommandManager(this);
+        installFromLocal(this);
     }
 
-    static get CurrentDir () {
-        return this.instance.currentDir;
+    get currentPath () {
+        return this.currentDir.path.path;
     }
-    static set CurrentDir (dir: Dir) {
-        this.instance.currentDir = dir;
-    }
-
-    static get CurrentPath () {
-        return this.CurrentDir.path.path;
-    }
-
-    static get Disk () {
-        return this.instance.disk;
-    }
-
-    static execute = executeCommand;
 }
 
 export async function createTerm (options?: ITermOptions) {
-    if (Term.instance) return Term.instance;
     const os = new Term(options);
     await os.init();
     return os;

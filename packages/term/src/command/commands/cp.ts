@@ -24,10 +24,10 @@ export class CpCommand extends Command {
         if (!sourcePath) return this.fail('Source path is empty!');
         if (!targetPath) return this.fail('Target path is empty!');
 
-        const source = await catFile(sourcePath);
+        const source = await catFile(sourcePath, this.curDir);
 
         if (!source) return this.fail('Source is not exist');
-        const target = await catFile(targetPath);
+        const target = await catFile(targetPath, this.curDir);
 
         if (!target) return this.fail('Target is not exist');
         if (!target.isDir) return this.fail('Target is not a directory');

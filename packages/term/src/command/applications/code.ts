@@ -21,7 +21,7 @@ export class CodeCommand extends Command {
     }
 
     async main (args: string[]) {
-        const target = await catFile(args);
+        const target = await catFile(args, this.curDir);
 
         if (!target) return this.fail('Target is not exist');
         if (target.isDir) return this.fail('Target is not a file');

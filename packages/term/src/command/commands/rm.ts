@@ -15,7 +15,7 @@ export class RmCommand extends Command {
     desc = 'Remove file or directory';
 
     async main (args: string[]) {
-        const target = await catFile(args);
+        const target = await catFile(args, this.curDir);
 
         if (!target) return this.fail('Target is not exist');
 

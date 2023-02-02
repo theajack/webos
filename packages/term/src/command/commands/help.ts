@@ -2,14 +2,13 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-29 00:16:30
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-02 09:11:09
  */
 
 // import { div } from 'alins';
 import { div, span, text } from 'alins';
 import { Color } from '../../ui/css/styles/atoms';
-import { getCommandInfos } from '../command-handler';
 import { Command } from './command-base';
 
 export class HelpCommand extends Command {
@@ -22,7 +21,7 @@ export class HelpCommand extends Command {
     }
 
     async main (args: string[]) {
-        const info = getCommandInfos();
+        const info = this.term.commands.getCommandInfos();
 
         const name = args[0];
 

@@ -2,17 +2,17 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-11 14:37:24
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-29 01:15:47
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-02 09:21:44
  */
 import { inputContent } from '../state/global-info';
 import { pushResultError, pushResultItem } from '../ui/components/result-item';
 import { IFileBaseInfo, Path } from 'webos-disk';
-import { getCommand, getCommandNames } from './command-handler';
 import { lsPathDir, lsItem, lsFilesItem } from './commands/ls';
+import { Term } from '../../../term';
 
 
-export async function onTab (value: string, hint = false) {
+export async function onTab (value: string, term: Term, hint = false) {
 
     const arr = value.split(' ');
 
@@ -21,14 +21,14 @@ export async function onTab (value: string, hint = false) {
         return handleResult(
             value,
             tabValue,
-            getCommandNames(),
+            term.commands.getCommandNames(),
             'command',
             hint,
         );
     } else {
         const [ commandName, subName ] = arr;
 
-        const command = getCommand(commandName);
+        const command = term.commands.getCommand(commandName);
         if (!command) {
             return [];
         }
@@ -59,10 +59,10 @@ export async function onTab (value: string, hint = false) {
             if (command.hintArray?.length > 0 || type === 'custom') {
                 list = command.hintArray || [];
             } else if (type === 'command') {
-                list = getCommandNames();
+                list = term.commands.getCommandNames();
             } else if (type === 'file') {
                 name = Path.from(tabValue).last;
-                list = await lsPathDir(tabValue);
+                list = await lsPathDir(tabValue, term.currentDir);
             }
         }
 

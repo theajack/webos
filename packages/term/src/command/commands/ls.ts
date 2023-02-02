@@ -8,7 +8,6 @@
 
 import { span, text } from 'alins';
 import { style } from 'alins-style';
-import { Term } from '../../term';
 import { IFileBaseInfo, Dir, Path } from 'webos-disk';
 import { Command } from './command-base';
 
@@ -35,7 +34,7 @@ export class LSCommand extends Command {
     }
 
     async main (args: string[]) {
-        const dir = await Term.CurrentDir.findDirByPath(Path.join(args[0]));
+        const dir = await this.curDir.findDirByPath(Path.join(args[0]));
         if (dir) {
             if (dir.type === 'file') {
                 return this.fail('Target is not a directory: ' + dir.name);
@@ -48,11 +47,11 @@ export class LSCommand extends Command {
 }
 
 // 打印目标目录的子文件 / 后面的会被忽略
-export async function lsPathDir (value: string) {
+export async function lsPathDir (value: string, dir: Dir) {
     // '' 转成 './'
-    const path = Term.CurrentDir.path.join(value || './').parentPath;
+    const path = dir.path.join(value || './').parentPath;
     // console.warn('parent=', Term.CurrentDir.path, value, path);
     // const dir = Term.CurrentDir.findDirByPath(path);
     // console.log('dir', dir?.path, dir?.lsDetail());
-    return (await Term.CurrentDir.findDirByPath(path))?.lsDetail() || [];
+    return (await dir.findDirByPath(path))?.lsDetail() || [];
 }
