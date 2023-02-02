@@ -2,8 +2,8 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 16:18:02
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 13:46:27
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-01 22:37:15
  */
 import { comp, div, prop, slot, text } from 'alins';
 import { style } from 'alins-style';
@@ -19,10 +19,10 @@ const ResultItem = comp(({ slots }) => {
 });
 
 
-export function pushResultItem (inputValue: string, resultSlots: any) {
+export function pushResultItem (inputValue: string, resultSlots?: any) {
     comp(() => [
         HistoryInputItem(prop({ inputValue })),
-        ResultItem(slot(resultSlots))
+        resultSlots ? ResultItem(slot(resultSlots)) : null
     ]).mount(HistoryId);
 }
 

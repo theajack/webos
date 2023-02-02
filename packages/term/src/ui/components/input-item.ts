@@ -3,10 +3,11 @@
  * @Date: 2022-11-10 16:17:58
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-01-13 08:08:58
+ * @LastEditTime: 2023-02-01 22:49:27
  */
 import { $, div, IComponentOptions, input, span, on, mounted, click, comp, text } from 'alins';
 import { style } from 'alins-style';
+import { Term } from '../../term';
 import { clearHitTimer, onHint } from '../../command/hint';
 import { currentDirName, Hint, inputContent, userName } from '../../state/global-info';
 import { Storage } from '../../utils/storage';
@@ -73,7 +74,7 @@ export const InputItem = comp(({ events }: IComponentOptions) => {
     const onkeyup = (e: KeyboardEvent, dom: HTMLInputElement) => {
         // console.log(e);
         const code = e.keyCode;
-        const value = dom.value;
+        const value = dom.value.trim();
         switch (code) {
             case 9: events.ontab(value); break;
             // case 38:
@@ -87,11 +88,9 @@ export const InputItem = comp(({ events }: IComponentOptions) => {
                     ignoreNextEnter = false;
                     break;
                 }
-                if (value) {
-                    ContentHistory.push(value);
-                    inputContent.value = '';
-                    events.onrun(value);
-                }
+                if (value) ContentHistory.push(value);
+                inputContent.value = '';
+                events.onrun(value);
                 setTimeout(ensureInputIsVisible);
                 e.preventDefault();
                 Hint.hideHint();
@@ -168,5 +167,8 @@ export const HistoryInputItem = comp(({ props }) => {
 });
 
 export function ensureInputIsVisible () {
+    if (Term.instance.ui.container) {
+
+    }
     document.documentElement.scrollTop = document.documentElement.offsetHeight;
 }

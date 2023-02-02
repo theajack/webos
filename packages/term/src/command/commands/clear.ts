@@ -2,11 +2,11 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 22:03:47
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-02 08:09:28
  */
 
-import { HistoryId } from '../../ui/components/history';
+import { HistoryClass } from '../../ui/components/history';
 import { Command } from './command-base';
 
 export class ClearCommand extends Command {
@@ -18,7 +18,7 @@ export class ClearCommand extends Command {
     }
 
     async main () {
-        const history = document.querySelector(HistoryId);
+        const history = document.querySelector(HistoryClass);
         if (history) {
             history.innerHTML = '';
             return this.success();

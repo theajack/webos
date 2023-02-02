@@ -10,10 +10,10 @@ import { click, comp, div } from 'alins';
 import { style } from 'alins-style';
 import { LastLogin } from './last-login';
 
-export const HistoryId = '#TermHistory';
+export const HistoryClass = '.term-histoy';
 
 export function History () {
-    return div(HistoryId,
+    return div(HistoryClass,
         click.stop,
         style.color('#bbb').lineHeight(20),
         comp(LastLogin)

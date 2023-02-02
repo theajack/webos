@@ -2,8 +2,8 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 16:12:50
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 09:21:28
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-02 07:55:02
  */
 import { comp, div, event, text } from 'alins';
 import { handleCommand } from '../command/command-handler';
@@ -15,7 +15,7 @@ import { CommonStyle } from './css/main-css';
 import { Editor } from './components/editor';
 import { Edit } from '../state/global-info';
 
-const AppId = '#TermApp';
+const AppId = '.term-app';
 
 function pushDefaultResult (value: string) {
     pushResultItem(value, div(
@@ -26,6 +26,10 @@ function pushDefaultResult (value: string) {
 
 const Main = comp(() => {
     const onrun = async (value: string) => {
+        if (value === '') {
+            pushResultItem('');
+            return;
+        }
         const commandReturn = await handleCommand(value);
         if (!commandReturn) {
             pushDefaultResult(value);

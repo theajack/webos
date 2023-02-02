@@ -2,8 +2,8 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:29:42
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-30 22:22:31
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-02 08:18:22
  */
 import { splitTwoPart } from '../utils/utils';
 import { IJson } from 'webos-disk';
@@ -23,12 +23,14 @@ import { HelpCommand } from './commands/help';
 import { FindCommand } from './commands/find';
 import { getApplications } from './applications/applications';
 
+export class CommandManager {
+}
+
 const commands: IJson<Command> = {};
 
 export function registCommand (command: Command) {
     commands[command.commandName] = command;
 }
-
 
 export function getCommand (name: string) {
     return commands[name];
