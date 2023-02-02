@@ -9,13 +9,20 @@
 import { createTerm } from 'packages/term';
 // import '../unit-test/index';
 
+// createTerm({
+//     container: '#app'
+// }).then(term => {
+//     (window as any).term = term;
+// });
+// createTerm({
+//     container: '#app2'
+// }).then(term => {
+//     (window as any).term = term;
+// });
+
+
 createTerm({
-    container: '#app'
-}).then(term => {
-    (window as any).term = term;
-});
-createTerm({
-    container: '#app2'
+    container: 'body'
 }).then(term => {
     (window as any).term = term;
 });

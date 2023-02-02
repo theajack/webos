@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 16:17:58
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-03 00:10:53
+ * @LastEditTime: 2023-02-03 00:15:28
  */
 import { $, div, IComponentOptions, input, span, on, mounted, click, comp, text } from 'alins';
 import { style } from 'alins-style';
@@ -142,7 +142,8 @@ export function InputItem (term: Term) {
                     on('compositionend')(() => {isInComposition = false;}),
                     on('focus')((e, dom) => {onHint(dom?.value, term);}),
                     mounted((dom) => {
-                        term.container.addEventListener('click', () => {
+                        const container = term.container;
+                        ((container.tagName === 'BODY') ? window : container).addEventListener('click', () => {
                             dom.focus();
                         }, true);
                     })
