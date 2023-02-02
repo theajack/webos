@@ -6,7 +6,7 @@ import { Dir, File, IJson } from 'webos-disk';
  * @Date: 2022-11-10 18:39:27
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-02 09:09:52
+ * @LastEditTime: 2023-02-03 00:02:48
  */
 export interface ICommandResult {
     success: boolean;
@@ -50,7 +50,7 @@ export abstract class Command {
     }
 
     get container () {
-        return this.term.ui.container;
+        return this.term.container;
     }
 
     desc = '';

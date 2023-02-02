@@ -3,13 +3,16 @@
  * @Date: 2022-11-09 22:56:02
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-02 09:22:59
+ * @LastEditTime: 2023-02-03 00:02:24
  */
 
 import { Disk, Dir } from 'webos-disk';
 import { installFromLocal } from './command/applications/install';
 import { CommandManager } from './command/command-handler';
+import { createGlobalData } from './state/global-info';
 import { UI } from './ui';
+
+type TGlobalData = ReturnType<typeof createGlobalData>;
 
 interface ITermOptions {
     container?: string|HTMLElement;
@@ -23,18 +26,33 @@ export class Term {
 
     currentDir: Dir;
 
+    global: TGlobalData;
+
     ui: UI;
 
     commands: CommandManager;
 
+    private containerOptions: string|HTMLElement;
+
     constructor ({
         container = 'body'
     }: ITermOptions = {}) {
+        this.containerOptions = container;
+        this.global = createGlobalData();
         this.disk = new Disk();
         this.currentDir = this.disk;
         this.ui = new UI(container, this);
 
         Term.List.push(this);
+    }
+
+    get container () {
+        return this.ui?.container || (() => {
+            const o = this.containerOptions;
+            const el = typeof o === 'string' ? document.querySelector(o) : o;
+            if (!el) throw new Error('Invalid container');
+            return el;
+        })();
     }
 
     destory () {

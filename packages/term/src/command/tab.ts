@@ -3,9 +3,8 @@
  * @Date: 2022-11-11 14:37:24
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-02 09:21:44
+ * @LastEditTime: 2023-02-02 23:23:50
  */
-import { inputContent } from '../state/global-info';
 import { pushResultError, pushResultItem } from '../ui/components/result-item';
 import { IFileBaseInfo, Path } from 'webos-disk';
 import { lsPathDir, lsItem, lsFilesItem } from './commands/ls';
@@ -22,6 +21,7 @@ export async function onTab (value: string, term: Term, hint = false) {
             value,
             tabValue,
             term.commands.getCommandNames(),
+            term,
             'command',
             hint,
         );
@@ -70,6 +70,7 @@ export async function onTab (value: string, term: Term, hint = false) {
             value,
             name,
             list || [],
+            term,
             type,
             hint,
         );
@@ -82,6 +83,7 @@ function handleResult (
     value: string,
     name: string,
     list: (string|IFileBaseInfo)[],
+    term: Term,
     type: 'custom' | 'file' | 'command' | 'none' = 'custom',
     hint: boolean = false
 ) {
@@ -90,7 +92,7 @@ function handleResult (
     if (hint) return result.map(item => handleItem(item as any));
 
     if (result.length === 0) {
-        pushResultError(value, `No ${type} found`);
+        pushResultError(value, term, `No ${type} found`);
     } else if (result.length === 1) {
 
         // 处理 cd .. 只有一个目录的情况 补全最后一个 /
@@ -104,10 +106,10 @@ function handleResult (
         if (type !== 'file') {
             content += ' ';// 命令后面补一个空格
         }
-        inputContent.value = content;
+        term.global.inputContent.value = content;
     } else {
         const comp = type === 'file' ? lsFilesItem : lsItem;
-        pushResultItem(value, result.map(i => comp(i as any)));
+        pushResultItem(value, term, result.map(i => comp(i as any)));
     }
     return [];
 }

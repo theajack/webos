@@ -3,13 +3,12 @@
  * @Date: 2022-11-10 16:17:58
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-02 09:18:40
+ * @LastEditTime: 2023-02-03 00:10:53
  */
 import { $, div, IComponentOptions, input, span, on, mounted, click, comp, text } from 'alins';
 import { style } from 'alins-style';
 import { Term } from '../../term';
 import { clearHitTimer, onHint } from '../../command/hint';
-import { currentDirName, Hint, inputContent, userName } from '../../state/global-info';
 import { Storage } from '../../utils/storage';
 import { CommonStyle } from '../css/main-css';
 import { CommonFont } from '../css/styles/atoms';
@@ -60,6 +59,7 @@ function createContentHistory () {
 
 export function InputItem (term: Term) {
     const ContentHistory = createContentHistory();
+    const { inputContent, Hint, currentDirName, userName } = term.global;
     return comp(({ events }: IComponentOptions) => {
 
         const inputStyle = style.flex(1)
@@ -78,7 +78,7 @@ export function InputItem (term: Term) {
             const code = e.keyCode;
             const value = dom.value.trim();
             switch (code) {
-                case 9: events.ontab(value); break;
+                case 9: events.ontab(value, term); break;
                     // case 38:
                     // case 40:{
                     //     const value = ContentHistory[code === 38 ? 'prev' : 'next']();
@@ -93,7 +93,7 @@ export function InputItem (term: Term) {
                     if (value) ContentHistory.push(value);
                     inputContent.value = '';
                     events.onrun(value);
-                    setTimeout(() => {ensureInputIsVisible(term.ui.container);}, 0);
+                    setTimeout(() => {ensureInputIsVisible(term.container);}, 0);
                     e.preventDefault();
                     Hint.hideHint();
                 };break;
@@ -142,7 +142,9 @@ export function InputItem (term: Term) {
                     on('compositionend')(() => {isInComposition = false;}),
                     on('focus')((e, dom) => {onHint(dom?.value, term);}),
                     mounted((dom) => {
-                        window.addEventListener('click', () => {dom.focus();});
+                        term.container.addEventListener('click', () => {
+                            dom.focus();
+                        }, true);
                     })
                 ),
             ),
@@ -161,13 +163,16 @@ export function InputItem (term: Term) {
     });
 }
 
-export const HistoryInputItem = comp(({ props }) => {
-    return div(
-        '.InputTitle',
-        style.marginBottom(3),
-        text(`webos:${currentDirName.value} ${userName.value}$ ${props.inputValue.value}`),
-    );
-});
+export function HistoryInputItem (term: Term) {
+    const { currentDirName, userName } = term.global;
+    return comp(({ props }) => {
+        return div(
+            '.InputTitle',
+            style.marginBottom(3),
+            text(`webos:${currentDirName.value} ${userName.value}$ ${props.inputValue.value}`),
+        );
+    });
+}
 
 export function ensureInputIsVisible (container: HTMLElement) {
     if (container.tagName === 'BODY') {

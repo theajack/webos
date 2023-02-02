@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 10:44:34
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-01 22:46:34
+ * @LastEditTime: 2023-02-02 23:52:59
  */
 import { css, style } from 'alins-style';
 import { Color, CommonFont } from './styles/atoms';
@@ -26,7 +26,7 @@ export function initContainerStyle (container: string|HTMLElement) {
         style.backgroundColor('#111')
             .color('#fff')
             .join(CommonStyle.FontSize)
-            .margin(0).padding(15).overflow('auto').height(100),
+            .margin(10).padding(15).overflow('auto').height(300),
         CommonFont,
         ...HelpCss(),
         [ '&::-webkit-scrollbar', style({

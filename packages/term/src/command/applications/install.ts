@@ -3,13 +3,16 @@
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-02 09:27:30
+ * @LastEditTime: 2023-02-02 23:07:51
  */
 
+import { File } from 'webos-disk';
 import { Term } from '../../../../term';
 import { saveFileContent } from '../../ui/components/editor';
 import { parseJSON } from '../../utils/utils';
+import { catFile } from '../commands/cat';
 import { Command } from '../commands/command-base';
+import { touchFile } from '../commands/touch';
 
 export const InnerThirdCommand = [
     'custom', 'custom2', 'bookmark'
@@ -25,13 +28,13 @@ function libNameToUrl (name: string) {
 }
 
 function installScript (url: string): Promise<{
-  result: null|Command,
+  result: null|(typeof Command),
   error: string
 }> {
     return new Promise(resolve => {
         const script = document.createElement('script');
         script.onload = () => {
-            const command = (window as any).CustomCommand as Command;
+            const command = (window as any).CustomCommand as typeof Command;
             resolve({ result: command, error: '' });
         };
         script.onerror = () => {
@@ -46,9 +49,9 @@ function installScript (url: string): Promise<{
 }
 
 async function getInstalledList (): Promise<string[] | null> {
-    const result = await executeCommand('cat ' + LocalCommandPath);
-    if (result.success) {
-        return parseJSON(result.result) as string[];
+    const file = await catFile(LocalCommandPath);
+    if (file) {
+        return parseJSON((file as File).contentString) as string[];
     }
     return null;
 }
@@ -58,8 +61,8 @@ async function saveToLocal (url: string) {
     if (list) {
         list.push(url);
     } else {
-        const result = await executeCommand('touch ' + LocalCommandPath);
-        if (result.success) {
+        const { type } = await touchFile(LocalCommandPath);
+        if (type !== 'error') {
             list = [ url ];
         } else {
             return;
@@ -106,7 +109,7 @@ export class InstallCommand extends Command {
             return this.fail(`Install command failed: ${error}`);
         }
 
-        addNewCommand(result, true);
+        this.term.commands.addNewCommand(result);
 
         saveToLocal(value);
 

@@ -5,7 +5,6 @@
  */
 
 // import { div } from 'alins';
-import { Edit } from '../../state/global-info';
 import { File, Path } from 'webos-disk';
 import { catFile } from './cat';
 import { Command } from './command-base';
@@ -34,7 +33,7 @@ export class VimCommand extends Command {
 
         setTimeout(() => {
             const path = target ? target.path.path : Path.join(this.term.currentPath, args[0]);
-            Edit.enterEdit(path, content, fromTouch);
+            this.term.global.Edit.enterEdit(path, content, fromTouch);
         });
 
         return this.success();

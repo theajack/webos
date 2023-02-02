@@ -13,11 +13,8 @@ import { initContainerStyle } from './css/main-css';
 export class UI {
     container: HTMLElement;
     constructor (container: string|HTMLElement, term: Term) {
-        const el = typeof container === 'string' ? document.querySelector(container) : container;
-        if (!el) throw new Error('Invalid container');
-
         initContainerStyle(container);
-        this.container = el as HTMLElement;
+        this.container = term.container;
         comp(App(term)).mount(this.container);
     }
 }

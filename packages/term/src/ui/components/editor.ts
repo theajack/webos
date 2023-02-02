@@ -3,12 +3,11 @@
  * @Date: 2022-11-19 21:56:41
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-02 08:51:43
+ * @LastEditTime: 2023-02-03 00:02:52
  */
 import { comp, div, $, span, click, text, on } from 'alins';
 import { style } from 'alins-style';
 import { Disk } from 'webos-disk';
-import { Edit } from '../../state/global-info';
 import { Term } from '../../term';
 import { isMac } from '../../utils/utils';
 import { EditorStyle, TextBtn } from '../css/main-css';
@@ -22,6 +21,7 @@ export async function saveFileContent (path: string, content: string) {
 }
 
 export function Editor (term: Term) {
+    const Edit = term.global.Edit;
     return comp(() => {
         const save = async () => {
             await saveFileContent(Edit.filepath.value, Edit.content.value);
@@ -43,7 +43,7 @@ export function Editor (term: Term) {
             }
         };
         // ? window.addEventListener
-        term.ui.container.addEventListener('keydown', onkeydown);
+        term.container.addEventListener('keydown', onkeydown);
 
         // todo 编辑器优化
         const onEditorKeydown = (e: KeyboardEvent) => {

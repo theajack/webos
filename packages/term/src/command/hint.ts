@@ -3,11 +3,10 @@
  * @Date: 2022-11-20 12:16:30
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-02 09:19:58
+ * @LastEditTime: 2023-02-03 00:03:05
  */
 
 import { ensureInputIsVisible } from '../ui/components/input-item';
-import { Hint } from '../state/global-info';
 import { onTab } from './tab';
 import { Term } from '../../../term';
 
@@ -26,13 +25,13 @@ export function onHint (value: string, term: Term) {
         if (item && typeof item  === 'object' && value.split(' ').length === 3) {
             const list = item.hintArray || await getHintList(value, term);
             const text = item.help || (command ? command.help : '');
-            Hint.setHint(text, list);
+            term.global.Hint.setHint(text, list);
         } else {
             const list = await getHintList(value, term);
             const text = command ? command.help : '';
-            Hint.setHint(text, list);
+            term.global.Hint.setHint(text, list);
         }
-        ensureInputIsVisible(term.ui.container);
+        ensureInputIsVisible(term.container);
     }, 500);
 
 }
