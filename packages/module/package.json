@@ -1,9 +1,9 @@
 {
     "name": "webos-module",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "All-in-js Web UI Framework, No jsx/template/vdom/css/html",
-    "main": "src/index.ts",
-    "typings": "src/index.ts",
+    "main": "dist/webos-module.esm.js",
+    "typings": "dist/webos-module.d.ts",
     "repository": "git@github.com:theajack/webos.git",
     "author": "tackchen <theajack@qq.com>",
     "scripts": {
@@ -20,7 +20,7 @@
     "dependencies": {
         "@types/whatwg-fetch": "^0.0.33",
         "babel-standalone": "^6.26.0",
-        "webos-path": "^0.0.3",
+        "webos-path": "^0.0.4",
         "whatwg-fetch": "^3.6.2"
     },
     "publishConfig": {
