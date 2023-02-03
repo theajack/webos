@@ -82,9 +82,6 @@ export class NPMLoader {
         if (!main) return this.fetchCode();
 
         if (main.endsWith('.js')) {
-            if (main === './src/index.js') {
-                console.log(Path.join(this.url, main));
-            }
             return await this.fetchCode(main);
         }
 

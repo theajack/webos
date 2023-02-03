@@ -3,7 +3,7 @@
  * @Date: 2022-11-05 12:19:34
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-03 00:22:51
+ * @LastEditTime: 2023-02-04 00:46:52
 -->
 
 todo
@@ -48,5 +48,5 @@ fix: json 类型文件的 vim [done]
 
 - [ ] ui部分多实例情况的代码优化 term传参问题
 
-
-- [ ] alins todo word-break: break-word;
+- [ ] process env 默认 写入
+- [ ] Module静态属性 改到 application对象上，支持application多实例互不干扰
