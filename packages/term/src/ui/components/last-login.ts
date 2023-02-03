@@ -2,10 +2,10 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 16:04:45
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-20 15:51:49
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-04 00:09:12
  */
-import { a, div, span } from 'alins';
+import { a, div, span, text } from 'alins';
 import { style } from 'alins-style';
 import { Storage } from '../../utils/storage';
 import { formatDateTime } from '../../utils/utils';
@@ -17,7 +17,7 @@ export function LastLogin () {
     Storage.write(key, formatDateTime());
     return div(
         style.marginBottom(20),
-        div(style.marginBottom(5), lastLoginTime ? `Last login: ${lastLoginTime}` : 'First Login!'),
+        div(style.marginBottom(5), text(lastLoginTime ? `Last login: ${lastLoginTime}` : 'First Login!')),
         div(
             style.marginBottom(10),
             a('Web-OS', Color.Blue, '[href=https://github.com/theajack/webos]'),

@@ -18,7 +18,7 @@ https://segmentfault.com/a/1190000040988970 -->
 
 ```
 
-lerna add @alins/utils --scope=@alins/main
+lerna add webos-disk --scope=webos-term
 
 lerna version 0.0.1 --yes
 lerna publish from-git --yes
