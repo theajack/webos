@@ -50,8 +50,8 @@ export class LSCommand extends Command {
 export async function lsPathDir (value: string, dir: Dir) {
     // '' 转成 './'
     const path = dir.path.join(value || './').parentPath;
-    // console.warn('parent=', Term.CurrentDir.path, value, path);
-    // const dir = Term.CurrentDir.findDirByPath(path);
+    // console.warn('parent=', dir.path, value, path);
+    // const dir = dir.findDirByPath(path);
     // console.log('dir', dir?.path, dir?.lsDetail());
     return (await dir.findDirByPath(path))?.lsDetail() || [];
 }

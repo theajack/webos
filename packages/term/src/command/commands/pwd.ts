@@ -2,11 +2,10 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-23 22:04:32
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-04 00:17:39
  */
 
-import { Term } from '../../term';
 import { Command } from './command-base';
 
 export class PWDCommand extends Command {
@@ -17,6 +16,6 @@ export class PWDCommand extends Command {
     }
 
     async main () {
-        return this.success(Term.CurrentPath);
+        return this.success(this.curPath);
     }
 }

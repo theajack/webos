@@ -2,12 +2,11 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-12 19:55:51
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-04 00:17:14
  */
 
 import { div } from 'alins';
-import { Term } from '../../term';
 import { Command } from './command-base';
 
 export class MkdirCommand extends Command {
@@ -25,7 +24,7 @@ export class MkdirCommand extends Command {
         }
 
         try {
-            if (await Term.CurrentDir.createChildByPath(name, true)) {
+            if (await this.curDir.createChildByPath(name, true)) {
                 return this.success(div('success'));
             }
             return this.fail('mkdir failed: Target Path is exist:' + name);
