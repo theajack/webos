@@ -1,6 +1,6 @@
 {
     "name": "webos-path",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "All-in-js Web UI Framework, No jsx/template/vdom/css/html",
     "main": "src/index.ts",
     "typings": "src/index.ts",
