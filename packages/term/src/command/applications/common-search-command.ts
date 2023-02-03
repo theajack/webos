@@ -2,18 +2,19 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-10 18:37:32
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-30 22:16:01
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-02-04 00:21:49
  */
 
+import { Term } from '../../../../term';
 import { Command } from '../commands/command-base';
 
 export class CommonSearchCommand extends Command {
 
     replace: (query: string) => string;
 
-    constructor (name: string, replace: (query: string) => string) {
-        super();
+    constructor (term: Term, name: string, replace: (query: string) => string) {
+        super(term);
         this.commandName = name;
         this.desc = 'Search with ' + name;
         this.replace = replace;
