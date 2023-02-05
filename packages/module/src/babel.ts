@@ -4,9 +4,7 @@
  * @Description: Coding something
  */
 
-// import 'babel-standalone/babel.min';
-import Babel from 'babel-standalone';
-
+import { Babel } from './babel.min.js';
 
 export function transformCode (code: string, needTransform: boolean = true): {
   code: string;
@@ -33,7 +31,7 @@ export function transformCode (code: string, needTransform: boolean = true): {
         pureTransformCode(code) :
         // (window as any).Babel.transform(code, { presets: [ 'es2015' ] }).code :
         code;
-    // 此处还是可能会漏掉 require 加载变量作为module的情况 如 var a = 'xxx';require(a);
+    // ! 此处还是可能会漏掉 require 加载变量作为module的情况 如 var a = 'xxx';require(a);
     const match = result.matchAll(/(?<![0-9a-zA-Z_$])require\(['"]([0-9a-zA-Z_\-\$\@\.\/]*?)['"]\)/g);
     const imports = [];
     for (const item of match) {
@@ -46,7 +44,7 @@ export function transformCode (code: string, needTransform: boolean = true): {
 }
 
 export function pureTransformCode (code: string): string {
-    return (Babel as any).transform(code, { presets: [ 'es2015' ] }).code;
+    return Babel.transform(code, { presets: [ 'es2015' ] }).code;
 }
 
 type TAnyFunc = (...args: any[]) => any;

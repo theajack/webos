@@ -3,8 +3,25 @@
  * @Date: 2022-11-05 12:19:34
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-01-13 08:17:48
+ * @LastEditTime: 2023-02-05 18:02:22
 -->
+
+## 0.0.5
+
+1. fix babel-standalone BUG in esmodule
+
+## 0.0.4
+
+1. Alins update 0.0.17
+2. fix search command
+3. fix build
+4. export disk and module
+
+## 0.0.3
+
+1. multi instance support
+
+
 ## 0.0.2
 
 - [x] [feat] 中文输入法回车优化

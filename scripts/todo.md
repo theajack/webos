@@ -3,7 +3,7 @@
  * @Date: 2022-11-05 12:19:34
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-04 00:46:52
+ * @LastEditTime: 2023-02-05 18:07:10
 -->
 
 todo
@@ -50,3 +50,4 @@ fix: json 类型文件的 vim [done]
 
 - [ ] process env 默认 写入
 - [ ] Module静态属性 改到 application对象上，支持application多实例互不干扰
+- [ ] application 运行多个 code

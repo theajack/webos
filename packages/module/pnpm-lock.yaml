@@ -2,12 +2,10 @@ lockfileVersion: 5.4
 
 specifiers:
   '@types/whatwg-fetch': ^0.0.33
-  babel-standalone: ^6.26.0
   whatwg-fetch: ^3.6.2
 
 dependencies:
   '@types/whatwg-fetch': 0.0.33
-  babel-standalone: 6.26.0
   whatwg-fetch: 3.6.2
 
 packages:
@@ -24,10 +22,6 @@ packages:
     deprecated: This is a stub types definition. whatwg-streams provides its own type definitions, so you do not need this installed.
     dependencies:
       whatwg-streams: 0.1.1
-    dev: false
-
-  /babel-standalone/6.26.0:
-    resolution: {integrity: sha512-zT4CJM9TK6uEaPf7+nKVO/yPYNlk5G9Aa4+iYwmn7J4D9eezb62eQ3bSUybK/AcPHU2VkfFuIDKbvwQOOj+Zyw==}
     dev: false
 
   /bluebird/1.0.8:
