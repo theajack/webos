@@ -13,11 +13,10 @@ export interface IApplicationOptionsBase {
     onDependenciesParsed?(graph: Record<string, object>): void;
     onProgress?: TModuleProgress;
     env?: Record<string, any>;
-    autoStart?: boolean;
 }
 
 export interface IApplicationOptions extends IApplicationOptionsBase {
-    code: string,
+    code?: string,
 }
 
 export class Application {
@@ -27,34 +26,22 @@ export class Application {
     ModuleExportsMap: Record<string, any> = {};
     onLoaded?: TModuleLoaded;
     onDependenciesParsed?(graph: Record<string, object>): void;
-    constructor ({
-        code,
-        onLoaded,
-        iifeNameMap = {},
-        mainMap = {},
-        onDependenciesParsed,
-        onProgress,
-        env,
-        autoStart = true,
-    }: IApplicationOptions) {
-        Module.IIFENameMap = iifeNameMap;
-        Module.MainMap = mainMap;
-        Module.onProgress = onProgress;
-        this.code = code;
-        this.onLoaded = onLoaded;
-        this.onDependenciesParsed = onDependenciesParsed;
 
-        if (env) Module.Env = env;
+    options:IApplicationOptionsBase = {};
 
-        if (autoStart) {
-            this.start();
+    constructor (options: IApplicationOptions) {
+        this.options = options;
+
+        if (options.code) {
+            this.exec(options.code);
         }
     }
 
-    async start () {
+    async exec (code: string) {
         return new Promise((resolve) => {
             this.entry = new Module({
-                name: this.code,
+                app: this,
+                name: code,
                 type: 'code',
                 onLoaded: (module) => {
                     this.onDependenciesParsed?.(

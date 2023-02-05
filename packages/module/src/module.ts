@@ -7,6 +7,7 @@
 import hex_md5 from './md5';
 import { NPMLoader } from './npm-loader';
 import { transformCode } from './babel';
+import { Application } from './application';
 
 // 缓存 url - Module
 const ModuleMap: Record<string, Module> = {};
@@ -37,14 +38,11 @@ export interface IMoudleOptions {
     onLoaded: TModuleLoaded,
     parent?: Module | null,
     type?: TModuleType,
+    app: Application,
 }
 
 export class Module {
-
-    static IIFENameMap: Record<string, any> = {};
-    static MainMap: Record<string, any> = {};
-    static onProgress?: TModuleProgress;
-    static Env: Record<string, any> | null = null;
+    app: Application;
 
     name: string = '';
     type: TModuleType;
@@ -65,12 +63,27 @@ export class Module {
         return this._url || this.npmLoader.url;
     }
 
+    get MainMap () {
+        return this.app.options.mainMap || {};
+    }
+
+    get IIFENameMap () {
+        return this.app.options.iifeNameMap || {};
+    }
+
+    get Env () {
+        return this.app.options.env;
+    }
+
     constructor ({
+        app,
         name,
         parent = null,
         onLoaded,
         type = 'name'
     }: IMoudleOptions) {
+        this.app = app;
+
         this.type = type;
         this.onloaded = onLoaded;
         this.parent = parent;
@@ -82,7 +95,7 @@ export class Module {
         } else {
             this.name = name;
             if (type === 'name') {
-                this.npmLoader = new NPMLoader(parent.url, name, Module.MainMap);
+                this.npmLoader = new NPMLoader(this, parent.url, name);
             } else {
                 this._url = name;
             }
@@ -106,7 +119,7 @@ export class Module {
     onProgress ({
         status, fromCache = false,
     }: IModuleProgressPart): void {
-        Module.onProgress?.({
+        this.app.options.onProgress?.({
             parent: this.parent?.name || 'ROOT',
             current: this.name,
             url: this.url,
@@ -163,6 +176,7 @@ export class Module {
             // console.warn('xxmodule load', i, name);
             // ! 22
             this.dependencies[name] = new Module({
+                app: this.app,
                 name,
                 parent: this,
                 onLoaded: (module) => {
@@ -199,7 +213,7 @@ export class Module {
             //     returnCode = 'debugger;' + returnCode;
             //     debugger;
             // }
-            const umd = Module.IIFENameMap[this.name];
+            const umd = this.IIFENameMap[this.name];
             if (umd) {
                 // ! 增加 default 属性
                 returnCode = `window.${umd}=${umd}; if(${umd}.__esModule && !${umd}.default){${umd}.default=${umd};} return ${umd};`;
@@ -208,9 +222,9 @@ export class Module {
             try {
                 let names: string[] = [];
                 let values: any[] = [];
-                if (Module.Env) {
-                    names = Object.keys(Module.Env);
-                    values = Object.values(Module.Env);
+                if (this.Env) {
+                    names = Object.keys(this.Env);
+                    values = Object.values(this.Env);
                 }
                 const moduleExports = new Function(
                     'require', 'exports', 'module', ...names,

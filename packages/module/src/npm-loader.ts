@@ -13,11 +13,16 @@ export class NPMLoader {
     name: string = '';
     url: string = '';
 
-    constructor (parentUrl: string, name: string, map: any) {
+    module: Module;
+
+    constructor (module: Module, parentUrl: string, name: string) {
+        this.module = module;
         this.parentUrl = parentUrl;
         this.name = name;
 
         let url = '';
+
+        const map = this.module.MainMap;
 
         if (name in map) {
             url = `https://cdn.jsdelivr.net/npm/${name}${map[name]}`;
@@ -60,7 +65,7 @@ export class NPMLoader {
 
         const packageName = pickNpmPackageName(this.url);
 
-        if (Module.IIFENameMap[packageName]) return '';
+        if (this.module.IIFENameMap[packageName]) return '';
 
         const pkg = await fetchJson(`${this.url}/package.json`);
 
