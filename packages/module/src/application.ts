@@ -24,12 +24,19 @@ export class Application {
     code: string;
     // 缓存 url - module 执行的结果
     ModuleExportsMap: Record<string, any> = {};
-    onLoaded?: TModuleLoaded;
     onDependenciesParsed?(graph: Record<string, object>): void;
 
     options:IApplicationOptionsBase = {};
 
     constructor (options: IApplicationOptions) {
+
+        if (!options.env) {options.env = {};}
+
+        const defaultProcess = { env: { NODE_ENV: 'production', OS: 'webos' }, argv: [] };
+
+        if (!options.env.process) { options.env.process = defaultProcess;}
+        else {Object.assign(options.env.process, defaultProcess);}
+
         this.options = options;
 
         if (options.code) {
@@ -48,7 +55,7 @@ export class Application {
                         module.buildDependenciesGraph()
                     );
                     module.run(this.ModuleExportsMap);
-                    this.onLoaded?.(module);
+                    this.options.onLoaded?.(module);
                     resolve(module);
                 },
             });

@@ -99,13 +99,9 @@ export class RunCommand extends Command {
                 text(file.content + '')
             ),
             div(mounted(dom => {
-                const process = {
-                    env: { NODE_ENV: 'production', OS: 'webos' },
-                    argv: [ 'run', ...args ]
-                };
                 new Application({
                     code: `${file.content}`,
-                    env: { console: createConsole(dom), process },
+                    env: { console: createConsole(dom) },
                     onProgress: ({ current, url, status, fromCache, parent }) => {
                         if (parent !== 'ROOT' && status === 'start' && !fromCache) {
                             runningInfo.value = `Loading [${++index}][${current}](${url})`;
@@ -113,6 +109,7 @@ export class RunCommand extends Command {
                     },
                     // iifeNameMap: { vue: 'Vue' },
                     onLoaded: () => {
+                        debugger;
                         runningTitle.value = `Done![Installed ${index} new packages in ${Date.now() - timeStart}ms]`;
                         runningInfo.value = '';
                         dot.value = '';

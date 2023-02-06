@@ -3,12 +3,19 @@
  * @Date: 2022-11-05 12:19:34
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-05 18:02:22
+ * @LastEditTime: 2023-02-06 09:59:03
 -->
 
-## 0.0.5
+## 0.0.6
 
-1. fix babel-standalone BUG in esmodule
+1. fix babel-standalone BUG in es module
+2. remove babel dependency
+3. add default process into env arg
+4. multi instance of Application
+
+## 0.0.5 
+
+1. multi instance of Term
 
 ## 0.0.4
 

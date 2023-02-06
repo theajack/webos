@@ -118,7 +118,6 @@ export class NPMLoader {
         return (npmRoot && NPMLoader.ESModuleList.has(npmRoot));
     }
 
-
     isNpmRoot (url = this.url) {
         return isNpmRoot(url);
     }
