@@ -1,6 +1,6 @@
 {
     "name": "webos-disk",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "All-in-js Web UI Framework, No jsx/template/vdom/css/html",
     "main": "src/index.ts",
     "typings": "src/index.ts",
@@ -18,7 +18,7 @@
     "type": "module",
     "dependencies": {
         "filer.js": "^0.4.5",
-        "webos-path": "^0.0.5"
+        "webos-path": "^0.0.6"
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
