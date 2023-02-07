@@ -3,7 +3,7 @@
  * @Date: 2022-11-10 16:04:45
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-04 00:09:12
+ * @LastEditTime: 2023-02-08 00:22:03
  */
 import { a, div, span, text } from 'alins';
 import { style } from 'alins-style';
@@ -20,11 +20,11 @@ export function LastLogin () {
         div(style.marginBottom(5), text(lastLoginTime ? `Last login: ${lastLoginTime}` : 'First Login!')),
         div(
             style.marginBottom(10),
-            a('Web-OS', Color.Blue, '[href=https://github.com/theajack/webos]'),
-            span(' made by '),
-            a('theajack', Color.Blue, '[href=https://github.com/theajack]'),
-            span(', UI is Powered by '),
-            a('alins', Color.Blue, '[href=https://github.com/alinsjs/alins]'),
+            a('Web-OS', Color.Blue, '[href=https://github.com/theajack/webos][target=_blank]'),
+            ' made by ',
+            a('theajack', Color.Blue, '[href=https://github.com/theajack][target=_blank]'),
+            ', UI is Powered by ',
+            a('alins', Color.Blue, '[href=https://github.com/alinsjs/alins][target=_blank]'),
         ),
         div('Use `help` command to Start!'),
     );

@@ -2,14 +2,14 @@ lockfileVersion: 5.4
 
 specifiers:
   '@types/lz-string': ^1.3.34
-  alins: 0.0.17
-  alins-style: 0.0.17
+  alins: 0.0.18
+  alins-style: 0.0.18
   lz-string: ^1.4.4
 
 dependencies:
   '@types/lz-string': 1.3.34
-  alins: 0.0.17
-  alins-style: 0.0.17
+  alins: 0.0.18
+  alins-style: 0.0.18
   lz-string: 1.4.4
 
 packages:
@@ -18,28 +18,28 @@ packages:
     resolution: {integrity: sha512-j6G1e8DULJx3ONf6NdR5JiR2ZY3K3PaaqiEuKYkLQO0Czfi1AzrtjfnfCROyWGeDd5IVMKCwsgSmMip9OWijow==}
     dev: false
 
-  /alins-reactive/0.0.17:
-    resolution: {integrity: sha512-OgWJ7FWdX98RDb6DHT5Qn5AVTIfks6/iRi6hKhktuU1Q7wGLk9419jStC9yrL965BRzfKNjW8fCg2GbqeQ7ZBA==}
+  /alins-reactive/0.0.18:
+    resolution: {integrity: sha512-+4iP+ZepYjUacXT2UBS7OHcvqdvsDhf24jwp532XI2bMaXdy6+6aVmKZGyMsNGA2wJCKpm6DXSTcN7xyW7ZlWQ==}
     dependencies:
-      alins-utils: 0.0.17
+      alins-utils: 0.0.18
     dev: false
 
-  /alins-style/0.0.17:
-    resolution: {integrity: sha512-stUikmwhxuO9ttS4/bOSX3rfjVc6XXGWOZIvDJ5KZzitQy1C2q7KYYF3phUXpMAWnE2Fb+S4Ca8CBmBtOGoAMA==}
+  /alins-style/0.0.18:
+    resolution: {integrity: sha512-PxXua4SbzbCTWw7Ktqif3jJPeTlwRFt2VqRzRtFAalH01H6jX0/PifbmKO7nG6eLi3R3fdtJRySAUzm1jawhjw==}
     dependencies:
-      alins-reactive: 0.0.17
-      alins-utils: 0.0.17
+      alins-reactive: 0.0.18
+      alins-utils: 0.0.18
     dev: false
 
-  /alins-utils/0.0.17:
-    resolution: {integrity: sha512-TIFUT8GINB7m2k5TaDwAjYpF7p0oXtSUN5d/Ji8kwrm20eqV215dNBnPA1TVMTrxz80IEOSXz7WyFZUkndFo0A==}
+  /alins-utils/0.0.18:
+    resolution: {integrity: sha512-R+FwSXGwV0wOMpVenareeFa5UhRuwf84pH6coq8bFfpcrOvklmmqKzuEPvs6Xzd7KyIYh5NKRM/s+f8ki3H+uA==}
     dev: false
 
-  /alins/0.0.17:
-    resolution: {integrity: sha512-IMTrO9U+bWKS6Gf14U8/ZMgFoUwAuS/vJmdEXAFQUhciYv8/6/yy94ZKgGw8LmysILe4egea0KAIB/tszAdREw==}
+  /alins/0.0.18:
+    resolution: {integrity: sha512-+OYXWbSaBozOsWXG1ZJ8V2f9s7ZGwNtJF2rwPFa8JQc6Vb90D/pVrq+Y85UBPnyWBVNYBQZ0TVR4AIcfxaxdFw==}
     dependencies:
-      alins-reactive: 0.0.17
-      alins-utils: 0.0.17
+      alins-reactive: 0.0.18
+      alins-utils: 0.0.18
     dev: false
 
   /lz-string/1.4.4:
