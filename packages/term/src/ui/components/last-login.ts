@@ -3,9 +3,9 @@
  * @Date: 2022-11-10 16:04:45
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-08 00:22:03
+ * @LastEditTime: 2023-02-08 00:32:48
  */
-import { a, div, span, text } from 'alins';
+import { a, div, text } from 'alins';
 import { style } from 'alins-style';
 import { Storage } from '../../utils/storage';
 import { formatDateTime } from '../../utils/utils';
