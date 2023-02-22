@@ -73,18 +73,18 @@ jobs:
             # npx lerna publish from-package --yes
             # npm run init:monorepo -- ${{ steps.version.outputs.version }}
             # git add .
-      - name: Release # release
-        uses: release-drafter/release-drafter@v5
-        with:
-          version: ${{ steps.version.outputs.version }}
-          publish: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      # - name: Release # release
+      #   uses: release-drafter/release-drafter@v5
+      #   with:
+      #     version: ${{ steps.version.outputs.version }}
+      #     publish: true
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
       # - name: Publish # npm publish
       #   env:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPMJS_TOKEN }}
       #   run: npm run eb:publish -- ${{ steps.version.outputs.version }}
       
-      - name: Purge # purge cdn
-        run: npm run eb:purge -- ${{ steps.version.outputs.version }}
+      # - name: Purge # purge cdn
+      #   run: npm run eb:purge -- ${{ steps.version.outputs.version }}
