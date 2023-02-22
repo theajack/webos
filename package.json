@@ -12,6 +12,7 @@
         "_serve": "serve scripts/dev",
         "dev": "npm run init:monorepo && run-p _dev _serve",
         "test": "run-p _test _serve",
+        "test:ci": "node scripts/build/test-ci.js",
         "build:docs": "node scripts/docs/build-docs.js",
         "build": "npm run init:monorepo && lerna run build && node scripts/build/mod-package.js",
         "info": "node ./scripts/info.js",

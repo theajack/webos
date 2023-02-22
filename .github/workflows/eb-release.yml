@@ -19,31 +19,31 @@ jobs:
           node-version: '16'
           registry-url: https://registry.npmjs.org
 
-      - name: Determine npm cache directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
+      # - name: Determine npm cache directory
+      #   id: npm-cache
+      #   run: |
+      #     echo "::set-output name=dir::$(npm config get cache)"
 
-      - name: Restore npm cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      # - name: Restore npm cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ${{ steps.npm-cache.outputs.dir }}
+      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-
 
-      - name: Npm Install pnpm
-        run: npm install -g pnpm
+      # - name: Npm Install pnpm
+      #   run: npm install -g pnpm
 
-      - name: pnpm Install
-        run: pnpm install --no-frozen-lockfile
+      # - name: pnpm Install
+      #   run: pnpm install --no-frozen-lockfile
 
-      - name: Version
-        id: version
-        run: |
-          tag=${GITHUB_REF/refs\/tags\//}
-          version=${tag#v}
-          echo "::set-output name=version::${version}"
+      # - name: Version
+      #   id: version
+      #   run: |
+      #     tag=${GITHUB_REF/refs\/tags\//}
+      #     version=${tag#v}
+      #     echo "::set-output name=version::${version}"
 
       - name: Build # build npm
         env:
@@ -53,24 +53,26 @@ jobs:
             git config --global user.email "1506282385@qq.com"
             git config --global user.name "theajack"
             git checkout master
-            npx lerna bootstrap
-            npx lerna version ${{ steps.version.outputs.version }} --no-git-tag-version --force-publish --yes
-            npm run build
-            npm run build:docs
+            npm run test:ci
             git add .
-            git commit -m "feat: Version ${{ steps.version.outputs.version }} Build"
-            npx lerna publish from-package --yes
-            npm run init:monorepo -- ${{ steps.version.outputs.version }}
-            git add .
-            git commit -m "feat: Version ${{ steps.version.outputs.version }} Publish"
+            git commit -m "feat: Version test Publish"
             git push origin master
 
-      - name: Pages # github pages
-        uses: JamesIves/github-pages-deploy-action@v4.3.0
-        with:
-          branch: gh-pages
-          folder: docs
+      # - name: Pages # github pages
+      #   uses: JamesIves/github-pages-deploy-action@v4.3.0
+      #   with:
+      #     branch: gh-pages
+      #     folder: docs
       
+            # npx lerna bootstrap
+            # npx lerna version ${{ steps.version.outputs.version }} --no-git-tag-version --force-publish --yes
+            # npm run build
+            # npm run build:docs
+            # git add .
+            # git commit -m "feat: Version ${{ steps.version.outputs.version }} Build"
+            # npx lerna publish from-package --yes
+            # npm run init:monorepo -- ${{ steps.version.outputs.version }}
+            # git add .
       - name: Release # release
         uses: release-drafter/release-drafter@v5
         with:
