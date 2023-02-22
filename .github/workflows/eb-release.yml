@@ -83,6 +83,3 @@ jobs:
       #   env:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPMJS_TOKEN }}
       #   run: npm run eb:publish -- ${{ steps.version.outputs.version }}
-      
-      - name: Purge # purge cdn
-        run: npm run eb:purge -- ${{ steps.version.outputs.version }}
