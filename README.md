@@ -5,7 +5,7 @@
 -->
 
 <p align="center">
-    <img src='https://shiyix.cn/webos-icon.png' width='100px'/>
+    <img src='https://shiyix.cn/images/webos-icon.png' width='100px'/>
 </p> 
 
 <p align="center">
