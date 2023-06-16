@@ -5,6 +5,19 @@
  * @LastEditors: Please set LastEditors
  * @LastEditTime: 2023-02-08 00:25:14
 -->
+## 0.0.10
+
+1. 增加执行中状态和代码队列，按照队列按顺序执行
+2. 增加 onStart、onModuleExecuted、onEnd
+
+## 0.0.9
+
+1. 增加jsx的支持
+2. 增加onError,onExecuted
+
+## 0.0.8
+
+修复缓存module代码不会被执行的问题
 
 ## 0.0.7
 

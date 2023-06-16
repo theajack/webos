@@ -3,11 +3,12 @@
  * @Date: 2022-11-09 22:37:03
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-06-16 09:34:54
+ * @LastEditTime: 2023-06-16 20:47:23
  */
 
 import { createTerm } from 'packages/term';
 import { Application } from 'packages/module';
+// import { Application } from 'packages/module/dist/webos-module.esm';
 // import '../unit-test/index';
 
 // createTerm({
@@ -56,3 +57,13 @@ window.app = new Application({
         console.warn('onExecuted');
     },
 });
+/*
+app.exec(`console.log(<div></div>)`)
+app.exec(`return import 1`)
+app.exec(`
+import eveit from "eveit";
+eveit.on('aa', (a)=>{console.log(a)})
+eveit.emit('aa', 'sasas')
+`)
+app.exec('a.a.a=1)
+*/

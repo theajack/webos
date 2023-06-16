@@ -36,12 +36,21 @@ export type TModuleProgress = (options:  IModuleProgressOptions) => void;
 
 export type TModuleExecuted = (module: Module) => void;
 
-export interface IMoudleOptions {
+export interface IErrorOptions {
+    module: Module;
+    error: any;
+    type: TModuleErrorType;
+}
+
+export interface IMoudleOptions extends IMouduleFunc {
     name: string,
-    onLoaded: TModuleLoaded,
     parent?: Module | null,
     type?: TModuleType,
     app: Application,
+}
+
+interface IMouduleFunc {
+    onLoaded?: TModuleLoaded,
     onExecuted?: TModuleExecuted,
 }
 
@@ -51,8 +60,7 @@ export class Module {
     name: string = '';
     type: TModuleType;
     parent: Module | null;
-    onloaded: TModuleLoaded;
-    onexecuted?: TModuleExecuted;
+    func: IMouduleFunc = {};
     // url = '';
 
     code: string = '';
@@ -62,7 +70,11 @@ export class Module {
     exports: any = null;
     npmLoader: NPMLoader;
 
-    _url: string = '';
+    private _url: string = '';
+
+    time = 0;
+
+    private startTime: number = 0;
 
     get url () {
         return this._url || this.npmLoader.url;
@@ -88,11 +100,13 @@ export class Module {
         onExecuted,
         type = 'name',
     }: IMoudleOptions) {
+        this.startTime = Date.now();
         this.app = app;
 
         this.type = type;
-        this.onloaded = onLoaded;
-        this.onexecuted = onExecuted;
+
+        this.func = { onLoaded, onExecuted };
+
         this.parent = parent;
 
         if (parent === null || type === 'code') {
@@ -113,7 +127,7 @@ export class Module {
         if (module) {
             this.onProgress({ status: 'start', fromCache: true });
             // console.warn(`【module loaded from cache ${this.url}】name=${this.name}`);
-            this.onloaded(module);
+            this.func.onLoaded?.(module);
             this.onProgress({ status: 'done', fromCache: true });
             return module;
         }
@@ -152,7 +166,8 @@ export class Module {
     }
 
     private emitError (error: any, type: TModuleErrorType) {
-        this.app.options.onError?.({ error, type, module: this });
+        const item = { error, type, module: this };
+        this.app._onError(item);
         throw new Error(error);
     }
 
@@ -204,8 +219,10 @@ export class Module {
     }
 
     onModuleLoaded () {
+        this.time = Date.now() - this.startTime;
+        this.startTime = 0;
         // console.warn(`【module loaded ${this.imports.length}】name=${this.name}`);
-        this.onloaded(this);
+        this.func.onLoaded?.(this);
     }
 
     checkType (name: string) {
@@ -251,7 +268,7 @@ export class Module {
                     moduleExports.default = moduleExports;
                 }
                 map[this.url] = moduleExports;
-                this.onexecuted?.(this);
+                this.func.onExecuted?.(this);
                 this.app.options.onModuleExecuted?.(this);
             } catch (e) {
                 // console.warn('执行失败', this.code, e);

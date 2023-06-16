@@ -4,24 +4,26 @@
  * @Description: Coding something
  */
 
-import { Module, TModuleErrorType, TModuleExecuted, TModuleLoaded, TModuleProgress } from './module';
-
-export interface IErrorOptions {
-    module: Module;
-    error: any;
-    type: TModuleErrorType;
-}
+import { Module, IErrorOptions, TModuleExecuted, TModuleLoaded, TModuleProgress } from './module';
 
 export interface IApplicationOptionsBase {
-    onLoaded?: TModuleLoaded,
+    env?: Record<string, any>;
     iifeNameMap?: Record<string, string>;
     mainMap?: Record<string, string>;
+    onLoaded?: TModuleLoaded,
     onDependenciesParsed?(graph: Record<string, object>): void;
     onProgress?: TModuleProgress;
-    env?: Record<string, any>;
     onError?: (options: IErrorOptions)=>void;
     onModuleExecuted?: TModuleExecuted;
     onExecuted?: ()=>void;
+    onStart?: (code: string) => void;
+    onEnd?: (code: string) => void;
+}
+
+export interface ICodeQueueItem {
+    code: string;
+    resolve: (module: Module)=>void;
+    reject: (err: IErrorOptions)=>void;
 }
 
 export interface IApplicationOptions extends IApplicationOptionsBase {
@@ -36,6 +38,11 @@ export class Application {
     onDependenciesParsed?(graph: Record<string, object>): void;
 
     options:IApplicationOptionsBase = {};
+
+    reject: ((err: IErrorOptions)=>void)|null = null;
+
+    private codeQueue: ICodeQueueItem[] = [];
+    private inExecuting = false;
 
     constructor (options: IApplicationOptions = {}) {
 
@@ -53,28 +60,62 @@ export class Application {
         }
     }
 
+    private addIntoQueue (item: ICodeQueueItem) {
+        this.codeQueue.push(item);
+    }
+
     async exec (code: string) {
-        this.code = code;
-        // ! 重新运行时需要清空map
-        this.ModuleExportsMap = {};
-        return new Promise((resolve) => {
-            this.entry = new Module({
-                app: this,
-                name: code,
-                type: 'code',
-                onLoaded: (module) => {
-                    this.onDependenciesParsed?.(
-                        module.buildDependenciesGraph()
-                    );
-                    module.run(this.ModuleExportsMap);
-                    this.options.onLoaded?.(module);
-                    resolve(module);
-                },
-                onExecuted: () => {
-                    this.options.onExecuted?.();
-                }
-            });
+        return new Promise((resolve, reject) => {
+            const item = { code, resolve, reject };
+            if (this.inExecuting) {
+                this.addIntoQueue(item);
+                return;
+            }
+            this.execBase(item);
         });
+    }
+
+    private execBase ({ code, resolve, reject }: ICodeQueueItem) {
+        this.code = code;
+        this.inExecuting = true;
+        this.options.onStart?.(code);
+        this.reject = reject;
+        this.ModuleExportsMap = {}; // ! 重新运行时需要清空map
+        this.entry = new Module({
+            app: this,
+            name: code,
+            type: 'code',
+            onLoaded: (module) => {
+                this.onDependenciesParsed?.(
+                    module.buildDependenciesGraph()
+                );
+                module.run(this.ModuleExportsMap);
+                this.options.onLoaded?.(module);
+                resolve(module);
+                this._onEnd();
+            },
+            onExecuted: () => {
+                this.options.onExecuted?.();
+            },
+        });
+    }
+
+    private executeNext () {
+        const item = this.codeQueue.shift();
+        if (item) this.execBase(item);
+    }
+
+    _onError (err: IErrorOptions) {
+        this.options.onError?.(err);
+        this.reject?.(err);
+        this._onEnd();
+    }
+
+    private _onEnd () {
+        this.inExecuting = false;
+        this.reject = null;
+        this.executeNext();
+        this.options.onEnd?.(this.code);
     }
 }
 
