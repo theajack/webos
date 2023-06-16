@@ -4,7 +4,13 @@
  * @Description: Coding something
  */
 
-import { Module, TModuleLoaded, TModuleProgress } from './module';
+import { Module, TModuleErrorType, TModuleExecuted, TModuleLoaded, TModuleProgress } from './module';
+
+export interface IErrorOptions {
+    module: Module;
+    error: any;
+    type: TModuleErrorType;
+}
 
 export interface IApplicationOptionsBase {
     onLoaded?: TModuleLoaded,
@@ -13,6 +19,9 @@ export interface IApplicationOptionsBase {
     onDependenciesParsed?(graph: Record<string, object>): void;
     onProgress?: TModuleProgress;
     env?: Record<string, any>;
+    onError?: (options: IErrorOptions)=>void;
+    onModuleExecuted?: TModuleExecuted;
+    onExecuted?: ()=>void;
 }
 
 export interface IApplicationOptions extends IApplicationOptionsBase {
@@ -61,6 +70,9 @@ export class Application {
                     this.options.onLoaded?.(module);
                     resolve(module);
                 },
+                onExecuted: () => {
+                    this.options.onExecuted?.();
+                }
             });
         });
     }

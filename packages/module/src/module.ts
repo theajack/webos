@@ -18,12 +18,13 @@ export function getModuleMap () {
 
 type TModuleType = 'name' | 'code' | 'url';
 
+export type TModuleErrorType = 'transform'|'exec';
+
 export type TModuleLoaded = (module: Module) => void;
 
 export interface IModuleProgressPart {
     status: 'start' | 'fail' | 'done';
     fromCache?: boolean;
-
 }
 export interface IModuleProgressOptions extends IModuleProgressPart{
     parent: string;
@@ -33,12 +34,15 @@ export interface IModuleProgressOptions extends IModuleProgressPart{
 
 export type TModuleProgress = (options:  IModuleProgressOptions) => void;
 
+export type TModuleExecuted = (module: Module) => void;
+
 export interface IMoudleOptions {
     name: string,
     onLoaded: TModuleLoaded,
     parent?: Module | null,
     type?: TModuleType,
     app: Application,
+    onExecuted?: TModuleExecuted,
 }
 
 export class Module {
@@ -48,6 +52,7 @@ export class Module {
     type: TModuleType;
     parent: Module | null;
     onloaded: TModuleLoaded;
+    onexecuted?: TModuleExecuted;
     // url = '';
 
     code: string = '';
@@ -80,12 +85,14 @@ export class Module {
         name,
         parent = null,
         onLoaded,
-        type = 'name'
+        onExecuted,
+        type = 'name',
     }: IMoudleOptions) {
         this.app = app;
 
         this.type = type;
         this.onloaded = onLoaded;
+        this.onexecuted = onExecuted;
         this.parent = parent;
 
         if (parent === null || type === 'code') {
@@ -144,8 +151,16 @@ export class Module {
         return this.npmLoader.fromNpm();
     }
 
+    private emitError (error: any, type: TModuleErrorType) {
+        this.app.options.onError?.({ error, type, module: this });
+        throw new Error(error);
+    }
+
     onCode (originCode: string, fromCache = false) {
-        const { code, imports } = transformCode(originCode, !this.fromNpm);
+        const { code, imports, error } = transformCode(originCode, !this.fromNpm);
+        if (error) {
+            this.emitError(error, 'transform');
+        }
 
         // console.warn(`【module loaded start ${imports.length}】name=${this.name}`);
         // if (imports.length > 0) debugger;
@@ -219,13 +234,13 @@ export class Module {
                 returnCode = `window.${umd}=${umd}; if(${umd}.__esModule && !${umd}.default){${umd}.default=${umd};} return ${umd};`;
             }
 
+            let names: string[] = [];
+            let values: any[] = [];
+            if (this.Env) {
+                names = Object.keys(this.Env);
+                values = Object.values(this.Env);
+            }
             try {
-                let names: string[] = [];
-                let values: any[] = [];
-                if (this.Env) {
-                    names = Object.keys(this.Env);
-                    values = Object.values(this.Env);
-                }
                 const moduleExports = new Function(
                     'require', 'exports', 'module', ...names,
                     `return (function(require, exports, module){${this.code};\n ${returnCode}})(require, exports, module);`
@@ -236,14 +251,17 @@ export class Module {
                     moduleExports.default = moduleExports;
                 }
                 map[this.url] = moduleExports;
-
-                // if (this.url === 'https://cdn.jsdelivr.net/npm/vue/index.js') {
-                //     debugger;
-                // }
+                this.onexecuted?.(this);
+                this.app.options.onModuleExecuted?.(this);
             } catch (e) {
-                console.warn(e, this.code);
-                map[this.url] = null;
+                // console.warn('执行失败', this.code, e);
+                this.emitError(e, 'exec');
+                // map[this.url] = null;
             }
+
+            // if (this.url === 'https://cdn.jsdelivr.net/npm/vue/index.js') {
+            //     debugger;
+            // }
         }
         this.exports = map[this.url];
         return this.exports;
