@@ -68,7 +68,7 @@ createTerm({
 });
 ```
 
-** WebOS-Disk File System Operations JS Library **
+**WebOS-Disk File System Operations JS Library**
 
 ```
 npm i webos-disk

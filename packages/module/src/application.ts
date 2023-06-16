@@ -28,7 +28,7 @@ export class Application {
 
     options:IApplicationOptionsBase = {};
 
-    constructor (options: IApplicationOptions) {
+    constructor (options: IApplicationOptions = {}) {
 
         if (!options.env) {options.env = {};}
 
@@ -45,6 +45,9 @@ export class Application {
     }
 
     async exec (code: string) {
+        this.code = code;
+        // ! 重新运行时需要清空map
+        this.ModuleExportsMap = {};
         return new Promise((resolve) => {
             this.entry = new Module({
                 app: this,
