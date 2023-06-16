@@ -2,8 +2,8 @@
     "name": "webos-path",
     "version": "0.0.9",
     "description": "All-in-js Web UI Framework, No jsx/template/vdom/css/html",
-    "main": "dist/webos-path.esm.js",
-    "typings": "dist/webos-path.d.ts",
+    "main": "src/index.ts",
+    "typings": "src/index.ts",
     "repository": "git@github.com:theajack/webos.git",
     "author": "tackchen <theajack@qq.com>",
     "scripts": {
