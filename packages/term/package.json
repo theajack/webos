@@ -1,9 +1,9 @@
 {
     "name": "webos-term",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "All-in-js Web UI Framework, No jsx/template/vdom/css/html",
-    "main": "src/index.ts",
-    "typings": "src/index.ts",
+    "main": "dist/webos-term.esm.js",
+    "typings": "dist/webos-term.d.ts",
     "repository": "git@github.com:theajack/webos.git",
     "author": "tackchen <theajack@qq.com>",
     "scripts": {
@@ -21,8 +21,8 @@
         "alins": "0.0.18",
         "alins-style": "0.0.18",
         "lz-string": "^1.4.4",
-        "webos-disk": "^0.0.7",
-        "webos-module": "^0.0.7"
+        "webos-disk": "^0.0.8",
+        "webos-module": "^0.0.8"
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
