@@ -1,6 +1,6 @@
 {
     "name": "webos-term",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "All-in-js Web UI Framework, No jsx/template/vdom/css/html",
     "main": "src/index.ts",
     "typings": "src/index.ts",
@@ -21,8 +21,8 @@
         "alins": "0.0.18",
         "alins-style": "0.0.18",
         "lz-string": "^1.4.4",
-        "webos-disk": "^0.0.8",
-        "webos-module": "^0.0.8"
+        "webos-disk": "^0.0.9",
+        "webos-module": "^0.0.9"
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
