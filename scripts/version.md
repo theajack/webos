@@ -3,8 +3,12 @@
  * @Date: 2022-11-05 12:19:34
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-02-08 00:25:14
+ * @LastEditTime: 2023-06-23 11:32:01
 -->
+## 0.0.11
+
+1. 修复babel.min.js中window指向问题
+   
 ## 0.0.10
 
 1. 增加执行中状态和代码队列，按照队列按顺序执行

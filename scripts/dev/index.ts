@@ -3,13 +3,14 @@
  * @Date: 2022-11-09 22:37:03
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-06-16 20:47:23
+ * @LastEditTime: 2023-06-23 11:27:24
  */
 
 import { createTerm } from 'packages/term';
+// import { Application } from 'packages/module';
 import { Application } from 'packages/module';
-// import { Application } from 'packages/module/dist/webos-module.esm';
 // import '../unit-test/index';
+import { Path, File, Dir, Disk } from 'packages/term';
 
 // createTerm({
 //     container: '#app'
@@ -23,11 +24,12 @@ import { Application } from 'packages/module';
 // });
 
 
-// createTerm({
-//     container: 'body'
-// }).then(term => {
-//     (window as any).term = term;
-// });
+createTerm({
+    container: 'body'
+}).then(term => {
+    (window as any).term = term;
+});
+// console.log(Application);
 
 window.app = new Application({
     // onLoaded?: TModuleLoaded,
@@ -38,6 +40,9 @@ window.app = new Application({
     // env?: Record<string, any>;
     // code?: string;
     // code: 'console.log(111)',
+    onStart (d) {
+        console.warn('onStart', d);
+    },
     onDependenciesParsed (d) {
         console.log('onDependenciesParsed', d);
     },
@@ -65,5 +70,5 @@ import eveit from "eveit";
 eveit.on('aa', (a)=>{console.log(a)})
 eveit.emit('aa', 'sasas')
 `)
-app.exec('a.a.a=1)
+app.exec('a.a.a=1')
 */
